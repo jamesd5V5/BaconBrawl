@@ -5,8 +5,8 @@ import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
-import org.mammothplugins.baconBrawl.model.ssm.kits.ElMuchachoPig;
-import org.mammothplugins.baconBrawl.model.ssm.kits.Kits;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.ElMuchachoPig;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mineacademy.fo.Valid;
 import org.mineacademy.fo.collection.StrictMap;
 import org.mineacademy.fo.constants.FoConstants;
@@ -20,10 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- * A sample player cache storing permanent player information
- * to data.db or MySQL database for players.
- */
 @Getter
 public final class PlayerCache extends YamlConfig {
 
@@ -50,9 +46,6 @@ public final class PlayerCache extends YamlConfig {
     private boolean isCurrentlyBlocking;
 
     @Setter
-    private int lives;
-
-    @Setter
     private GameJoinMode currentGameMode;
 
     @Setter
@@ -63,10 +56,7 @@ public final class PlayerCache extends YamlConfig {
 
     @Setter
     private boolean leaving;
-
-    /*
-     * Not saveable player data whilst in a game
-     */
+    
     private final StrictMap<String, Object> tags = new StrictMap<>();
 
     private PlayerCache(String name, UUID uniqueId) {

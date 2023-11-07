@@ -1,4 +1,4 @@
-package org.mammothplugins.baconBrawl.model.ssm.kits.powers;
+package org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;

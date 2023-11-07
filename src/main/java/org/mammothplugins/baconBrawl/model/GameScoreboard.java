@@ -3,7 +3,6 @@ package org.mammothplugins.baconBrawl.model;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mineacademy.fo.ItemUtil;
 import org.mineacademy.fo.TimeUtil;
 import org.mineacademy.fo.model.Replacer;
@@ -12,33 +11,21 @@ import org.mineacademy.fo.model.SimpleScoreboard;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple game scoreboard
- */
 public class GameScoreboard extends SimpleScoreboard {
 
-    /**
-     * The game
-     */
     @Getter
     private final Game game;
 
-    /**
-     * Create a new scoreboard
-     *
-     * @param game
-     */
     public GameScoreboard(final Game game) {
         this.game = game;
 
-        this.setTitle("&8---- &6&l" + "SSM" + " &8----");
+        this.setTitle("&8---- &6&l" + game.getName() + " &8----");
         this.setTheme(ChatColor.GOLD, ChatColor.WHITE);
         this.setUpdateDelayTicks(20 /* 1 second */);
     }
 
     @Override
     protected String replaceVariables(final Player player, String message) {
-        PlayerCache cache = PlayerCache.from(player);
         message = Replacer.replaceArray(message,
                 "remaining_start", !this.game.getStartCountdown().isRunning() ? "Waiting"
                         : this.game.getStartCountdown().getTimeLeft() + "s",
@@ -54,28 +41,15 @@ public class GameScoreboard extends SimpleScoreboard {
         return message.replace("true", "&ayes").replace("false", "&4no");
     }
 
-    /**
-     * Called automatically when the player joins
-     *
-     * @param player
-     */
     public void onPlayerJoin(final Player player) {
         this.show(player);
     }
 
-    /**
-     * Called on player leave
-     *
-     * @param player
-     */
     public void onPlayerLeave(final Player player) {
         if (this.isViewing(player))
             this.hide(player);
     }
 
-    /**
-     * Called automatically on lobby start
-     */
     public void onLobbyStart() {
         this.addRows("",
                 "Map: {gameName}",
@@ -86,9 +60,6 @@ public class GameScoreboard extends SimpleScoreboard {
                 "");
     }
 
-    /**
-     * Called automatically when the first player stars to edit the game
-     */
     public final void onEditStart() {
         this.addRows("",
                 "Editing players: {players}",
@@ -105,17 +76,11 @@ public class GameScoreboard extends SimpleScoreboard {
         return new ArrayList<>();
     }
 
-    /**
-     * Called automatically when the game starts
-     */
     public void onGameStart() {
         for (int i = 6; i > 4; i--)
             this.getRows().remove(i);
     }
-
-    /**
-     * Called on game stop
-     */
+    
     public void onGameStop() {
         this.clearRows();
 

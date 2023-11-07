@@ -2,14 +2,8 @@ package org.mammothplugins.baconBrawl.model;
 
 public final class GameRegionManager {
 
-    /**
-     * Holds clipboards for saved regions (until we restore them or stop/reload/restart the server)
-     */
     //private static final StrictMap<String, Clipboard> savedClipboards = new StrictMap<>();
-
-    /**
-     * Saves the game region if it can be saved
-     */
+    
     public static void saveRegion(final Game game) {
 		/*final Region region = game.getRegion();
 		

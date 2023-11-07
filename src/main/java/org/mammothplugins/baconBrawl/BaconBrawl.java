@@ -1,7 +1,6 @@
 package org.mammothplugins.baconBrawl;
 
 import org.mammothplugins.baconBrawl.bungee.GameBungeeListener;
-import org.mammothplugins.baconBrawl.command.NmsCommand;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameStopReason;
 import org.mammothplugins.baconBrawl.task.EscapeTask;
@@ -12,8 +11,7 @@ public final class BaconBrawl extends SimplePlugin {
 
     @Override
     protected void onPluginStart() {
-
-        registerCommand(new NmsCommand());
+        
     }
 
     /**

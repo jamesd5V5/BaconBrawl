@@ -16,20 +16,10 @@ public final class GameCommandGroup extends SimpleCommandGroup {
     private static final GameCommandGroup instance = new GameCommandGroup();
 
     @Override
-    protected String getCredits() {
-        return "Visit mywebsite.com";
-    }
-
-    /**
-     * @see SimpleCommandGroup#registerSubcommands()
-     */
-    @Override
     protected void registerSubcommands() {
 
-        // Register all /game sub commands automatically
         registerSubcommand(GameSubCommand.class);
 
-        // Register the premade commands from Foundation
         registerSubcommand(new DebugCommand("game.command.debug"));
         registerSubcommand(new ReloadCommand("game.command.reload"));
     }

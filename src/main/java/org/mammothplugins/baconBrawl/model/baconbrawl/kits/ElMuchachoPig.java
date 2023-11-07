@@ -1,12 +1,12 @@
-package org.mammothplugins.baconBrawl.model.ssm.kits;
+package org.mammothplugins.baconBrawl.model.baconbrawl.kits;
 
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.watchers.PigWatcher;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.mammothplugins.baconBrawl.model.ssm.kits.nms.NmsDisguise;
-import org.mammothplugins.baconBrawl.model.ssm.kits.powers.Power;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 
@@ -23,16 +23,15 @@ public class ElMuchachoPig extends Kits {
         setName("ElMuchachoPig"); //basic
         setChatColor(ChatColor.LIGHT_PURPLE);
         setCompMaterial(CompMaterial.IRON_AXE);
+        setKnockBack(3);
     }
 
     @Override
     public void usePower(Player player, String powerName) {
         super.usePower(player, powerName);
 
-        if (powerName == "Sulphur Bomb")
+        if (powerName == "Body Slam")
             kitPowers.get(player.getUniqueId()).get(0).activatePower();
-        if (powerName == "Explode")
-            kitPowers.get(player.getUniqueId()).get(1).activatePower();
     }
 
 

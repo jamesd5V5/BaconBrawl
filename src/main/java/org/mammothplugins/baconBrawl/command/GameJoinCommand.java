@@ -20,8 +20,6 @@ final class GameJoinCommand extends GameSubCommand {
     protected void onCommand() {
         this.checkConsole();
 
-        // /game join all
-
         if (this.args.length > 0 && "all".equals(this.args[0])) {
             Game firstGame = Game.getGames().get(0);
             this.checkBoolean(firstGame.isStopped(), "Can only use this command for stopped games.");

@@ -7,7 +7,7 @@ import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.GameLeaveReason;
-import org.mammothplugins.baconBrawl.model.ssm.SSM;
+import org.mammothplugins.baconBrawl.model.baconbrawl.BaconBrawlCore;
 import org.mineacademy.fo.Messenger;
 import org.mineacademy.fo.MinecraftVersion;
 import org.mineacademy.fo.remain.CompMetadata;
@@ -31,9 +31,9 @@ public final class EscapeTask extends BukkitRunnable {
                 Game game = cache.getCurrentGame();
 
                 if (!game.isStarting() && !game.isStopping()) {
-                    //For most games, we need this, but not needed for SSM
+                    //For most games, we need this, but not needed for BB
                     if (!game.getRegion().isWithin(location)) {
-                        if (game instanceof SSM) {
+                        if (game instanceof BaconBrawlCore) {
                             cache.toPlayer().setHealth(0);//kills player when they fall in the void
                         } else {
                             game.leavePlayer(online, GameLeaveReason.ESCAPED);

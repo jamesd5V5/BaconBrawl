@@ -9,7 +9,104 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8f682070-44d0-4e42-a903-4b2ef986e467" name="Changes" comment="" />
+    <list default="true" id="8f682070-44d0-4e42-a903-4b2ef986e467" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ssm_jar/ssm.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ssm_jar/ssm.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/BaconBrawl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/BaconBrawl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/PlayerCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/PlayerCache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameCommandGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameCommandGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameJoinCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameJoinCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameNewCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameNewCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/NmsCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/design/PlayerUIDesigns.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/design/PlayerUIDesigns.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/menu/KitSelectorMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/menu/KitSelectorMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/menu/SpectatePlayersMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/menu/SpectatePlayersMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameCountdownStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameCountdownStart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameHeartbeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameHeartbeat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameJoinMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameJoinMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameKitPvP.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameLeaveReason.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameLeaveReason.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameRegionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameRegionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameScoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameScoreboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameSpawnPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameSpawnPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameStopReason.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameStopReason.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameWorldManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameWorldManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/ssm/SSM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/BaconBrawlCore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/ssm/SSMHeartBeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/BaconBrawlHeartBeat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/ssm/SSMScoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/BaconBrawlScoreboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/ssm/kits/ElMuchachoPig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/ElMuchachoPig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/ssm/kits/Kits.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/Kits.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/ssm/kits/nms/NmsDisguise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/nms/NmsDisguise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/ssm/kits/powers/Power.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/powers/Power.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/settings/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/settings/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/task/EscapeTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/task/EscapeTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/todo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/BaconBrawl-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BaconBrawl-1.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.0-remapped-obf.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/baconBrawl-1.0.0-remapped-obf.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.0-remapped.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/baconBrawl-1.0.0-remapped.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/BaconBrawl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/BaconBrawl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/PlayerCache.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/PlayerCache.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/command/GameCommandGroup.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/command/GameCommandGroup.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/command/GameJoinCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/command/GameJoinCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/command/GameNewCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/command/GameNewCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/command/NmsCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/design/PlayerUIDesigns.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/design/PlayerUIDesigns.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$BlockReceiveGameListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$BlockReceiveGameListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$CauldronLevelChangeListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$CauldronLevelChangeListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$ConsumeItemListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$ConsumeItemListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$EntityBreedListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$EntityBreedListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$EntityEnterBlockListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$EntityEnterBlockListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$EntityPickupItemListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$EntityPickupItemListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$ExplodeAndEntitySpawnListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$ExplodeAndEntitySpawnListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerBucketEntityListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerBucketEntityListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerBucketFishListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerBucketFishListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerPickupItemListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerPickupItemListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerTakeLecternBookListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$PlayerTakeLecternBookListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$RaidTriggerListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$RaidTriggerListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$SpawnerSpawnListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners$SpawnerSpawnListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/menu/KitSelectorMenu$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/menu/KitSelectorMenu$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/menu/KitSelectorMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/menu/KitSelectorMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/menu/SpectatePlayersMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/menu/SpectatePlayersMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameCountdownStart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameCountdownStart.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameHeartbeat.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameHeartbeat.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameJoinMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameJoinMode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameKitPvP.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameLeaveReason.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameLeaveReason.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameRegionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameRegionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameScoreboard.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameScoreboard.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameSpawnPoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameSpawnPoint.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameStopReason.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameStopReason.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameWorldManager$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameWorldManager$1$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameWorldManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameWorldManager$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameWorldManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/GameWorldManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/SSM$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/SSM.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/SSMHeartBeat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/SSMScoreboard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/ElMuchachoPig$BodySlamPower.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/ElMuchachoPig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/Kits.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/nms/NmsDisguise.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/powers/Power$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/powers/Power$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/powers/Power$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/powers/Power$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/model/ssm/kits/powers/Power.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/settings/Settings$AutoMode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/settings/Settings$AutoMode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/settings/Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/settings/Settings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/task/EscapeTask.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mammothplugins/baconBrawl/task/EscapeTask.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.0.jar" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,18 +137,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/james/IdeaProjects/BaconBrawl",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "settings.saveactions"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/james/IdeaProjects/BaconBrawl&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.saveactions&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.mammothplugins.baconBrawl.model.ssm.kits.powers" />
@@ -59,7 +156,7 @@
       <recent name="org.mammothplugins.ssm.tool" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.ssm [clean,install]">
+  <component name="RunManager" selected="JAR Application.Server 1.20">
     <configuration name="Server 1.20" type="JarApplication">
       <option name="JAR_PATH" value="$USER_HOME$/Desktop/Files/Servers/Server 1.20 (SSM)/paper.jar" />
       <option name="WORKING_DIRECTORY" value="C:\Users\james\Desktop\Files\Servers\Server 1.20 (SSM)" />
@@ -121,21 +218,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.java</url>
-          <line>221</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.java</url>
-          <line>1197</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

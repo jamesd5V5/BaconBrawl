@@ -17,23 +17,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Enable us to reset game world by
- * 1) Stopping the autosave when the game starts
- * 2) Restoring back chunks to their previous state on game end
- */
 public final class GameWorldManager {
 
-    /**
-     * A list of worlds that are being processes
-     */
     private static final StrictSet<World> processedWorlds = new StrictSet<>();
 
-    /**
-     * Disable autosave for the given world
-     *
-     * @param game
-     */
     public static void disableAutoSave(Game game) {
         checkApplicable(game);
 
@@ -43,11 +30,6 @@ public final class GameWorldManager {
         Common.log("Game " + game.getName() + " disabled world save for " + world.getName());
     }
 
-    /**
-     * Attempts to restore all chunks in the world before autosave was disabled
-     *
-     * @param game
-     */
     @SneakyThrows
     public static void restoreWorld(Game game) {
         checkApplicable(game);
@@ -124,19 +106,10 @@ public final class GameWorldManager {
         }.startChain();
     }
 
-    /**
-     * Return if the given world is being processed right now
-     *
-     * @param world
-     * @return
-     */
     public static boolean isWorldBeingProcessed(World world) {
         return processedWorlds.contains(world);
     }
-
-    /*
-     * Check a few settings if we can proceed
-     */
+    
     private static void checkApplicable(Game game) {
         Valid.checkBoolean(!isWorldBeingProcessed(game.getRegion().getWorld()), "Game " + game.getName() + " world is already being processed!");
 

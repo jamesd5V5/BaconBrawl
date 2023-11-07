@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.mammothplugins.baconBrawl.PlayerCache;
-import org.mammothplugins.baconBrawl.model.ssm.kits.Kits;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.menu.Menu;
 import org.mineacademy.fo.menu.MenuPagged;

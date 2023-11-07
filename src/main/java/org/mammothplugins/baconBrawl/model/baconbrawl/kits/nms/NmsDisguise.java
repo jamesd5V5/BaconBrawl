@@ -1,4 +1,4 @@
-package org.mammothplugins.baconBrawl.model.ssm.kits.nms;
+package org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms;
 
 import lombok.Getter;
 import me.libraryaddict.disguise.DisguiseAPI;

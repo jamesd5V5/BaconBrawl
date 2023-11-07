@@ -13,25 +13,14 @@ import org.mineacademy.fo.remain.CompMaterial;
 
 import java.util.List;
 
-/**
- * The menu used to select players to teleport to when spectating
- */
 public class SpectatePlayersMenu extends MenuPagged<Player> {
 
-    /**
-     * Create a new spectate menu
-     *
-     * @param viewer
-     */
     private SpectatePlayersMenu(Player viewer) {
         super(compilePlayers(viewer));
 
         setTitle("Select players to spectate");
     }
 
-    /*
-     * Get a list of players we can spectate
-     */
     private static List<Player> compilePlayers(Player viewer) {
         final PlayerCache cache = PlayerCache.from(viewer);
         Valid.checkBoolean(cache.getCurrentGameMode() == GameJoinMode.SPECTATING, "Spectate menu may only be opened in spectate arena mode!");
@@ -39,9 +28,6 @@ public class SpectatePlayersMenu extends MenuPagged<Player> {
         return cache.getCurrentGame().getBukkitPlayers(GameJoinMode.PLAYING);
     }
 
-    /**
-     * @see MenuPagged#convertToItemStack(Object)
-     */
     @Override
     protected ItemStack convertToItemStack(Player player) {
         return ItemCreator.of(
@@ -54,9 +40,6 @@ public class SpectatePlayersMenu extends MenuPagged<Player> {
                 .make();
     }
 
-    /**
-     * @see MenuPagged#onPageClick(Player, Object, ClickType)
-     */
     @Override
     protected void onPageClick(Player viewer, Player clickedPlayer, ClickType click) {
         viewer.closeInventory();
@@ -66,9 +49,6 @@ public class SpectatePlayersMenu extends MenuPagged<Player> {
         Messenger.success(viewer, "You are now teleported to " + clickedPlayer.getName());
     }
 
-    /**
-     * @see org.mineacademy.fo.menu.Menu#getInfo()
-     */
     @Override
     protected String[] getInfo() {
         return new String[]{
@@ -77,12 +57,7 @@ public class SpectatePlayersMenu extends MenuPagged<Player> {
                 "performance in the game!"
         };
     }
-
-    /**
-     * Open the spectate player selection menu to the given player
-     *
-     * @param player
-     */
+    
     public static void openMenu(Player player) {
         new SpectatePlayersMenu(player).displayTo(player);
     }

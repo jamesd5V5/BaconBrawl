@@ -15,8 +15,6 @@ final class GameNewCommand extends GameSubCommand {
         setDescription("Creates a new game.");
         setUsage("<gameType> <name>");
         setMinArguments(2);
-
-        // /game new mobarena My Awesome Mob Arena
     }
 
     @Override

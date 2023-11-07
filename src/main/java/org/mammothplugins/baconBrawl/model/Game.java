@@ -41,25 +41,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-/**
- * If you want to store your settings for a model instance in separate files,
- * this class shows you how to achieve it.
- * <p>
- * For example, in our Boss plugin, each monster is stored in a separate file
- * in the bosses/ folder by its name, such as bosses/Musk.yml, bosses/Wrath.yml etc.
+/*
+Default Game Template
  */
 public abstract class Game extends YamlConfig {
 
-    /**
-     * The folder name where all items are stored
-     */
     private static final String FOLDER = "games";
 
     public static final String TAG_TELEPORTING = "Game_Teleporting";
 
-    /**
-     * The config helper instance which loads and saves items
-     */
     private static final ConfigItems<? extends Game> loadedFiles = ConfigItems.fromFolder(FOLDER, fileName -> {
         final YamlConfig config = YamlConfig.fromFileFast(FileUtil.getFile(FOLDER + "/" + fileName + ".yml"));
         final GameType type = config.get("Type", GameType.class);
@@ -68,18 +58,8 @@ public abstract class Game extends YamlConfig {
         return type.getInstanceClass();
     });
 
-    /*
-     * A random property which is put into this instance when creating it from within the game
-     *
-     * Such as for Bosses, you type /boss new <bossName> <entityType> so the entity type would be the type,
-     * it needs to be placed into the constructor since you need to save both the Boss name and its type
-     * when creating it.
-     */
     private GameType type;
 
-    /*
-     * Any other config key, see CustomDataStorage for more info.
-     */
     private int minPlayers;
     private int maxPlayers;
     private VisualizedRegion region;
@@ -92,8 +72,6 @@ public abstract class Game extends YamlConfig {
     private boolean restoreWorld;
 
     /* ------------------------------------------------------------------------------- */
-    /* Local properties which are not saved to the game settings file */
-    /* ------------------------------------------------------------------------------- */
 
     private final StrictList<PlayerCache> players = new StrictList<>();
     private final StrictMap<Location, BlockState> placedBlocks = new StrictMap<>();
@@ -105,16 +83,10 @@ public abstract class Game extends YamlConfig {
     private boolean stopping;
     private boolean starting;
 
-    /*
-     * Loads a disk file, used when loading from disk
-     */
     protected Game(String name) {
         this(name, null);
     }
 
-    /*
-     * Create a new file, used when creating new games via command
-     */
     protected Game(String name, @Nullable GameType type) {
         this.type = type;
 
@@ -142,15 +114,11 @@ public abstract class Game extends YamlConfig {
         return new GameScoreboard(this);
     }
 
-    /**
-     * @see org.mineacademy.fo.settings.YamlConfig#onLoad()
-     */
     @Override
     protected void onLoad() {
-
         this.minPlayers = getInteger("Min_Players", 1);
         this.maxPlayers = getInteger("Max_Players", 10);
-        this.region = get("Region", VisualizedRegion.class, new VisualizedRegion()); // never null
+        this.region = get("Region", VisualizedRegion.class, new VisualizedRegion());
         this.lobbyLocation = getLocation("Lobby_Location");
         this.deathSpawnLocation = getLocation("Death_Spawnpoint_Location");
         this.returnBackLocation = getLocation("Return_Back_Location");
@@ -166,9 +134,6 @@ public abstract class Game extends YamlConfig {
             this.type = get("Type", GameType.class);
     }
 
-    /**
-     * @see org.mineacademy.fo.settings.YamlConfig#serialize()
-     */
     @Override
     protected void onSave() {
         this.set("Type", this.type);
@@ -184,8 +149,6 @@ public abstract class Game extends YamlConfig {
         this.set("Restore_World", this.restoreWorld);
     }
 
-    /* ------------------------------------------------------------------------------- */
-    /* Configuration values */
     /* ------------------------------------------------------------------------------- */
 
     public final GameType getType() {
@@ -216,48 +179,26 @@ public abstract class Game extends YamlConfig {
         return region;
     }
 
-    /**
-     * Sets or updates the region point
-     *
-     * @param primary
-     * @param secondary
-     */
     public final void setRegion(final Location primary, final Location secondary) {
         this.region.updateLocation(primary, secondary);
 
         this.save();
     }
 
-    /**
-     * @return
-     */
     public final Location getLobbyLocation() {
         return this.lobbyLocation;
     }
 
-    /**
-     * Set the lobby location for this game
-     *
-     * @param location
-     */
     public final void setLobbyLocation(final Location location) {
         this.lobbyLocation = location;
 
         this.save();
     }
 
-    /**
-     * @return
-     */
     public final Location getDeathSpawnLocation() {
         return this.deathSpawnLocation;
     }
 
-    /**
-     * Set the lobby location for this game
-     *
-     * @param location
-     */
     public final void setDeathSpawnLocation(final Location location) {
         this.deathSpawnLocation = location;
 
@@ -324,31 +265,14 @@ public abstract class Game extends YamlConfig {
         return HookManager.isWorldEditLoaded() && MinecraftVersion.atLeast(MinecraftVersion.V.v1_13);
     }
 
-    /**
-     * Return true if the game is stopped right now
-     * <p>
-     * Games that are played or edited are not stopped, see {@link #state}
-     *
-     * @return
-     */
     public final boolean isStopped() {
         return this.state == GameState.STOPPED;
     }
 
-    /**
-     * Return true if the game state is edited
-     *
-     * @return
-     */
     public final boolean isEdited() {
         return this.state == GameState.EDITED;
     }
 
-    /**
-     * Return true if the game state is played
-     *
-     * @return
-     */
     public final boolean isPlayed() {
         return this.state == GameState.PLAYED;
     }
@@ -357,16 +281,11 @@ public abstract class Game extends YamlConfig {
         return this.state == GameState.LOBBY;
     }
 
-    /**
-     *
-     */
     @Override
     public final String getName() {
         return super.getName();
     }
 
-    /* ------------------------------------------------------------------------------- */
-    /* Game logic */
     /* ------------------------------------------------------------------------------- */
 
     public final void start() {
@@ -429,7 +348,6 @@ public abstract class Game extends YamlConfig {
     public final void stop(GameStopReason stopReason) {
         Valid.checkBoolean(this.state != GameState.STOPPED, "Cannot stop stopped game " + this.getName());
 
-        // Wrap in a try-finally block to properly clean the arena and set it back to stopped even on error
         try {
             this.stopping = true;
 
@@ -489,9 +407,6 @@ public abstract class Game extends YamlConfig {
         }
     }
 
-    /*
-     * Clean up all entities in the arena except players
-     */
     private void cleanEntities() {
 
         if (!this.region.isWhole())
@@ -500,24 +415,11 @@ public abstract class Game extends YamlConfig {
         final Set<String> ignoredEntities = Common.newSet("PLAYER", "ITEM_FRAME", "PAINTING", "ARMOR_STAND", "LEASH_HITCH", "ENDER_CRYSTAL");
 
         for (final Entity entity : this.region.getEntities())
-            if (!ignoredEntities.contains(entity.getType().toString())) {
-                //Common.log("Removing " + entity.getType() + " from game " + this.getName() + "[" + Common.shortLocation(entity.getLocation()) + "]");
-
+            if (!ignoredEntities.contains(entity.getType().toString()))
                 entity.remove();
-            }
     }
 
     // ------–------–------–------–------–------–------–------–------–------–------–------–
-    // Player related stuff
-    // ------–------–------–------–------–------–------–------–------–------–------–------–
-
-    /**
-     * Joins the player in the game in the given mode
-     *
-     * @param player
-     * @param mode
-     * @return
-     */
     public final boolean joinPlayer(final Player player, final GameJoinMode mode) {
         final PlayerCache cache = PlayerCache.from(player);
 
@@ -677,7 +579,7 @@ public abstract class Game extends YamlConfig {
         }
 
         if (!this.isSetup() && mode != GameJoinMode.EDITING) {
-            Messenger.error(player, "Game '" + this.getName() + "' is not yet configured. If you are an admin, run '/game edit " + this.getName() + "' to see what's missing.");
+            Messenger.error(player, "Game " + this.getName() + " is not yet configured. If you are an admin, run '/game edit " + this.getName() + "' to see what's missing.");
 
             return false;
         }
@@ -799,43 +701,6 @@ public abstract class Game extends YamlConfig {
         return this.getPlayers(GameJoinMode.PLAYING).size() > 1;
     }
 
-    protected void transformToDeathSpectate(Player player) {
-        PlayerCache cache = PlayerCache.from(player);
-
-        forEachPlayerInAllModes(other -> other.hidePlayer(player));
-
-        cache.setPlayerTag("AllowGamemodeChange", true);
-        player.setGameMode(GameMode.ADVENTURE);
-        cache.removePlayerTag("AllowGamemodeChange");
-
-        player.setAllowFlight(true);
-        player.setFlying(true);
-
-        Common.runLater(2, () -> {
-            this.teleport(player, getDeathSpawnLocation());
-        });
-    }
-
-    protected void untransfromToDeathSpectate(Player player) {
-        PlayerCache cache = PlayerCache.from(player);
-
-        forEachPlayerInAllModes(other -> other.showPlayer(player));
-
-        cache.setPlayerTag("AllowGamemodeChange", true);
-        player.setGameMode(GameMode.ADVENTURE);
-        cache.removePlayerTag("AllowGamemodeChange");
-
-        player.setAllowFlight(false);
-        player.setFlying(false);
-
-        if (this instanceof GameSpawnPoint) {
-            GameSpawnPoint spawnpointGame = (GameSpawnPoint) this;
-            Location spawnpoint = spawnpointGame.getPlayerSpawnpointPicker().pickRandom();
-
-            teleport(player, spawnpoint);
-        }
-    }
-
     protected void transformToSpectate(Player player) {
         PlayerCache cache = PlayerCache.from(player);
 
@@ -946,7 +811,18 @@ public abstract class Game extends YamlConfig {
         event.setRespawnLocation(getDeathSpawnLocation());
     }
 
-    public void onPlayerMeleeAttack(EntityDamageEvent event) {
+    public void onPlayerMeleeAttack(EntityDamageByEntityEvent event, Player damager) {
+
+    }
+
+    public void onCooldown(PlayerInteractEvent event) {
+    }
+
+    public void onFall(EntityDamageEvent event) {
+
+    }
+
+    public void onProjectileHit(ProjectileHitEvent event) {
 
     }
 
@@ -1032,11 +908,6 @@ public abstract class Game extends YamlConfig {
 
         if (CompMetadata.hasMetadata(event.getItemInHand(), "PlaceableItem")) {
             this.placedBlocks.put(block.getLocation(), event.getBlockReplacedState());
-            // TIP: Determine if the below block is grass and use Tuple to store the information to later restoring it
-            // from dirt
-            //if (block.getRelative(BlockFace.DOWN).getType() == Material.GRASS) {
-            //}
-
             return;
         }
 
@@ -1078,15 +949,11 @@ public abstract class Game extends YamlConfig {
     }
 
     public void onPlayerInventoryClick(PlayerCache cache, InventoryClickEvent event) {
-
-        // TODO add exception for clicking your own custom items
         if (!this.isPlayed())
             this.cancelEvent();
     }
 
     public void onPlayerInventoryDrag(PlayerCache cache, InventoryDragEvent event) {
-
-        // TODO add exception for clicking your own custom items
         if (!this.isPlayed())
             this.cancelEvent();
     }
@@ -1095,36 +962,19 @@ public abstract class Game extends YamlConfig {
     }
 
     /* ------------------------------------------------------------------------------- */
-    /* Messaging */
-    /* ------------------------------------------------------------------------------- */
 
-    /**
-     * Sends a message to all players in the game
-     *
-     * @param message
-     */
     public final void broadcastInfo(final String message) {
         this.checkIntegrity();
 
         this.forEachPlayerInAllModes(player -> Messenger.info(player, message));
     }
 
-    /**
-     * Sends a warning message to all players in the game
-     *
-     * @param message
-     */
     public final void broadcastWarn(final String message) {
         this.checkIntegrity();
 
         this.forEachPlayerInAllModes(player -> Messenger.warn(player, message));
     }
 
-    /**
-     * Sends a generic no prefix message to all players
-     *
-     * @param message
-     */
     public final void broadcast(final String message) {
         this.checkIntegrity();
 
@@ -1143,12 +993,6 @@ public abstract class Game extends YamlConfig {
         EntityUtil.track(falling, 10 * 20, tracker, tracker);
     }
 
-    /**
-     * Teleport the player to the given location, or to the fallback location if failed
-     *
-     * @param player
-     * @param location
-     */
     public final void teleport(final Player player, @NonNull final Location location) {
         Valid.checkBoolean(player != null && player.isOnline(), "Cannot teleport offline players!");
 
@@ -1163,63 +1007,33 @@ public abstract class Game extends YamlConfig {
 
         } else {
             Valid.checkBoolean(!player.isDead(), "Cannot teleport dead player " + player.getName());
-
-            // Since we prevent players escaping the game, add a special invisible tag
-            // that we use to check if we can actually enable the teleportation
             CompMetadata.setTempMetadata(player, TAG_TELEPORTING);
 
             final boolean success = player.teleport(topOfTheBlock, PlayerTeleportEvent.TeleportCause.PLUGIN);
             Valid.checkBoolean(success, "Failed to teleport " + player.getName() + " to both primary and fallback location, they may get stuck in the arena!");
 
-            // Remove the tag after the teleport. Also remove in case of failure to clear up
             CompMetadata.removeTempMetadata(player, TAG_TELEPORTING);
         }
     }
 
-    /**
-     * Run a function for all players in the game regardless of their mode
-     *
-     * @param consumer
-     */
     protected final void forEachPlayerInAllModes(final Consumer<Player> consumer) {
         this.forEachPlayer(consumer, null);
     }
 
-    /**
-     * Run a function for each players having the given mode
-     *
-     * @param consumer
-     * @param mode
-     */
     protected final void forEachPlayer(final Consumer<Player> consumer, final GameJoinMode mode) {
         for (final PlayerCache player : this.getPlayers(mode))
             consumer.accept(player.toPlayer());
     }
 
-    /**
-     * Run a function for all players in the game regardless of their mode
-     *
-     * @param consumer
-     */
     protected final void forEachInAllModes(final Consumer<PlayerCache> consumer) {
         this.forEach(consumer, null);
     }
 
-    /**
-     * Run a function for each players having the given mode
-     *
-     * @param consumer
-     * @param mode
-     */
     protected final void forEach(final Consumer<PlayerCache> consumer, final GameJoinMode mode) {
         for (final PlayerCache player : this.getPlayers(mode))
             consumer.accept(player);
     }
 
-    /**
-     * @param player
-     * @return
-     */
     public final boolean isJoined(Player player) {
         for (final PlayerCache otherCache : this.players)
             if (otherCache.getUniqueId().equals(player.getUniqueId()))
@@ -1228,48 +1042,22 @@ public abstract class Game extends YamlConfig {
         return false;
     }
 
-    /**
-     * @param cache
-     * @return
-     */
     public final boolean isJoined(PlayerCache cache) {
         return this.players.contains(cache);
     }
 
-    /**
-     * Get all players currently joined in all modes
-     *
-     * @return
-     */
     public final List<Player> getBukkitPlayersInAllModes() {
         return this.getBukkitPlayers(null);
     }
 
-    /**
-     * Get a list of players in the given mode
-     *
-     * @param mode
-     * @return
-     */
     public final List<Player> getBukkitPlayers(final GameJoinMode mode) {
         return Common.convert(this.getPlayers(mode), PlayerCache::toPlayer);
     }
 
-    /**
-     * Get game players currently joined in all modes
-     *
-     * @return
-     */
     public final List<PlayerCache> getPlayersInAllModes() {
         return Collections.unmodifiableList(this.players.getSource());
     }
 
-    /**
-     * Get game players in the given mode
-     *
-     * @param mode
-     * @return
-     */
     public final List<PlayerCache> getPlayers(@Nullable final GameJoinMode mode) {
         final List<PlayerCache> foundPlayers = new ArrayList<>();
 
@@ -1280,12 +1068,6 @@ public abstract class Game extends YamlConfig {
         return Collections.unmodifiableList(foundPlayers);
     }
 
-    /**
-     * Return the game player, or null if he is not in this game
-     *
-     * @param player
-     * @return
-     */
     public final PlayerCache findPlayer(final Player player) {
         this.checkIntegrity();
 
@@ -1312,9 +1094,6 @@ public abstract class Game extends YamlConfig {
         throw new EventHandledException(false);
     }
 
-    /*
-     * Runs a few security checks to prevent accidental programming errors
-     */
     private void checkIntegrity() {
 
         if (this.state == GameState.STOPPED)
@@ -1345,58 +1124,26 @@ public abstract class Game extends YamlConfig {
     }
 
     /* ------------------------------------------------------------------------------- */
-    /* Static */
-    /* ------------------------------------------------------------------------------- */
-
-    /**
-     * @param name
-     * @param type
-     * @return
-     * @see ConfigItems#loadOrCreateItem(String, java.util.function.Supplier)
-     */
     public static Game createGame(@NonNull final String name, @NonNull final GameType type) {
         return loadedFiles.loadOrCreateItem(name, () -> type.instantiate(name));
     }
 
-    // 1) /game new bedwars Arena1
-    // 2) when we load a disk file
-
-    /**
-     * @see ConfigItems#loadItems()
-     */
     public static void loadGames() {
         loadedFiles.loadItems();
     }
 
-    /**
-     * @param gameName
-     */
     public static void removeGame(final String gameName) {
         loadedFiles.removeItemByName(gameName);
     }
 
-    /**
-     * @param name
-     * @return
-     * @see ConfigItems#isItemLoaded(String)
-     */
     public static boolean isGameLoaded(final String name) {
         return loadedFiles.isItemLoaded(name);
     }
 
-    /**
-     * @param name
-     * @return
-     * @see ConfigItems#findItem(String)
-     */
     public static Game findByName(@NonNull final String name) {
         return loadedFiles.findItem(name);
     }
 
-    /**
-     * @param type
-     * @return
-     */
     public static List<Game> findByType(final GameType type) {
         final List<Game> items = new ArrayList<>();
 
@@ -1407,10 +1154,6 @@ public abstract class Game extends YamlConfig {
         return items;
     }
 
-    /**
-     * @param location
-     * @return
-     */
     public static Game findByLocation(final Location location) {
         for (final Game game : getGames())
             if (game.getRegion().isWhole() && game.getRegion().isWithin(location))
@@ -1423,18 +1166,10 @@ public abstract class Game extends YamlConfig {
         return PlayerCache.from(player).getCurrentGame();
     }
 
-    /**
-     * @return
-     * @see ConfigItems#getItems()
-     */
     public static List<? extends Game> getGames() {
         return loadedFiles.getItems();
     }
 
-    /**
-     * @return
-     * @see ConfigItems#getItemNames()
-     */
     public static Set<String> getGameNames() {
         return loadedFiles.getItemNames();
     }

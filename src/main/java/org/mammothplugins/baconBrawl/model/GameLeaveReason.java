@@ -11,7 +11,6 @@ public enum GameLeaveReason {
     QUIT_SERVER,
     COMMAND,
     ERROR,
-    OBJECTIVE_LOST(true),
     ESCAPED;
 
     private boolean autoSpectateOnLeave = false;

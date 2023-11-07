@@ -6,7 +6,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
-import org.mammothplugins.baconBrawl.model.ssm.kits.Kits;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mineacademy.fo.Common;
 
 public class PlayerUIDesigns {

@@ -2,6 +2,7 @@ package org.mammothplugins.baconBrawl.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.mammothplugins.baconBrawl.model.baconbrawl.BaconBrawlCore;
 import org.mineacademy.fo.ReflectionUtil;
 
 import java.lang.reflect.Constructor;
@@ -9,7 +10,7 @@ import java.lang.reflect.Constructor;
 @RequiredArgsConstructor
 public enum GameType {
 
-    SSM("SSM", org.mammothplugins.baconBrawl.model.ssm.SSM.class);
+    BaconBrawl("BaconBrawl", BaconBrawlCore.class);
 
     @Getter
     private final String name;

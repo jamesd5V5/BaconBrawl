@@ -21,10 +21,6 @@ import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.GameLeaveReason;
-import org.mammothplugins.baconBrawl.model.GameWorldManager;
-import org.mammothplugins.baconBrawl.model.ssm.SSM;
-import org.mammothplugins.baconBrawl.model.ssm.kits.Kits;
-import org.mammothplugins.baconBrawl.model.ssm.kits.powers.Power;
 import org.mammothplugins.baconBrawl.settings.Settings;
 import org.mineacademy.fo.*;
 import org.mineacademy.fo.annotation.AutoRegister;
@@ -33,7 +29,6 @@ import org.mineacademy.fo.event.RocketExplosionEvent;
 import org.mineacademy.fo.exception.EventHandledException;
 import org.mineacademy.fo.menu.Menu;
 import org.mineacademy.fo.remain.CompMaterial;
-import org.mineacademy.fo.remain.CompMetadata;
 import org.mineacademy.fo.remain.Remain;
 
 import javax.annotation.Nullable;
@@ -44,15 +39,9 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-/**
- * A sample listener for events.
- */
 @AutoRegister
 public final class AntiGriefListeners implements Listener {
 
-    /**
-     * The entities we prevent clicking, placing or removing even if the arena is played
-     */
     private static final Set<String> ENTITY_TYPE_MANIPULATION_BLACKLIST = Common.newSet("ITEM_FRAME", "PAINTING", "ARMOR_STAND", "LEASH_HITCH");
 
     public AntiGriefListeners() {
@@ -76,16 +65,10 @@ public final class AntiGriefListeners implements Listener {
         registerEvent("org.bukkit.event.raid.RaidTriggerEvent", RaidTriggerListener::new);
     }
 
-    /*
-     * Register a class containing events not available in older Minecraft versions
-     */
     private void registerEvent(String classPath, Supplier<Listener> listener) {
         this.registerEvent(classPath, listener, null, null);
     }
 
-    /*
-     * Register a class containing events not available in older Minecraft versions
-     */
     private void registerEvent(String classPath, Supplier<Listener> listener, @Nullable String fallbackClass, @Nullable Supplier<Listener> fallbackListener) {
         try {
             Class.forName(classPath);
@@ -104,11 +87,6 @@ public final class AntiGriefListeners implements Listener {
         }
     }
 
-    /**
-     * Listen for player join and loads his data
-     *
-     * @param event
-     */
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -142,11 +120,6 @@ public final class AntiGriefListeners implements Listener {
         }
     }
 
-    /**
-     * Automatically unload player's cache on his exit to save memory.
-     *
-     * @param event
-     */
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
@@ -157,14 +130,9 @@ public final class AntiGriefListeners implements Listener {
 
         cache.save();
 
-        // Unload player's cache
         cache.removeFromMemory();
     }
 
-    /**
-     * @param event
-     */
-    // if chat formatting plugin has NORMAL priority, it comes after us, and already sees filtered players
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
@@ -213,44 +181,30 @@ public final class AntiGriefListeners implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST) //todo
     public void onPlayerMeleeAttack(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof LivingEntity && event.getDamager() instanceof Player) {
-            Player source = (Player) event.getDamager();
-            PlayerCache scache = PlayerCache.from(source);
-            if (scache.hasGame() && scache.getCurrentGameMode() == GameJoinMode.PLAYING && scache.getCurrentGame() instanceof SSM) {
-                if (!source.getItemInHand().getType().toString().equals("AIR")) {
-//                    double damage = scache.getCurrentKit().getDamage();
-//                    event.setDamage(damage); //TODO DAMGE
+        if (!(event.getDamager() instanceof Player))
+            return;
+        Player player = (Player) event.getDamager();
+        PlayerCache cache = PlayerCache.from(player);
 
-                } else {
-                    event.setDamage(1);
-                }
+        if (cache.hasGame())
+            try {
+                cache.getCurrentGame().onPlayerMeleeAttack(event, player);
+
+            } catch (EventHandledException ex) {
             }
-        }
     }
 
     @EventHandler
     public void onCooldown(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         PlayerCache cache = PlayerCache.from(player);
-        Action action = event.getAction();
-        if (cache.hasGame() && cache.getCurrentGameMode() == GameJoinMode.PLAYING && cache.getCurrentGame() instanceof SSM) {
-            if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
-                for (Power power : cache.getCurrentKit().getPowers(player)) {
-                    if (player.getItemInHand().getType() == power.getItemStack().getType()) {
-                        if (power.isUsesBlocking())
-                            if (cache.isCurrentlyBlocking() == false)
-                                power.startBlocking();
-                        if (!power.isCoolingDown()) {
-                            power.startPowerCooldowns();
-                            cache.getCurrentKit().usePower(player, power);
-                        } else {
-                            if (power.canStartCooldown() && cache.isCurrentlyBlocking() == false)
-                                Common.tell(player, "&7You cannot use &a" + power.getName() + "&7 for &a" + power.getConvertedTimeLeftCooldown() + " Seconds&7.");
-                        }
-                    }
-                }
+
+        if (cache.hasGame())
+            try {
+                cache.getCurrentGame().onCooldown(event);
+
+            } catch (EventHandledException ex) {
             }
-        }
     }
 
     @EventHandler
@@ -316,11 +270,6 @@ public final class AntiGriefListeners implements Listener {
         }
     }
 
-    /**
-     * Prevent clicking on entities when not playing arenas
-     *
-     * @param event
-     */
     @EventHandler
     public void onInteractAtEntity(final PlayerInteractEntityEvent event) {
         final Player player = event.getPlayer();
@@ -343,34 +292,6 @@ public final class AntiGriefListeners implements Listener {
                 event.setCancelled(ex.isCancelled());
             }
         }
-    }
-
-    @EventHandler
-    public void onFlight(PlayerToggleFlightEvent event) {
-        Player player = event.getPlayer();
-        PlayerCache cache = PlayerCache.from(player);
-        GameJoinMode mode = cache.getCurrentGameMode();
-
-        if (cache.hasGame() && cache.getCurrentGameMode() == GameJoinMode.PLAYING) {
-            cache.getCurrentGame().onPlayerDoubleJump(player, event);
-        }
-
-        //todo may need to add this back in if double jump does not work, and scrap above
-        this.executeIfPlayingGame(event, (pl, ch) -> {
-            if (ch.getCurrentGameMode() == GameJoinMode.SPECTATING || ch.isJoining() || ch.isLeaving())
-                return;
-
-//            if (pl.isOp() || ch.getCurrentGameMode() == GameJoinMode.SPECTATING) {
-//                Messenger.info(pl, "Bypassing flight restriction...");
-//
-//                return;
-//            }
-
-            pl.setFlying(false);
-            pl.setAllowFlight(false);
-
-            // Messenger.error(pl, "You cannot fly while playing a game.");
-        });
     }
 
     @EventHandler
@@ -602,26 +523,11 @@ public final class AntiGriefListeners implements Listener {
     @EventHandler
     public void onExplosionPrime(final ExplosionPrimeEvent event) {
         this.cancelIfInStoppedOrLobby(event, event.getEntity());
-
-        // EggWars minigame
-		/*if (!event.isCancelled() && event.getEntity() instanceof EnderCrystal) {
-			final Game game = Game.findByLocation(event.getEntity().getLocation());
-
-			if (game != null)
-				event.setCancelled(true);
-		}*/
     }
 
     @EventHandler
     public void onEntityExplode(final EntityExplodeEvent event) {
         this.preventBlockGrief(event, event.getLocation(), event.blockList());
-
-		/*if (event.getEntity() instanceof EnderCrystal) {
-			final Game game = Game.findByLocation(event.getLocation());
-
-			if (game != null)
-				event.setCancelled(true);
-		}*/
     }
 
     private void preventBlockGrief(final Cancellable event, final Location centerLocation, final List<Block> blocks) {
@@ -691,10 +597,6 @@ public final class AntiGriefListeners implements Listener {
     @EventHandler
     public void onEntityDamage(final EntityDamageEvent event) {
         final Entity victim = event.getEntity();
-
-        if (victim instanceof Zombie) {
-            //Common.broadcast("Damage: " + event.getDamage() + " -> &c" + ((LivingEntity) victim).getHealth() + "&f/&6" + ((LivingEntity) victim).getMaxHealth());
-        }
 
         final Game game = Game.findByLocation(victim.getLocation());
 
@@ -850,7 +752,6 @@ public final class AntiGriefListeners implements Listener {
         final Egg egg = event.getEgg();
         final Game game = Game.findByLocation(egg.getLocation());
 
-        // Prevent spawning chickens in arenas from eggs
         if (game != null)
             event.setHatching(false);
     }
@@ -1041,31 +942,18 @@ public final class AntiGriefListeners implements Listener {
 
     @EventHandler
     public void onFall(EntityDamageEvent event) {
-        final Game gameAtLocation = Game.findByLocation(event.getEntity().getLocation());
-
         if (!(event.getEntity() instanceof Player))
-            if (event.getCause() == EntityDamageEvent.DamageCause.FALL)
-                event.setCancelled(true);
-        if (gameAtLocation == null || !(event.getEntity() instanceof Player))
             return;
-
-        if (!gameAtLocation.isEdited() && !gameAtLocation.isPlayed()) {
-            event.setCancelled(true);
-            return;
-        }
         Player player = (Player) event.getEntity();
+        PlayerCache cache = PlayerCache.from(player);
 
-        final PlayerCache cache = gameAtLocation.findPlayer(player);
+        if (cache.hasGame())
+            if (event.getCause() == EntityDamageEvent.DamageCause.FALL)
+                try {
+                    cache.getCurrentGame().onFall(event);
 
-        if (cache == null || cache.getCurrentGameMode() == GameJoinMode.SPECTATING)
-            event.setCancelled(true);
-
-        if (cache != null && cache.getCurrentGameMode() == GameJoinMode.PLAYING) {
-            if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
-                gameAtLocation.onFall(player, event);
-                event.setCancelled(true);
-            }
-        }
+                } catch (EventHandledException ex) {
+                }
     }
 
     @EventHandler
@@ -1077,58 +965,6 @@ public final class AntiGriefListeners implements Listener {
         if (moveData.getBoolean("leaving") || moveData.getBoolean("entering")
                 || (fromArena != null && block.getType() == CompMaterial.DRAGON_EGG.getMaterial()))
             event.setCancelled(true);
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onTeleport(final EntityTeleportEvent event) {
-        final Entity entity = event.getEntity();
-
-        if (entity instanceof Player)
-            return;
-
-        final SerializedMap moveData = calculateMoveData(event.getFrom(), event.getFrom());
-
-        if (moveData.getBoolean("leaving") || moveData.getBoolean("entering"))
-            event.setCancelled(true);
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onTeleport(final PlayerTeleportEvent event) {
-        final Player player = event.getPlayer();
-
-        if (GameWorldManager.isWorldBeingProcessed(event.getTo().getWorld())) {
-            Messenger.error(player, "Your destination is processed right now. Try again later.");
-
-            event.setCancelled(true);
-            return;
-        }
-
-        if (CompMetadata.hasTempMetadata(player, Game.TAG_TELEPORTING))
-            return;
-
-        final SerializedMap moveData = calculateMoveData(event.getFrom(), event.getTo(), player);
-        final PlayerCache cache = PlayerCache.from(player);
-        String errorMessage = null;
-
-        if (!cache.hasGame()
-                && moveData.getBoolean("toIsArena")
-                && !event.getFrom().equals(event.getTo())
-                && (!event.getFrom().getWorld().equals(event.getTo().getWorld()) || event.getFrom().distance(event.getTo()) > 2)) {
-            errorMessage = "You cannot teleport into the game unless you edit it with '/game edit'.";
-
-        } else if (cache.hasGame() && !cache.isLeaving() && !cache.getCurrentGame().isStopping() && cache.getCurrentGameMode() != GameJoinMode.EDITING) {
-            if (moveData.getBoolean("leaving")) // prevents /tpa
-                errorMessage = "You cannot teleport away from game unless you leave with '/game leave' first.";
-
-            else if (moveData.getBoolean("entering"))
-                errorMessage = "Your destination is in a game. Edit it with '/game edit' first.";
-        }
-
-        if (errorMessage != null) {
-            Messenger.error(player, errorMessage);
-
-            event.setCancelled(true);
-        }
     }
 
     private SerializedMap calculateMoveData(final Location from, final Location to) {
@@ -1193,15 +1029,15 @@ public final class AntiGriefListeners implements Listener {
         }
 
         if (event.getEntity().getShooter() instanceof Player) {
-            Player shooter = ((Player) event.getEntity().getShooter()).getPlayer();
-            Kits shooterKit = PlayerCache.from(shooter).getCurrentKit();
-            if (event.getEntity() instanceof Snowball) {
-//                if (CompMetadata.hasTempMetadata(event.getEntity(), "SulpherBomb")) {
-//                    Creeper.SulpherBombPower sulpherBombPower = (Creeper.SulpherBombPower) shooterKit.getPowers(shooter).get(0);
-//                    if (event.getHitEntity() instanceof LivingEntity)
-//                        sulpherBombPower.postActivatedProjectile((LivingEntity) event.getHitEntity(), event.getEntity());
-//                }
-            }
+            Player player = (Player) event.getEntity();
+            PlayerCache cache = PlayerCache.from(player);
+
+            if (cache.hasGame())
+                try {
+                    cache.getCurrentGame().onProjectileHit(event);
+
+                } catch (EventHandledException ex) {
+                }
         }
     }
 
@@ -1209,58 +1045,27 @@ public final class AntiGriefListeners implements Listener {
 // Custom classes for compatibility reasons
 // ------–------–------–------–------–------–------–------–------–------–------–------–
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class EntityBreedListener implements Listener {
-
-        /**
-         * Prevent entities breeding in stopped non edited arenas
-         *
-         * @param event
-         */
         @EventHandler
         public void onEntityBreed(final EntityBreedEvent event) {
             cancelIfInStoppedOrLobby(event, event.getEntity());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class SpawnerSpawnListener implements Listener {
-
-        /**
-         * Prevent spawners from functioning in stopped non edited arenas
-         *
-         * @param event
-         */
         @EventHandler
         public void onSpawnerSpawn(final SpawnerSpawnEvent event) {
             cancelIfInStoppedOrLobby(event, event.getEntity());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class ExplodeAndEntitySpawnListener implements Listener {
 
-        /**
-         * Stop destroying blocks if some of them are in arenas
-         *
-         * @param event
-         */
         @EventHandler
         public void onBlockExplode(final BlockExplodeEvent event) {
             preventBlockGrief(event, event.getBlock().getLocation(), event.blockList());
         }
 
-        /**
-         * Prevent any entity spawning in stopped arenas
-         *
-         * @param event
-         */
         @EventHandler
         public void onEntitySpawn(final EntitySpawnEvent event) {
 
@@ -1285,80 +1090,39 @@ public final class AntiGriefListeners implements Listener {
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class ConsumeItemListener implements Listener {
 
-        /**
-         * Cancel food consumption in stopped arenas or during lobby
-         *
-         * @param event
-         */
         @EventHandler
         public void onConsumeFood(final PlayerItemConsumeEvent event) {
             cancelIfInStoppedOrLobby(event, event.getPlayer());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class BlockReceiveGameListener implements Listener {
 
-        /**
-         * Cancels sculk sensor activating in arenas
-         *
-         * @param event
-         */
         @EventHandler(priority = EventPriority.LOWEST)
         public void onSculkActivate(BlockReceiveGameEvent event) {
             cancelIfInGame(event, event.getBlock().getLocation());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class CauldronLevelChangeListener implements Listener {
-
-        /**
-         * Prevents cauldron from emptying in arenas
-         *
-         * @param event
-         */
         @EventHandler
         public void onCauldronLevelChange(CauldronLevelChangeEvent event) {
             cancelIfInGame(event, event.getBlock().getLocation());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class EntityEnterBlockListener implements Listener {
 
-        /**
-         * Prevent bees entering a bee hive in stopped arenas
-         *
-         * @param event
-         */
         @EventHandler
         public void onEntityEnterBlock(EntityEnterBlockEvent event) {
             cancelIfInStoppedOrLobby(event, event.getBlock().getLocation());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class EntityPickupItemListener implements Listener {
 
-        /**
-         * Prevent entities from picking up items in stopped arenas
-         *
-         * @param event
-         */
         @EventHandler
         public void onEntityPickupItem(EntityPickupItemEvent event) {
 
@@ -1370,80 +1134,39 @@ public final class AntiGriefListeners implements Listener {
         }
     }
 
-    /**
-     * A separate listener for older MC versions
-     */
     private class PlayerPickupItemListener implements Listener {
 
-        /**
-         * Prevent item pickup in stopped arenas or by non playing players
-         *
-         * @param event
-         */
         @EventHandler
         public void onItemPickup(final PlayerPickupItemEvent event) {
             preventItemGrief(event, event.getItem());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class PlayerBucketEntityListener implements Listener {
 
-        /**
-         * Prevent fishing in stopped arenas or during lobby
-         *
-         * @param event
-         */
         @EventHandler(priority = EventPriority.LOWEST)
         public void onPlayerBucket(PlayerBucketEntityEvent event) {
             cancelIfInStoppedOrLobby(event, event.getEntity());
         }
     }
 
-    /**
-     * A separate listener for older MC versions
-     */
     private class PlayerBucketFishListener implements Listener {
-
-        /**
-         * Prevent fishing in stopped arenas or during lobby
-         *
-         * @param event
-         */
         @EventHandler(priority = EventPriority.LOWEST)
         public void onPlayerFish(PlayerBucketFishEvent event) {
             cancelIfInStoppedOrLobby(event, event.getEntity());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class PlayerTakeLecternBookListener implements Listener {
 
-        /**
-         * Completely prevent lectern interaction in arenas
-         *
-         * @param event
-         */
         @EventHandler(priority = EventPriority.LOWEST)
         public void onPlayerTakeLectern(PlayerTakeLecternBookEvent event) {
             cancelIfInGame(event, event.getLectern().getLocation());
         }
     }
 
-    /**
-     * A separate listener for newer MC versions
-     */
     private class RaidTriggerListener implements Listener {
 
-        /**
-         * Prevent raids from happening in case the arena is built onto a village
-         *
-         * @param event
-         */
         @EventHandler(priority = EventPriority.LOWEST)
         public void onRaidTrigger(RaidTriggerEvent event) {
             cancelIfInGame(event, event.getRaid().getLocation());

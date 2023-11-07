@@ -1,10 +1,10 @@
-package org.mammothplugins.baconBrawl.model.ssm.kits;
+package org.mammothplugins.baconBrawl.model.baconbrawl.kits;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.mammothplugins.baconBrawl.model.ssm.kits.powers.Power;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 
@@ -21,6 +21,7 @@ public class Kits {
     private String name;
     private ChatColor chatColor;
     private CompMaterial compMaterial;
+    private double knockBack;
 
     private HashMap<UUID, ArrayList<Power>> powers = new HashMap<>();
 

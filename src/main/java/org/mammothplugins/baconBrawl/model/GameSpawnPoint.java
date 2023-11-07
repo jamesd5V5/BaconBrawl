@@ -2,7 +2,6 @@ package org.mammothplugins.baconBrawl.model;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.Nullable;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mineacademy.fo.Common;
@@ -51,8 +50,6 @@ public abstract class GameSpawnPoint extends Game {
 
         this.playerSpawnpointPicker.setItems(this.playerSpawnpoints.getLocations());
     }
-
-    public abstract void onPlayerJump(PlayerMoveEvent event);
 
     @Override
     protected void onGameStartFor(Player player, PlayerCache cache) {

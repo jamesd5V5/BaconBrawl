@@ -1,4 +1,4 @@
-package org.mammothplugins.baconBrawl.model.ssm;
+package org.mammothplugins.baconBrawl.model.baconbrawl;
 
 import org.bukkit.entity.Player;
 import org.mammothplugins.baconBrawl.PlayerCache;
@@ -6,10 +6,10 @@ import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.GameSpawnPointScoreboard;
 import org.mineacademy.fo.model.Replacer;
 
-import java.util.*;
+import java.util.List;
 
-public class SSMScoreboard extends GameSpawnPointScoreboard {
-    public SSMScoreboard(final SSM game) {
+public class BaconBrawlScoreboard extends GameSpawnPointScoreboard {
+    public BaconBrawlScoreboard(final BaconBrawlCore game) {
         super(game);
     }
 
@@ -46,10 +46,7 @@ public class SSMScoreboard extends GameSpawnPointScoreboard {
 //        Collections.sort(lives, Collections.reverseOrder());
 
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
-            int plLives = cache.getLives();
             message = Replacer.replaceArray(message,
-                    "Lives:" + cache.getUniqueId(), plLives,
-                    "Life Color:" + cache.getUniqueId(), getLifeColor(plLives),
                     "PlayerName:" + cache.getUniqueId(), cache.toPlayer().getName());
         }
         return super.replaceVariables(player, message);
@@ -69,9 +66,9 @@ public class SSMScoreboard extends GameSpawnPointScoreboard {
         int index = 4;
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
             if (getRows().size() <= index)
-                this.addRows("&f{Lives:" + cache.getUniqueId() + "}" + " {Life Color:" + cache.getUniqueId() + "}" + "{PlayerName:" + cache.getUniqueId() + "}");
+                this.addRows("&f{PlayerName:" + cache.getUniqueId() + "}");
             else
-                this.setRow(index, "&f{Lives:" + cache.getUniqueId() + "}" + " {Life Color:" + cache.getUniqueId() + "}" + "{PlayerName:" + cache.getUniqueId() + "}");
+                this.setRow(index, "&f{PlayerName:" + cache.getUniqueId() + "}");
             index++;
         }
     }
@@ -89,24 +86,8 @@ public class SSMScoreboard extends GameSpawnPointScoreboard {
         return color;
     }
 
-    private List<Integer> refreshScoreboard() {
-        List<PlayerCache> players = getGame().getPlayers(GameJoinMode.PLAYING);
-
-        // Create a map to associate player lives with PlayerCache objects
-        Map<Integer, PlayerCache> livesMap = new HashMap<>();
-        for (PlayerCache cache : players) {
-            int plLives = cache.getLives();
-            livesMap.put(plLives, cache);
-        }
-
-        // Sort the lives list in descending order
-        ArrayList<Integer> lives = new ArrayList<>(livesMap.keySet());
-        Collections.sort(lives, Collections.reverseOrder());
-        return lives;
-    }
-
     @Override
-    public SSM getGame() {
-        return (SSM) super.getGame();
+    public BaconBrawlCore getGame() {
+        return (BaconBrawlCore) super.getGame();
     }
 }

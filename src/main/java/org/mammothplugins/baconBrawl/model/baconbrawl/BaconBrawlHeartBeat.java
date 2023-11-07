@@ -1,4 +1,4 @@
-package org.mammothplugins.baconBrawl.model.ssm;
+package org.mammothplugins.baconBrawl.model.baconbrawl;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,28 +8,20 @@ import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.design.PlayerUIDesigns;
 import org.mammothplugins.baconBrawl.model.GameHeartbeat;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
-import org.mammothplugins.baconBrawl.model.ssm.kits.Kits;
-import org.mammothplugins.baconBrawl.model.ssm.kits.powers.Power;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * The countdown responsible for ticking played games
- */
-public class SSMHeartBeat extends GameHeartbeat {
+public class BaconBrawlHeartBeat extends GameHeartbeat {
 
     @Getter
     @Setter
     private ArrayList<Player> cooldown = new ArrayList<>();
 
-    /**
-     * Create a new countdown
-     *
-     * @param game
-     */
-    public SSMHeartBeat(final SSM game) {
+    public BaconBrawlHeartBeat(final BaconBrawlCore game) {
         super(game);
     }
 
@@ -45,10 +37,6 @@ public class SSMHeartBeat extends GameHeartbeat {
         //ontick stuff
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
             Player player = cache.toPlayer();
-
-            //Some sad attempt of trying to stop flying
-            if (player.isFlying())
-                player.setAllowFlight(false);
 
             //Display Cooldown
             ItemStack itemStack = player.getInventory().getItemInHand();
@@ -82,7 +70,7 @@ public class SSMHeartBeat extends GameHeartbeat {
     }
 
     @Override
-    public SSM getGame() {
-        return (SSM) super.getGame();
+    public BaconBrawlCore getGame() {
+        return (BaconBrawlCore) super.getGame();
     }
 }
