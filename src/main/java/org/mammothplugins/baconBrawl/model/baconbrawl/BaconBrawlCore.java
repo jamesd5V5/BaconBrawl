@@ -11,12 +11,14 @@ import org.jetbrains.annotations.Nullable;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.*;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.MamaPiggles;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mammothplugins.baconBrawl.tool.KitSelectorTool;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.RandomUtil;
 import org.mineacademy.fo.model.BoxedMessage;
+import org.mineacademy.fo.remain.CompMetadata;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.Arrays;
@@ -236,11 +238,11 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         Player shooter = ((Player) event.getEntity().getShooter()).getPlayer();
         Kits shooterKit = PlayerCache.from(shooter).getCurrentKit();
         if (event.getEntity() instanceof Snowball) {
-//                if (CompMetadata.hasTempMetadata(event.getEntity(), "SulpherBomb")) {
-//                    Creeper.SulpherBombPower sulpherBombPower = (Creeper.SulpherBombPower) shooterKit.getPowers(shooter).get(0);
-//                    if (event.getHitEntity() instanceof LivingEntity)
-//                        sulpherBombPower.postActivatedProjectile((LivingEntity) event.getHitEntity(), event.getEntity());
-//                }
+            if (CompMetadata.hasTempMetadata(event.getEntity(), "PorkBomb")) {
+                MamaPiggles.BaconBlast baconBlast = (MamaPiggles.BaconBlast) shooterKit.getPowers(shooter).get(0);
+                if (event.getHitEntity() instanceof LivingEntity)
+                    baconBlast.postActivatedProjectile((LivingEntity) event.getHitEntity(), event.getEntity());
+            }
         }
     }
 
