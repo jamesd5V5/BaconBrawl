@@ -961,6 +961,9 @@ public abstract class Game extends YamlConfig {
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
     }
 
+    public void onPlayerCollideWithOtherPlayerEvent(PlayerMoveEvent event, Player entity) {
+    }
+
     /* ------------------------------------------------------------------------------- */
 
     public final void broadcastInfo(final String message) {

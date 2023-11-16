@@ -4,17 +4,18 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.watchers.PigWatcher;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Snowball;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
+import org.mineacademy.fo.RandomUtil;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.remain.CompMetadata;
+import org.mineacademy.fo.remain.CompParticle;
 import org.mineacademy.fo.remain.CompSound;
 
 import java.util.ArrayList;
@@ -25,11 +26,12 @@ public class MamaPiggles extends Kits {
 
     private HashMap<UUID, ArrayList<Power>> kitPowers = new HashMap<>();
     private PigWatcher pigWatcher;
+    private Wolf piglet;
 
     public MamaPiggles() {
         setName("MamaPiggles");
         setChatColor(ChatColor.RED);
-        setCompMaterial(CompMaterial.IRON_AXE);
+        setCompMaterial(CompMaterial.PORKCHOP);
         setKnockBack(3);
     }
 
@@ -50,6 +52,19 @@ public class MamaPiggles extends Kits {
 
         Disguise disguise = NmsDisguise.setDisguise(player, DisguiseType.PIG);
         this.pigWatcher = (PigWatcher) disguise.getWatcher();
+
+
+//        this.piglet = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);
+//        piglet.setOwner(player);
+//        piglet.setInvulnerable(true);
+//
+//        player.setPassenger(piglet);
+//
+//        Disguise babyDisguise = NmsDisguise.setDisguise(piglet, DisguiseType.PIG);
+//        new EntityHider
+//        PigWatcher babyWatcher = (PigWatcher) disguise.getWatcher();
+//        babyWatcher.setCustomName("&d&l" + player.getName() + "'s Piglet");
+//        babyWatcher.setBaby();
     }
 
     private void givePowers(Player player) {
@@ -63,6 +78,13 @@ public class MamaPiggles extends Kits {
         kitPowers.put(player.getUniqueId(), powers);
     }
 
+    @Override
+    public void onDeath(Player player) {
+        super.onDeath(player);
+
+        if (piglet != null && piglet.isDead())
+            piglet.remove();
+    }
 
     public class BaconBlast extends Power {
 
@@ -79,10 +101,23 @@ public class MamaPiggles extends Kits {
             ItemStack porkStack = ItemCreator.of(CompMaterial.PORKCHOP, "PorkBomb").make();
             proj.setItem(porkStack);
             CompMetadata.setTempMetadata(proj, "PorkBomb");
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (proj.isDead()) {
+                        cancel();
+                        return;
+                    }
+                    for (int i = 0; i < 1; i++)
+                        CompParticle.HEART.spawn(RandomUtil.nextLocation(proj.getLocation(), 0.5, true));
+                }
+            }.runTaskTimer(BaconBrawl.getInstance(), 0, 3L);
         }
 
         @Override
         public void postActivatedProjectile(LivingEntity victim, Projectile projectile) {
+            victim.damage(1);
             CompSound.EXPLODE.play(projectile.getLocation(), 0.5f, 0.8f);
             CompSound.ENTITY_ARROW_HIT_PLAYER.play(player, 0.5f, 1f);
             Vector vector = projectile.getVelocity().setY(0);

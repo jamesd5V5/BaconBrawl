@@ -4,15 +4,24 @@ import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.watchers.PigWatcher;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
+import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
+import org.mineacademy.fo.Common;
+import org.mineacademy.fo.RandomUtil;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
+import org.mineacademy.fo.remain.CompParticle;
+import org.mineacademy.fo.remain.CompSound;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ElMuchachoPig extends Kits {
 
@@ -60,6 +69,8 @@ public class ElMuchachoPig extends Kits {
     public class BodySlamPower extends Power {
 
         private Player player = getPlayer();
+        private boolean hasPostLaunched = false;
+        private boolean canNoLongerDashTouch = false;
 
         public BodySlamPower(Player player) {
             super("Body Slam",
@@ -68,7 +79,40 @@ public class ElMuchachoPig extends Kits {
 
         @Override
         public void activatePower() {
-            player.setVelocity(player.getEyeLocation().getDirection().multiply(2));
+            player.setVelocity(player.getEyeLocation().getDirection().multiply(1.5));
+            canNoLongerDashTouch = false;
+            CompSound.HORSE_DEATH.play(player, 0.5f, 1.7f);
+            AtomicBoolean showParticles = new AtomicBoolean(true);
+            Common.runLater(1 * 20, () -> {
+                canNoLongerDashTouch = true;
+                showParticles.set(false);
+            });
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (player.isDead() || showParticles.get() == false) {
+                        cancel();
+                    }
+                    for (int i = 0; i < 2; i++)
+                        CompParticle.LAVA.spawn(RandomUtil.nextLocation(player.getLocation(), 1, true));
+                }
+            }.runTaskTimer(BaconBrawl.getInstance(), 0, 3L);
+        }
+
+        @Override
+        public void postActivatedMelee(LivingEntity victim) {
+            if (this.isCoolingDown() && canNoLongerDashTouch == false && hasPostLaunched == false) {
+                victim.damage(1);
+                Vector vector = player.getVelocity().setY(0);
+                victim.setVelocity(vector.multiply(1.8).add(new Vector(0, 0.5, 0)));
+                hasPostLaunched = true;
+
+                Common.runLater(6 * 20, () -> {
+                    hasPostLaunched = false;
+                    canNoLongerDashTouch = false;
+                });
+            }
         }
     }
 }

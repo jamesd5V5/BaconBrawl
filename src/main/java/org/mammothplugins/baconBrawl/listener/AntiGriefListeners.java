@@ -1017,7 +1017,7 @@ public final class AntiGriefListeners implements Listener {
     // Game Specific Events
     // ------–------–------–------–------–------–------–------–------–------–------–------–
     @EventHandler
-    public void onProjectileHitSSM(ProjectileHitEvent event) {
+    public void onProjectileHitGame(ProjectileHitEvent event) {
         if (!(event.getHitEntity() instanceof LivingEntity))
             return;
         final Game gameAtLocation = Game.findByLocation(event.getHitEntity().getLocation());
@@ -1029,7 +1029,7 @@ public final class AntiGriefListeners implements Listener {
         }
 
         if (event.getEntity().getShooter() instanceof Player) {
-            Player player = (Player) event.getEntity();
+            Player player = (Player) event.getEntity().getShooter();
             PlayerCache cache = PlayerCache.from(player);
 
             if (cache.hasGame())
@@ -1039,6 +1039,28 @@ public final class AntiGriefListeners implements Listener {
                 } catch (EventHandledException ex) {
                 }
         }
+    }
+
+    @EventHandler
+    public void onPlayerCollideWithPlayer(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        final Game gameAtLocation = Game.findByLocation(player.getLocation());
+        if (gameAtLocation == null)
+            return;
+        if (!gameAtLocation.isEdited() && !gameAtLocation.isPlayed())
+            return;
+        PlayerCache cache = PlayerCache.from(player);
+
+        if (cache.hasGame())
+            try {
+                if (player.getNearbyEntities(1, 1, 1).size() >= 1) {
+                    for (Entity entity : player.getNearbyEntities(1, 1, 1))
+                        if (entity instanceof Player)
+                            cache.getCurrentGame().onPlayerCollideWithOtherPlayerEvent(event, (Player) entity);
+                }
+
+            } catch (EventHandledException ex) {
+            }
     }
 
 // ------–------–------–------–------–------–------–------–------–------–------–------–

@@ -165,6 +165,9 @@ public class Power {
     public void postActivatedProjectile(LivingEntity victim, Projectile projectile) {
     }
 
+    public void postActivatedMelee(LivingEntity victim) {
+    }
+
     public void startBlocking() {
         PlayerCache cache = PlayerCache.from(player);
         ItemStack shield = ItemCreator.of(CompMaterial.SHIELD, "Blocking", "This item does nothing but slow you down when blocking.").make();

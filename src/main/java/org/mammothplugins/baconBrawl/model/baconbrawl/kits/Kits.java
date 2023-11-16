@@ -45,7 +45,6 @@ public class Kits {
     }
 
     public void applyAttributes(Player player) {
-        player.setAllowFlight(true);
         player.getInventory().setItem(8, ItemCreator.of(CompMaterial.COMPASS, "&f&lTracker").make());
     }
 

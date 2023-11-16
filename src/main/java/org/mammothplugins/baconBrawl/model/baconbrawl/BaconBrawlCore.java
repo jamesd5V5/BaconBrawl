@@ -7,9 +7,12 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.*;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.ElMuchachoPig;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.MamaPiggles;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
@@ -104,6 +107,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         super.onGameLeave(player);
 
         if (this.isPlayed()) {
+            player.removePotionEffect(PotionEffectType.REGENERATION);
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
@@ -130,6 +134,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         super.onGameStop();
 
         for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
+            cache.toPlayer().removePotionEffect(PotionEffectType.REGENERATION);
             cache.getCurrentKit().wipeAllPowers();
             cache.getCurrentKit().onDeath(cache.toPlayer());
             Common.runLater(2, () -> {
@@ -243,6 +248,19 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                 if (event.getHitEntity() instanceof LivingEntity)
                     baconBlast.postActivatedProjectile((LivingEntity) event.getHitEntity(), event.getEntity());
             }
+        }
+    }
+
+    @Override
+    public void onPlayerCollideWithOtherPlayerEvent(PlayerMoveEvent event, Player victim) {
+        super.onPlayerCollideWithOtherPlayerEvent(event, victim);
+
+        PlayerCache cache = PlayerCache.from(event.getPlayer());
+
+        if (cache.getCurrentKit().getPowers(event.getPlayer()).get(0).getName().equals("Body Slam")) {
+            ElMuchachoPig.BodySlamPower bodySlamPower = (ElMuchachoPig.BodySlamPower) cache.getCurrentKit().getPowers(event.getPlayer()).get(0);
+
+            bodySlamPower.postActivatedMelee(victim);
         }
     }
 

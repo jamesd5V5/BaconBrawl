@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.design.PlayerUIDesigns;
 import org.mammothplugins.baconBrawl.model.GameHeartbeat;
@@ -37,6 +39,7 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
         //ontick stuff
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
             Player player = cache.toPlayer();
+            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 100));
 
             //Display Cooldown
             ItemStack itemStack = player.getInventory().getItemInHand();
@@ -50,7 +53,6 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
                     }
                 }
             }
-
         }
     }
 
@@ -59,6 +61,7 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
             Player player = cache.toPlayer();
             player.getInventory().clear();
             player.setHealth(player.getMaxHealth());
+
             player.setSaturation(20);
 
             if (cache.isRandomKit()) {

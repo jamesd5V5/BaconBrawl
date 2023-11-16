@@ -5,6 +5,7 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.Disguise;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.disguisetypes.MobDisguise;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -25,6 +26,19 @@ public class NmsDisguise {
         DisguiseAPI.setActionBarShown(player, false);
 
         DisguiseAPI.disguiseToAll(player, disguise);
+        disguises.add(disguise);
+        return disguise;
+    }
+
+    public static Disguise setDisguise(LivingEntity livingEntity, DisguiseType type) {
+        MobDisguise disguise = new MobDisguise(type);
+        disguise.setHearSelfDisguise(false);
+        disguise.setViewSelfDisguise(false);
+        disguise.setKeepDisguiseOnPlayerDeath(true);
+        disguise.setModifyBoundingBox(true);
+        disguise.setVelocitySent(true);
+
+        DisguiseAPI.disguiseToAll(livingEntity, disguise);
         disguises.add(disguise);
         return disguise;
     }
