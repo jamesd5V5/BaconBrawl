@@ -121,7 +121,7 @@ public class MamaPiggles extends Kits {
             CompSound.EXPLODE.play(projectile.getLocation(), 0.5f, 0.8f);
             CompSound.ENTITY_ARROW_HIT_PLAYER.play(player, 0.5f, 1f);
             Vector vector = projectile.getVelocity().setY(0);
-            victim.setVelocity(vector.multiply(1.8).add(new Vector(0, 1.0, 0)));
+            victim.setVelocity(vector.multiply(1.1).add(new Vector(0, 1.0, 0)));
         }
     }
 }

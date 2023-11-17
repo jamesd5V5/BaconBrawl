@@ -15,6 +15,7 @@ import org.mammothplugins.baconBrawl.model.*;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.ElMuchachoPig;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.MamaPiggles;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Pig;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mammothplugins.baconBrawl.tool.KitSelectorTool;
@@ -227,11 +228,28 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     public void onPlayerMeleeAttack(EntityDamageByEntityEvent event, Player damager) {
         super.onPlayerMeleeAttack(event, damager);
 
-        if (event.getEntity() instanceof LivingEntity) {
-            PlayerCache dCache = PlayerCache.from(damager);
-            if (dCache.hasGame() && dCache.getCurrentGameMode() == GameJoinMode.PLAYING) {
-                event.setDamage(0);
+        if (!(event.getEntity() instanceof Player) || !(event.getEntity() instanceof LivingEntity))
+            return;
+        PlayerCache dCache = PlayerCache.from(damager);
+        Player victim = (Player) event.getEntity();
+        PlayerCache victimCache = PlayerCache.from(victim);
+
+        if (dCache.hasGame() && dCache.getCurrentGameMode() == GameJoinMode.PLAYING) {
+            event.setDamage(0);
+            if (dCache.getCurrentKit().getPowers(damager).get(0).getName().equals("Cloak")) {
+                Pig.CloakPower cloakPower = (Pig.CloakPower) dCache.getCurrentKit().getPowers(damager).get(0);
+                if (cloakPower.canPostActiavteMelee()) {
+                    if (event.getEntity() instanceof Player)
+                        cloakPower.postActivatedMelee((Player) event.getEntity(), event);
+                } else
+                    event.getEntity().setVelocity(damager.getLocation().getDirection().setY(0).normalize().multiply(dCache.getCurrentKit().getKnockBack()));
+            } else
                 event.getEntity().setVelocity(damager.getLocation().getDirection().setY(0).normalize().multiply(dCache.getCurrentKit().getKnockBack()));
+
+            if (victimCache.getCurrentKit().getName().equals("Pig")) {
+                Pig pig = (Pig) victimCache.getCurrentKit();
+                Pig.CloakPower cloakPower = (Pig.CloakPower) pig.getPowers(victim).get(0);
+                cloakPower.revealPlayer(victim);
             }
         }
     }

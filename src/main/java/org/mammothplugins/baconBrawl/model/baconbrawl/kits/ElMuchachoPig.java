@@ -105,7 +105,7 @@ public class ElMuchachoPig extends Kits {
             if (this.isCoolingDown() && canNoLongerDashTouch == false && hasPostLaunched == false) {
                 victim.damage(1);
                 Vector vector = player.getVelocity().setY(0);
-                victim.setVelocity(vector.multiply(1.8).add(new Vector(0, 0.5, 0)));
+                victim.setVelocity(vector.multiply(1.3).add(new Vector(0, 0.5, 0)));
                 hasPostLaunched = true;
 
                 Common.runLater(6 * 20, () -> {

@@ -35,6 +35,7 @@ public class Kits {
     static {
         kits.add(new ElMuchachoPig());
         kits.add(new MamaPiggles());
+        kits.add(new Pig());
     }
 
     public void usePower(Player player, Power power) {

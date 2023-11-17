@@ -5,6 +5,5 @@ Started November 1, 2023
 ======================================================
 
 -Creating new game, caps are off
--Power hotbar still won't show to people
 
 

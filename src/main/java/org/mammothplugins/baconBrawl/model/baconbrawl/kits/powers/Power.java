@@ -3,6 +3,7 @@ package org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -166,6 +167,9 @@ public class Power {
     }
 
     public void postActivatedMelee(LivingEntity victim) {
+    }
+
+    public void postActivatedMelee(LivingEntity victim, EntityDamageByEntityEvent event) {
     }
 
     public void startBlocking() {

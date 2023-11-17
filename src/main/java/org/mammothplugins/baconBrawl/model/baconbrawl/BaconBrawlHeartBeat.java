@@ -44,7 +44,9 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
             //Display Cooldown
             ItemStack itemStack = player.getInventory().getItemInHand();
             for (Power power : cache.getCurrentKit().getPowers(player)) {
-                if (power.getItemStack().equals(itemStack)) {
+                //Common.tell(player, "Wow powerL " + power.getItemStack().getType().toString() + itemStack.getType().toString());
+                if (power.getItemStack().getType().equals(itemStack.getType())) {
+                    //Common.tell(player, "You are being told IsCooling: " + power.isCoolingDown() + " canstartCooling: " + power.canStartCooldown());
                     if (power.isCoolingDown() && power.canStartCooldown()) {
                         double timeLeft = power.getTimeLeftToCooldown();
                         Remain.sendActionBar(player, "&f&l" + power.getName() + "&r " +
