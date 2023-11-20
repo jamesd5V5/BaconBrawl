@@ -13,8 +13,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.mammothplugins.baconBrawl.PlayerCache;
@@ -946,16 +944,6 @@ public abstract class Game extends YamlConfig {
 
     public void onBedEnter(PlayerCache cache, PlayerBedEnterEvent event) {
         this.cancelEvent();
-    }
-
-    public void onPlayerInventoryClick(PlayerCache cache, InventoryClickEvent event) {
-        if (!this.isPlayed())
-            this.cancelEvent();
-    }
-
-    public void onPlayerInventoryDrag(PlayerCache cache, InventoryDragEvent event) {
-        if (!this.isPlayed())
-            this.cancelEvent();
     }
 
     public void onPlayerMoveEvent(PlayerMoveEvent event) {

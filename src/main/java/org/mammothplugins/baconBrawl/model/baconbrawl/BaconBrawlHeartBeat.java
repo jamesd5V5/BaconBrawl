@@ -2,6 +2,8 @@ package org.mammothplugins.baconBrawl.model.baconbrawl;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -12,9 +14,11 @@ import org.mammothplugins.baconBrawl.model.GameHeartbeat;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
+import org.mineacademy.fo.Common;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class BaconBrawlHeartBeat extends GameHeartbeat {
@@ -40,6 +44,7 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
             Player player = cache.toPlayer();
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 100));
+            setCompassTarget(player);
 
             //Display Cooldown
             ItemStack itemStack = player.getInventory().getItemInHand();
@@ -53,6 +58,36 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
                                 PlayerUIDesigns.getLaunchBar(timeLeft, power.getCooldown()) +
                                 "&r&f " + power.getConvertedTimeLeftCooldown() + " Seconds");
                     }
+                }
+            }
+
+
+        }
+    }
+
+    private void setCompassTarget(Player player) {
+        Location playerLoc = player.getLocation();
+        HashMap<Player, Double> distance = new HashMap<>();
+        for (Entity e : player.getNearbyEntities(50, 50, 50)) {
+            if (e instanceof Player) {
+                Player other = (Player) e;
+
+                if (getGame().getPlayers(GameJoinMode.PLAYING).contains(other)) {
+                    Common.tell(player, "Heyyyyy");
+                    double diff = other.getLocation().distance(playerLoc);
+                    distance.put(other, diff);
+                }
+            }
+        }
+        double closestDistance = -1;
+        for (Player player1 : distance.keySet()) {
+
+            if (player1 == null || !getGame().getPlayers(GameJoinMode.PLAYING).contains(player1))
+                distance.remove(player1);
+            else {
+                if (distance.get(player1) < closestDistance || closestDistance == -1) {
+                    closestDistance = distance.get(player1);
+                    player.setCompassTarget(player1.getLocation());
                 }
             }
         }

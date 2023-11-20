@@ -112,6 +112,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
+                getScoreboard().removePlayer(player);
                 if (this.getPlayers(GameJoinMode.PLAYING).size() == 1) {
                     Player lastPlayer = this.getPlayers(GameJoinMode.PLAYING).get(0).toPlayer();
 
@@ -135,11 +136,12 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         super.onGameStop();
 
         for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
-            cache.toPlayer().removePotionEffect(PotionEffectType.REGENERATION);
+            Player player = cache.toPlayer();
+            player.removePotionEffect(PotionEffectType.REGENERATION);
             cache.getCurrentKit().wipeAllPowers();
-            cache.getCurrentKit().onDeath(cache.toPlayer());
+            cache.getCurrentKit().onDeath(player);
             Common.runLater(2, () -> {
-                NmsDisguise.removeDisguise(cache.toPlayer());
+                NmsDisguise.removeDisguise(player);
             });
         }
     }
@@ -236,6 +238,10 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         if (dCache.hasGame() && dCache.getCurrentGameMode() == GameJoinMode.PLAYING) {
             event.setDamage(0);
+//            if (damager.getItemInUse().getItemMeta() instanceof Damageable)
+//                ((Damageable) damager.getItemInUse().getItemMeta()).setDamage(0);
+            Common.tell(damager, "well...");
+            damager.getItemInUse().setDurability(Short.MAX_VALUE);
             if (dCache.getCurrentKit().getPowers(damager).get(0).getName().equals("Cloak")) {
                 Pig.CloakPower cloakPower = (Pig.CloakPower) dCache.getCurrentKit().getPowers(damager).get(0);
                 if (cloakPower.canPostActiavteMelee()) {

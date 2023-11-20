@@ -308,21 +308,9 @@ public final class AntiGriefListeners implements Listener {
         PlayerCache cache = PlayerCache.from(player);
         GameJoinMode mode = cache.getCurrentGameMode();
 
-        if (cache.hasGame() && mode != GameJoinMode.EDITING) {
-
-            if (mode == GameJoinMode.SPECTATING && Menu.getMenu(player) == null) {
-                event.setCancelled(true);
-
-                return;
-            }
-
-            try {
-                cache.getCurrentGame().onPlayerInventoryClick(cache, event);
-
-            } catch (EventHandledException ex) {
-                event.setCancelled(ex.isCancelled());
-            }
-        }
+        if (cache.hasGame() && mode != GameJoinMode.EDITING)
+            if (cache.hasGame() && mode != GameJoinMode.EDITING && Menu.getMenu(player) == null)
+                event.setCancelled(event.isCancelled());
     }
 
     @EventHandler
@@ -331,13 +319,8 @@ public final class AntiGriefListeners implements Listener {
         PlayerCache cache = PlayerCache.from(player);
         GameJoinMode mode = cache.getCurrentGameMode();
 
-        if (cache.hasGame() && mode != GameJoinMode.EDITING)
-            try {
-                cache.getCurrentGame().onPlayerInventoryDrag(cache, event);
-
-            } catch (EventHandledException ex) {
-                event.setCancelled(ex.isCancelled());
-            }
+        if (cache.hasGame() && mode != GameJoinMode.EDITING && Menu.getMenu(player) == null)
+            event.setCancelled(event.isCancelled());
 
     }
 
@@ -928,7 +911,7 @@ public final class AntiGriefListeners implements Listener {
 
         final PlayerCache cache = gameAtLocation.findPlayer(player);
 
-        if (cache == null || cache.getCurrentGameMode() == GameJoinMode.SPECTATING)
+        if (cache == null || cache.getCurrentGameMode() == GameJoinMode.SPECTATING || cache.getCurrentGameMode() == GameJoinMode.PLAYING)
             event.setCancelled(true);
 
         if (cache != null && cache.getCurrentGameMode() == GameJoinMode.PLAYING && !(event instanceof PlayerDropItemEvent))

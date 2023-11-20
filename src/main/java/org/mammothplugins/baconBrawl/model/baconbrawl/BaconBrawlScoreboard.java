@@ -3,48 +3,18 @@ package org.mammothplugins.baconBrawl.model.baconbrawl;
 import org.bukkit.entity.Player;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
-import org.mammothplugins.baconBrawl.model.GameSpawnPointScoreboard;
+import org.mammothplugins.baconBrawl.model.GameScoreboard;
 import org.mineacademy.fo.model.Replacer;
 
 import java.util.List;
 
-public class BaconBrawlScoreboard extends GameSpawnPointScoreboard {
+public class BaconBrawlScoreboard extends GameScoreboard { //gamePoint scoreboard
     public BaconBrawlScoreboard(final BaconBrawlCore game) {
         super(game);
     }
 
     @Override
     protected String replaceVariables(final Player player, String message) {
-//        List<PlayerCache> players = getGame().getPlayers(GameJoinMode.PLAYING);
-//
-//        ArrayList<Integer> lives = new ArrayList<>();
-//        for (PlayerCache cache : players) {
-//            lives.add(cache.getLives());
-//        }
-//
-//        Collections.sort(lives, Collections.reverseOrder());
-//        //How can i with this connect it to players
-//
-//        for (PlayerCache cache : players) {
-//            int plLives = cache.getLives();
-//            message = Replacer.replaceArray(message,
-//                    "Lives:" + cache.getUniqueId(), plLives,
-//                    "Life Color:" + cache.getUniqueId(), getLifeColor(plLives),
-//                    "PlayerName:" + cache.getUniqueId(), cache.toPlayer().getName());
-//        }
-//        return super.replaceVariables(player, message);
-
-//        List<PlayerCache> players = getGame().getPlayers(GameJoinMode.PLAYING);
-//
-//        Map<Integer, PlayerCache> livesMap = new HashMap<>();
-//        for (PlayerCache cache : players) {
-//            int plLives = cache.getLives();
-//            livesMap.put(plLives, cache);
-//        }
-//
-//        ArrayList<Integer> lives = new ArrayList<>(livesMap.keySet());
-//        Collections.sort(lives, Collections.reverseOrder());
-
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
             message = Replacer.replaceArray(message,
                     "PlayerName:" + cache.getUniqueId(), cache.toPlayer().getName());

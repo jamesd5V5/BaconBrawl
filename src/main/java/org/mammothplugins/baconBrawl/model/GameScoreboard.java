@@ -3,6 +3,7 @@ package org.mammothplugins.baconBrawl.model;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mineacademy.fo.ItemUtil;
 import org.mineacademy.fo.TimeUtil;
 import org.mineacademy.fo.model.Replacer;
@@ -80,7 +81,7 @@ public class GameScoreboard extends SimpleScoreboard {
         for (int i = 6; i > 4; i--)
             this.getRows().remove(i);
     }
-    
+
     public void onGameStop() {
         this.clearRows();
 
@@ -88,5 +89,9 @@ public class GameScoreboard extends SimpleScoreboard {
     }
 
     public void onSpectateStart() {
+    }
+
+    public void removePlayer(Player player) {
+        this.removeRow("{PlayerName:" + PlayerCache.from(player).getUniqueId() + "}");
     }
 }
