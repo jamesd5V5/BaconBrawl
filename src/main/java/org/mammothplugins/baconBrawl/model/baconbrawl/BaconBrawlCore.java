@@ -109,6 +109,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         if (this.isPlayed()) {
             player.removePotionEffect(PotionEffectType.REGENERATION);
+            player.removePotionEffect(PotionEffectType.SPEED);
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
@@ -137,11 +138,12 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
             Player player = cache.toPlayer();
-            player.removePotionEffect(PotionEffectType.REGENERATION);
             cache.getCurrentKit().wipeAllPowers();
             cache.getCurrentKit().onDeath(player);
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
+                player.removePotionEffect(PotionEffectType.REGENERATION);
+                player.removePotionEffect(PotionEffectType.SPEED);
             });
         }
     }
@@ -187,7 +189,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                 if (!(playerCache.getUniqueId().equals(player.getUniqueId())))
                     winners[0] = playerCache.toPlayer(); //1st Place Winner
 
-            onGameStop();
+            //onGameStop();
 
             Common.runLater(2, () -> {
                 onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
@@ -240,8 +242,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
             event.setDamage(0);
 //            if (damager.getItemInUse().getItemMeta() instanceof Damageable)
 //                ((Damageable) damager.getItemInUse().getItemMeta()).setDamage(0);
-            Common.tell(damager, "well...");
-            damager.getItemInUse().setDurability(Short.MAX_VALUE);
+            // Common.tell(damager, "well...");
+            //damager.getItemInUse().setDurability(Short.MAX_VALUE);
             if (dCache.getCurrentKit().getPowers(damager).get(0).getName().equals("Cloak")) {
                 Pig.CloakPower cloakPower = (Pig.CloakPower) dCache.getCurrentKit().getPowers(damager).get(0);
                 if (cloakPower.canPostActiavteMelee()) {

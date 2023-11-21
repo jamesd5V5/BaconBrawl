@@ -32,7 +32,7 @@ public class ElMuchachoPig extends Kits {
         setName("ElMuchachoPig"); //basic
         setChatColor(ChatColor.LIGHT_PURPLE);
         setCompMaterial(CompMaterial.IRON_AXE);
-        setKnockBack(3);
+        setKnockBack(1);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ElMuchachoPig extends Kits {
 
         @Override
         public void activatePower() {
-            player.setVelocity(player.getEyeLocation().getDirection().multiply(1.5));
+            player.setVelocity(player.getEyeLocation().getDirection().multiply(1.3));
             canNoLongerDashTouch = false;
             CompSound.HORSE_DEATH.play(player, 0.5f, 1.7f);
             AtomicBoolean showParticles = new AtomicBoolean(true);
@@ -105,10 +105,11 @@ public class ElMuchachoPig extends Kits {
             if (this.isCoolingDown() && canNoLongerDashTouch == false && hasPostLaunched == false) {
                 victim.damage(1);
                 Vector vector = player.getVelocity().setY(0);
-                victim.setVelocity(vector.multiply(1.3).add(new Vector(0, 0.5, 0)));
+                victim.setVelocity(vector.multiply(2.5).add(new Vector(0, 0.5, 0)));
+                player.setVelocity(vector.multiply(-0.2).add(new Vector(0, 0.5, 0)));
                 hasPostLaunched = true;
 
-                Common.runLater(6 * 20, () -> {
+                Common.runLater(6 * 20 + 20 + 2, () -> { //6 for the cooldown, 20 for the quiet cooldown
                     hasPostLaunched = false;
                     canNoLongerDashTouch = false;
                 });

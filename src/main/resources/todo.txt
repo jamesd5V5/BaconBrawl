@@ -5,8 +5,6 @@ Started November 1, 2023
 ======================================================
 
 -Creating new game, caps are off
--ElMacho weird hits power, soemthing to do to check in the second
--Sheep kit still weird when behind
 -Durability still on
 -Compass remove teleportation/Set target
 -Econ?

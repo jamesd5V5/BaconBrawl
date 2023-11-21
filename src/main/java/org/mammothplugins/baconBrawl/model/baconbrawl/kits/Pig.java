@@ -34,7 +34,7 @@ public class Pig extends Kits {
         setName("Pig");
         setChatColor(ChatColor.LIGHT_PURPLE);
         setCompMaterial(CompMaterial.PINK_WOOL);
-        setKnockBack(3);
+        setKnockBack(1);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Pig extends Kits {
                 double delta = betweenVector.dot(direction);
                 if (delta > 0) { //if the player is Behind the victim's field of vision
                     Common.tell(player, "You successfully launched " + victim.getName() + ".");
-                    event.getEntity().setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(getKnockBack() * 2.5));
+                    event.getEntity().setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(getKnockBack() * 2.5).add(new Vector(0, 0.7, 0)));
                 }
             }
         }

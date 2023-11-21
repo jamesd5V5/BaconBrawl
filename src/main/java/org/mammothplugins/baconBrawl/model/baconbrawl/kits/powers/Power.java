@@ -157,6 +157,7 @@ public class Power {
     //Misc Methods
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void givePowerItem() {
+        itemStack.getItemMeta().setUnbreakable(true);
         player.getInventory().addItem(itemStack);
     }
 

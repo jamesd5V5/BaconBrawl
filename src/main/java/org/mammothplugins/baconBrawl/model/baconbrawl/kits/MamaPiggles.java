@@ -6,6 +6,8 @@ import me.libraryaddict.disguise.disguisetypes.watchers.PigWatcher;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
@@ -32,7 +34,7 @@ public class MamaPiggles extends Kits {
         setName("MamaPiggles");
         setChatColor(ChatColor.RED);
         setCompMaterial(CompMaterial.PORKCHOP);
-        setKnockBack(3);
+        setKnockBack(1);
     }
 
     @Override
@@ -51,6 +53,7 @@ public class MamaPiggles extends Kits {
         givePowers(player);
 
         Disguise disguise = NmsDisguise.setDisguise(player, DisguiseType.PIG);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, -1, 2));
         this.pigWatcher = (PigWatcher) disguise.getWatcher();
 
 
@@ -82,6 +85,7 @@ public class MamaPiggles extends Kits {
     public void onDeath(Player player) {
         super.onDeath(player);
 
+        player.removePotionEffect(PotionEffectType.SPEED);
         if (piglet != null && piglet.isDead())
             piglet.remove();
     }
@@ -101,6 +105,7 @@ public class MamaPiggles extends Kits {
             ItemStack porkStack = ItemCreator.of(CompMaterial.PORKCHOP, "PorkBomb").make();
             proj.setItem(porkStack);
             CompMetadata.setTempMetadata(proj, "PorkBomb");
+            //player.setVelocity(new Vector(player.getVelocity().getX() * -2, 1, player.getVelocity().getZ() * -2));
 
             new BukkitRunnable() {
                 @Override
