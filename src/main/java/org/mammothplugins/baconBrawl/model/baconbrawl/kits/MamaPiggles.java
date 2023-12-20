@@ -6,8 +6,6 @@ import me.libraryaddict.disguise.disguisetypes.watchers.PigWatcher;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
@@ -53,7 +51,6 @@ public class MamaPiggles extends Kits {
         givePowers(player);
 
         Disguise disguise = NmsDisguise.setDisguise(player, DisguiseType.PIG);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, -1, 2));
         this.pigWatcher = (PigWatcher) disguise.getWatcher();
 
 
@@ -84,8 +81,7 @@ public class MamaPiggles extends Kits {
     @Override
     public void onDeath(Player player) {
         super.onDeath(player);
-
-        player.removePotionEffect(PotionEffectType.SPEED);
+        
         if (piglet != null && piglet.isDead())
             piglet.remove();
     }

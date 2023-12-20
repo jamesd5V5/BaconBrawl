@@ -1,5 +1,6 @@
 package org.mammothplugins.baconBrawl.model.baconbrawl;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 import org.mammothplugins.baconBrawl.PlayerCache;
+import org.mammothplugins.baconBrawl.design.PlayerUIDesigns;
 import org.mammothplugins.baconBrawl.model.*;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.ElMuchachoPig;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
@@ -26,6 +28,8 @@ import org.mineacademy.fo.remain.CompMetadata;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.UUID;
 
 public final class BaconBrawlCore extends GameSpawnPoint {
 
@@ -69,9 +73,9 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     private void leaveMsg(Player player) {
         boolean hasWon = player.getUniqueId().equals(winners[0].getUniqueId());
 
-        String winner1 = winners[0] == null ? "" : winners[0].getName() + " &c(0)";
-        String winner2 = winners[1] == null ? "" : winners[1].getName() + " &6(0)";
-        String winner3 = winners[2] == null ? "" : winners[2].getName() + " &e(0)";
+        String winner1 = winners[0] == null ? "" : winners[0].getName() + " &c(" + PlayerCache.from(winners[0]).getCurrentKills() + ")";
+        String winner2 = winners[1] == null ? "" : winners[1].getName() + " &6(" + PlayerCache.from(winners[1]).getCurrentKills() + ")";
+        String winner3 = winners[2] == null ? "" : winners[2].getName() + " &e(" + PlayerCache.from(winners[2]).getCurrentKills() + ")";
 
         BoxedMessage.tell(player, "<center>&6&lBacon Brawl\n\n"
                 + "<center>&c&l1st Place: &f- " + winner1
@@ -94,6 +98,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     @Override
     protected void onGameStartFor(Player player, PlayerCache cache) {
         super.onGameStartFor(player, cache);
+
+        cache.addGamesPlayed();
     }
 
     @Override
@@ -109,7 +115,6 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         if (this.isPlayed()) {
             player.removePotionEffect(PotionEffectType.REGENERATION);
-            player.removePotionEffect(PotionEffectType.SPEED);
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
@@ -138,12 +143,12 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
             Player player = cache.toPlayer();
+            cache.onSave();
             cache.getCurrentKit().wipeAllPowers();
             cache.getCurrentKit().onDeath(player);
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 player.removePotionEffect(PotionEffectType.REGENERATION);
-                player.removePotionEffect(PotionEffectType.SPEED);
             });
         }
     }
@@ -172,6 +177,12 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         super.onPlayerDeath(cache, event);
         Player player = event.getEntity();
 
+        //Kills
+        PlayerUIDesigns.deathMessage(this, event, lastHit);
+        if (lastHit.get(player.getUniqueId()) != null)
+            PlayerCache.from(Bukkit.getPlayer(lastHit.get(player.getUniqueId()))).addCurrentKills();
+
+
         cache.getCurrentKit().onDeath(player);
         for (Power power : PlayerCache.from(player).getCurrentKit().getPowers(player))
             power.resetPower();
@@ -186,8 +197,10 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         if (remainingPlayers <= 2) {
             winners[1] = player; //2nd Place Winner
             for (PlayerCache playerCache : getPlayers(GameJoinMode.PLAYING))
-                if (!(playerCache.getUniqueId().equals(player.getUniqueId())))
+                if (!(playerCache.getUniqueId().equals(player.getUniqueId()))) {
                     winners[0] = playerCache.toPlayer(); //1st Place Winner
+                    playerCache.addGamesWon();
+                }
 
             //onGameStop();
 
@@ -228,6 +241,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 //        }
     }
 
+    private final HashMap<UUID, UUID> lastHit = new HashMap<>();
+
     @Override
     public void onPlayerMeleeAttack(EntityDamageByEntityEvent event, Player damager) {
         super.onPlayerMeleeAttack(event, damager);
@@ -244,6 +259,11 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 //                ((Damageable) damager.getItemInUse().getItemMeta()).setDamage(0);
             // Common.tell(damager, "well...");
             //damager.getItemInUse().setDurability(Short.MAX_VALUE);
+
+            //Death
+            lastHit.put(victim.getUniqueId(), damager.getUniqueId());
+
+            //Kits
             if (dCache.getCurrentKit().getPowers(damager).get(0).getName().equals("Cloak")) {
                 Pig.CloakPower cloakPower = (Pig.CloakPower) dCache.getCurrentKit().getPowers(damager).get(0);
                 if (cloakPower.canPostActiavteMelee()) {
@@ -253,7 +273,6 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                     event.getEntity().setVelocity(damager.getLocation().getDirection().setY(0).normalize().multiply(dCache.getCurrentKit().getKnockBack()));
             } else
                 event.getEntity().setVelocity(damager.getLocation().getDirection().setY(0).normalize().multiply(dCache.getCurrentKit().getKnockBack()));
-
             if (victimCache.getCurrentKit().getName().equals("Pig")) {
                 Pig pig = (Pig) victimCache.getCurrentKit();
                 Pig.CloakPower cloakPower = (Pig.CloakPower) pig.getPowers(victim).get(0);

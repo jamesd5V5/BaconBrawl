@@ -4,10 +4,9 @@ Started November 1, 2023
 
 ======================================================
 
--Creating new game, caps are off
+-When Creating new game, caps are off
 -Durability still on
 -Compass remove teleportation/Set target
 -Econ?
--Kills? Msgs?
 
 

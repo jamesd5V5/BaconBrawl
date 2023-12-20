@@ -27,21 +27,15 @@ public final class PlayerCache extends YamlConfig {
     private final UUID uniqueId;
     private final String playerName;
 
-    @Setter
     private int gamesPlayed;
-    @Setter
     private int gamesWon;
+    private int kills;
+    private int currentKills;
 
-    /*
-     * The mode players is currently in
-     * Null if not joined any arena
-     */
     @Setter
     private Kits currentKit;
-
     @Setter
     private boolean randomKit = false;
-
     @Setter
     private boolean isCurrentlyBlocking;
 
@@ -56,7 +50,7 @@ public final class PlayerCache extends YamlConfig {
 
     @Setter
     private boolean leaving;
-    
+
     private final StrictMap<String, Object> tags = new StrictMap<>();
 
     private PlayerCache(String name, UUID uniqueId) {
@@ -71,12 +65,18 @@ public final class PlayerCache extends YamlConfig {
     protected void onLoad() {
         this.gamesPlayed = getInteger("GamesPlayed", 0);
         this.gamesWon = getInteger("GamesWon", 0);
+        this.kills = getInteger("Kills", 0);
+        this.currentKit = Kits.getKit(getString("Kit", "ElMuchachoPig"));
+        this.randomKit = getBoolean("RandomKit", false);
     }
 
     @Override
     public void onSave() {
         this.set("GamesPlayed", this.gamesPlayed);
         this.set("GamesWon", this.gamesWon);
+        this.set("Kills", this.kills);
+        this.set("Kit", this.currentKit.getName());
+        this.set("RandomKit", this.randomKit);
     }
 
     @Override
@@ -100,6 +100,19 @@ public final class PlayerCache extends YamlConfig {
         if (currentKit.getName().equals(kits.getName()))
             return true;
         return false;
+    }
+
+    public void addGamesPlayed() {
+        this.gamesPlayed++;
+    }
+
+    public void addGamesWon() {
+        this.gamesWon++;
+    }
+
+    public void addCurrentKills() {
+        this.currentKills++;
+        this.kills++;
     }
 
     public Game getCurrentGame() {

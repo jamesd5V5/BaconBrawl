@@ -1,13 +1,13 @@
 package org.mammothplugins.baconBrawl.design;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.Game;
-import org.mammothplugins.baconBrawl.model.GameJoinMode;
-import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mineacademy.fo.Common;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class PlayerUIDesigns {
 
@@ -26,37 +26,19 @@ public class PlayerUIDesigns {
         return progress2 + progress1;
     }
 
-    public static void deathMessage(Game game, PlayerDeathEvent event) {
+    public static void deathMessage(Game game, PlayerDeathEvent event, HashMap<UUID, UUID> lastHit) {
         Player victim = event.getEntity();
-        //event.get
-        EntityDamageEvent.DamageCause damageCause = victim.getLastDamageCause().getCause();
 
-        Player attacker = victim.getKiller();
-        if (attacker == null) {
+        if (lastHit.get(victim.getUniqueId()) == null) {
             for (Player player : game.getBukkitPlayersInAllModes()) {
                 String name = checkUUID(player, victim) ? "You" : victim.getName();
-                if (damageCause == EntityDamageEvent.DamageCause.VOID)
-                    Common.tell(player, "&7" + name + " fell into the void.");
-                if (damageCause == EntityDamageEvent.DamageCause.LAVA || damageCause == EntityDamageEvent.DamageCause.FIRE)
-                    Common.tell(player, "&7" + name + " burned to death.");
+                Common.tell(player, "&7" + name + " fell into the void.");
             }
         } else {
-
-            PlayerCache victimCache = PlayerCache.from(victim);
-            PlayerCache attackerCache = PlayerCache.from(victim);
-
-            if (attackerCache == null || attackerCache.getCurrentGameMode() == GameJoinMode.SPECTATING ||
-                    victimCache == null || victimCache.getCurrentGameMode() == GameJoinMode.SPECTATING)
-                return;
-            if (attackerCache != null && attackerCache.getCurrentGameMode() == GameJoinMode.PLAYING &&
-                    victimCache != null || victimCache.getCurrentGameMode() == GameJoinMode.PLAYING) {
-                Kits victimsKit = victimCache.getCurrentKit();
-                Kits attackersKit = attackerCache.getCurrentKit();
-
-                for (Player player : game.getBukkitPlayersInAllModes()) {
-                    String name = checkUUID(player, victim) ? "&7you" : "&e" + victim.getName();
-                    Common.tell(player, "&e" + attacker.getName() + " &7killed " + name + " &7with &a" + damageCause.name());
-                }
+            Player damager = Bukkit.getPlayer(lastHit.get(victim.getUniqueId()));
+            for (Player player : game.getBukkitPlayersInAllModes()) {
+                String name = checkUUID(player, victim) ? "&7you" : "&e" + victim.getName();
+                Common.tell(player, "&e" + damager.getName() + " &7knocked &e" + name + " &7into the void.");
             }
         }
     }
