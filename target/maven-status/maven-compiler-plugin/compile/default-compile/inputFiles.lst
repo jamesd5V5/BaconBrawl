@@ -12,6 +12,7 @@ C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBra
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameScoreboard.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameState.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameSelectKitCommand.java
+C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\MapCreatorTool.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameJoinCommand.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameListCommand.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\bungee\GameBungeeListener.java
@@ -51,5 +52,6 @@ C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBra
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\GameTool.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\DeathSpawn.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\BaconBrawlScoreboard.java
+C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\conversations\MapCreatorConversation.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameJoinMode.java
 C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameSpawnPoint.java

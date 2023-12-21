@@ -66,6 +66,7 @@ public abstract class Game extends YamlConfig {
     private Location returnBackLocation;
     private SimpleTime lobbyDuration;
     private SimpleTime gameDuration;
+    private String mapCreator;
     private boolean destruction;
     private boolean restoreWorld;
 
@@ -122,6 +123,7 @@ public abstract class Game extends YamlConfig {
         this.returnBackLocation = getLocation("Return_Back_Location");
         this.lobbyDuration = getTime("Lobby_Duration", SimpleTime.from("15 seconds"));
         this.gameDuration = getTime("Game_Duration", SimpleTime.from("20 minutes"));
+        this.mapCreator = getString("MapCreator", "Builder");
         this.destruction = getBoolean("Destruction", false);
         this.restoreWorld = getBoolean("Restore_World", false);
 
@@ -143,6 +145,7 @@ public abstract class Game extends YamlConfig {
         this.set("Return_Back_Location", this.returnBackLocation);
         this.set("Lobby_Duration", this.lobbyDuration);
         this.set("Game_Duration", this.gameDuration);
+        this.set("MapCreator", this.mapCreator);
         this.set("Destruction", this.destruction);
         this.set("Restore_World", this.restoreWorld);
     }
@@ -210,6 +213,15 @@ public abstract class Game extends YamlConfig {
     public void setReturnBackLocation(Location returnBackLocation) {
         this.returnBackLocation = returnBackLocation;
 
+        this.save();
+    }
+
+    public String getMapCreator() {
+        return mapCreator;
+    }
+
+    public void setMapCreator(String playerName) {
+        this.mapCreator = playerName;
         this.save();
     }
 
@@ -335,8 +347,10 @@ public abstract class Game extends YamlConfig {
                 this.stop(GameStopReason.ERROR);
             }
 
-            this.broadcastInfo("Game " + this.getName() + " starts now! Players: " + this.players.size());
-            Common.log("Started game " + this.getName());
+            Common.runLater(2, () -> {
+                this.broadcastInfo("Game " + this.getName() + " starts now! Players: " + this.players.size());
+                Common.log("Started game " + this.getName());
+            });
 
         } finally {
             this.starting = false;
@@ -1163,5 +1177,8 @@ public abstract class Game extends YamlConfig {
 
     public static Set<String> getGameNames() {
         return loadedFiles.getItemNames();
+    }
+
+    public void onBlockMine(BlockBreakEvent event) {
     }
 }

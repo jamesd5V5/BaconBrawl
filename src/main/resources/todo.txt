@@ -4,11 +4,19 @@ Started November 1, 2023
 
 ======================================================
 
--When Creating new game, caps are off
--Durability still on
--How to play msg
+Essential:
+-Who built the map: Working on Convo rn
+-Game start grace period
+
+Potential
 -Maybe Add DeathMode
 -Compass remove teleportation/Set target
 -Econ?
+-Game Rotation
+-Stats
+
+Minor bugs:
+-When Creating new game, caps are off
+-Durability still on, comes back when break block, and attack after
 
 

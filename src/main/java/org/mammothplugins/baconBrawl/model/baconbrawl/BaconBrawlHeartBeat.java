@@ -2,7 +2,6 @@ package org.mammothplugins.baconBrawl.model.baconbrawl;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,11 +13,9 @@ import org.mammothplugins.baconBrawl.model.GameHeartbeat;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
-import org.mineacademy.fo.Common;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 public class BaconBrawlHeartBeat extends GameHeartbeat {
@@ -66,31 +63,30 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
     }
 
     private void setCompassTarget(Player player) {
-        Location playerLoc = player.getLocation();
-        HashMap<Player, Double> distance = new HashMap<>();
-        for (Entity e : player.getNearbyEntities(50, 50, 50)) {
-            if (e instanceof Player) {
-                Player other = (Player) e;
+        Player target = getNearest(player, 50.0);
+        if (target == null)
+            return;
+        player.setCompassTarget(target.getLocation());
+    }
 
-                if (getGame().getPlayers(GameJoinMode.PLAYING).contains(other)) {
-                    Common.tell(player, "Heyyyyy");
-                    double diff = other.getLocation().distance(playerLoc);
-                    distance.put(other, diff);
+    public Player getNearest(Player player, Double range) {
+        double distance = Double.POSITIVE_INFINITY;
+        Player target = null;
+        for (Entity e : player.getNearbyEntities(range, range, range)) {
+            if (!(e instanceof Player))
+                continue;
+            for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
+                Player pl = cache.toPlayer();
+                if (pl.getUniqueId().equals(e.getUniqueId())) {
+                    double distanceto = player.getLocation().distance(e.getLocation());
+                    if (distanceto > distance)
+                        continue;
+                    distance = distanceto;
+                    target = (Player) e;
                 }
             }
         }
-        double closestDistance = -1;
-        for (Player player1 : distance.keySet()) {
-
-            if (player1 == null || !getGame().getPlayers(GameJoinMode.PLAYING).contains(player1))
-                distance.remove(player1);
-            else {
-                if (distance.get(player1) < closestDistance || closestDistance == -1) {
-                    closestDistance = distance.get(player1);
-                    player.setCompassTarget(player1.getLocation());
-                }
-            }
-        }
+        return target;
     }
 
     private void startGameLogic() {
@@ -100,6 +96,9 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
             player.setHealth(player.getMaxHealth());
 
             player.setSaturation(20);
+            getGame().joinMsg(player);
+            cache.addGamesPlayed();
+
 
             if (cache.isRandomKit()) {
                 int num = new Random().nextInt(Kits.getKits().size());

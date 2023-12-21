@@ -4,9 +4,19 @@ Started November 1, 2023
 
 ======================================================
 
--When Creating new game, caps are off
--Durability still on
+Essential:
+-Who built the map
+-Game start grace period
+
+Potential
+-Maybe Add DeathMode
 -Compass remove teleportation/Set target
 -Econ?
+-Game Rotation
+-Stats
+
+Minor bugs:
+-When Creating new game, caps are off
+-Durability still on, comes back when break block, and attack after
 
 

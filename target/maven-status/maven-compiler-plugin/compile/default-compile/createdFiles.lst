@@ -13,6 +13,7 @@ org\mammothplugins\baconBrawl\model\GameWorldManager$1.class
 org\mammothplugins\baconBrawl\command\GameSubCommand.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$ExplodeAndEntitySpawnListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners.class
+org\mammothplugins\baconBrawl\tool\MapCreatorTool.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$EntityBreedListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerBucketEntityListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerTakeLecternBookListener.class
@@ -63,6 +64,7 @@ org\mammothplugins\baconBrawl\command\GameLeaveCommand.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\ElMuchachoPig$BodySlamPower$1.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\Pig$CloakPower$1.class
 org\mammothplugins\baconBrawl\settings\Settings$AutoMode.class
+org\mammothplugins\baconBrawl\conversations\MapCreatorConversation$1.class
 org\mammothplugins\baconBrawl\menu\SpectatePlayersMenu.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\powers\Power$2.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$EntityPickupItemListener.class
@@ -79,5 +81,6 @@ org\mammothplugins\baconBrawl\tool\ReturnBackTool.class
 org\mammothplugins\baconBrawl\BaconBrawl.class
 org\mammothplugins\baconBrawl\command\GameJoinCommand.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\MamaPiggles$BaconBlast$1.class
+org\mammothplugins\baconBrawl\conversations\MapCreatorConversation.class
 org\mammothplugins\baconBrawl\model\GameLeaveReason.class
 org\mammothplugins\baconBrawl\model\GameWorldManager$1$1.class

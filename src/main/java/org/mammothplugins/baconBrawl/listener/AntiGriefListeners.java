@@ -843,11 +843,17 @@ public final class AntiGriefListeners implements Listener {
     @EventHandler
     public void onBlockBreak(final BlockBreakEvent event) {
         preventBuild(event.getPlayer(), event, false);
+
+        PlayerCache cache = PlayerCache.from(event.getPlayer());
+        if (cache.hasGame())
+            cache.getCurrentGame().onBlockMine(event);
     }
 
     @EventHandler
     public void onBlockPlace(final BlockPlaceEvent event) {
         preventBuild(event.getPlayer(), event, true);
+
+
     }
 
     private <T extends BlockEvent & Cancellable> void preventBuild(final Player player, final T event, boolean place) {

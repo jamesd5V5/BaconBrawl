@@ -6,9 +6,12 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 import org.mammothplugins.baconBrawl.PlayerCache;
@@ -67,7 +70,17 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         Kits kit = cache.getCurrentKit();
         kit.applyAttributes(player);
 
-        Common.tell(player, Common.colorize("&7You equipped " + kit.getChatColor() + kit.getName() + " Kit"));
+        Common.runLater(2, () -> {
+            Common.tell(player, Common.colorize("&7You equipped " + kit.getChatColor() + kit.getName() + " Kit"));
+        });
+    }
+
+    public void joinMsg(Player player) {
+        BoxedMessage.tell(player, "<center>&6&lBacon Brawl\n\n"
+                + "<center>&7Knock other pigs out of the arena!\n"
+                + "<center>&7Last pig in the arena wins!\n"
+                + " \n"
+                + "<center>&6Map - &f" + getName() + " &7created by &fsomeone");
     }
 
     private void leaveMsg(Player player) {
@@ -98,8 +111,6 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     @Override
     protected void onGameStartFor(Player player, PlayerCache cache) {
         super.onGameStartFor(player, cache);
-
-        cache.addGamesPlayed();
     }
 
     @Override
@@ -115,12 +126,13 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         if (this.isPlayed()) {
             player.removePotionEffect(PotionEffectType.REGENERATION);
+
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
                 getScoreboard().removePlayer(player);
                 if (this.getPlayers(GameJoinMode.PLAYING).size() == 1) {
-                    Player lastPlayer = this.getPlayers(GameJoinMode.PLAYING).get(0).toPlayer();
+                    theLastPlayer(player);
 
                     onGameStop();
                     onGameStopMessage(GameStopReason.GAMERS_DISCONNECTED);
@@ -195,23 +207,24 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         if (remainingPlayers == 3)
             winners[2] = player; //3rd Place Winner
         if (remainingPlayers <= 2) {
-            winners[1] = player; //2nd Place Winner
-            for (PlayerCache playerCache : getPlayers(GameJoinMode.PLAYING))
-                if (!(playerCache.getUniqueId().equals(player.getUniqueId()))) {
-                    winners[0] = playerCache.toPlayer(); //1st Place Winner
-                    playerCache.addGamesWon();
-                }
-
-            //onGameStop();
-
-            Common.runLater(2, () -> {
-                onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
-                stop(GameStopReason.LAST_PLAYER_LEFT);
-                Arrays.fill(winners, null); //resets winners Array
-            });
+            theLastPlayer(player);
             return;
         }
         cache.setCurrentGameMode(GameJoinMode.SPECTATING);
+    }
+
+    private void theLastPlayer(Player secondPlacePlayer) {
+        winners[1] = secondPlacePlayer; //2nd Place Winner
+        for (PlayerCache playerCache : getPlayers(GameJoinMode.PLAYING))
+            if (!(playerCache.getUniqueId().equals(secondPlacePlayer.getUniqueId()))) {
+                winners[0] = playerCache.toPlayer(); //1st Place Winner
+                playerCache.addGamesWon();
+            }
+        Common.runLater(2, () -> {
+            onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
+            stop(GameStopReason.LAST_PLAYER_LEFT);
+            Arrays.fill(winners, null); //resets winners Array
+        });
     }
 
     @Override
@@ -255,10 +268,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         if (dCache.hasGame() && dCache.getCurrentGameMode() == GameJoinMode.PLAYING) {
             event.setDamage(0);
-//            if (damager.getItemInUse().getItemMeta() instanceof Damageable)
-//                ((Damageable) damager.getItemInUse().getItemMeta()).setDamage(0);
-            // Common.tell(damager, "well...");
-            //damager.getItemInUse().setDurability(Short.MAX_VALUE);
+            cancelItemDurability(damager);
 
             //Death
             lastHit.put(victim.getUniqueId(), damager.getUniqueId());
@@ -332,6 +342,22 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                     }
                 }
             }
+        }
+    }
+
+    @Override
+    public void onBlockMine(BlockBreakEvent event) {
+        super.onBlockMine(event);
+        cancelItemDurability(event.getPlayer());
+    }
+
+    private void cancelItemDurability(Player player) {
+        if (player.getItemInHand() != null && player.getItemInHand().getItemMeta() instanceof Damageable) {
+            ItemStack itemStack = player.getItemInHand();
+            itemStack.setDurability((short) 0);
+
+            player.getInventory().remove(itemStack);
+            player.getInventory().setItemInHand(itemStack);
         }
     }
 }
