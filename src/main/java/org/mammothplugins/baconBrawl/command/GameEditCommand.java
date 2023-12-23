@@ -6,7 +6,6 @@ import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.GameLeaveReason;
 import org.mammothplugins.baconBrawl.settings.Settings;
-import org.mammothplugins.baconBrawl.tool.MapCreatorTool;
 import org.mineacademy.fo.Common;
 
 import java.util.List;
@@ -47,15 +46,11 @@ final class GameEditCommand extends GameSubCommand {
             getCache().setPlayerTag("SwitchToEditing", true);
             game.leavePlayer(player, GameLeaveReason.COMMAND);
 
-            if (Settings.AutoMode.ENABLED) {
+            if (Settings.AutoMode.ENABLED)
                 game.joinPlayer(player, GameJoinMode.EDITING);
-                MapCreatorTool.getInstance().give(player, 4);
-            }
 
-        } else {
+        } else
             game.joinPlayer(player, GameJoinMode.EDITING);
-            MapCreatorTool.getInstance().give(player, 4);
-        }
     }
 
     @Override

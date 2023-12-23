@@ -6,9 +6,10 @@ Started November 1, 2023
 
 Essential:
 -Who built the map: Working on Convo rn
--Game start grace period
+-Permissions
 
 Potential
+-Game start grace period
 -Maybe Add DeathMode
 -Compass remove teleportation/Set target
 -Econ?

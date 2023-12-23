@@ -67,6 +67,7 @@ public abstract class Game extends YamlConfig {
     private SimpleTime lobbyDuration;
     private SimpleTime gameDuration;
     private String mapCreator;
+    private boolean autoRotate;
     private boolean destruction;
     private boolean restoreWorld;
 
@@ -124,6 +125,7 @@ public abstract class Game extends YamlConfig {
         this.lobbyDuration = getTime("Lobby_Duration", SimpleTime.from("15 seconds"));
         this.gameDuration = getTime("Game_Duration", SimpleTime.from("20 minutes"));
         this.mapCreator = getString("MapCreator", "Builder");
+        this.destruction = getBoolean("AutoRotate", true);
         this.destruction = getBoolean("Destruction", false);
         this.restoreWorld = getBoolean("Restore_World", false);
 
@@ -146,6 +148,7 @@ public abstract class Game extends YamlConfig {
         this.set("Lobby_Duration", this.lobbyDuration);
         this.set("Game_Duration", this.gameDuration);
         this.set("MapCreator", this.mapCreator);
+        this.set("AutoRotate", this.autoRotate);
         this.set("Destruction", this.destruction);
         this.set("Restore_World", this.restoreWorld);
     }
@@ -222,6 +225,15 @@ public abstract class Game extends YamlConfig {
 
     public void setMapCreator(String playerName) {
         this.mapCreator = playerName;
+        this.save();
+    }
+
+    public boolean isAutoRotate() {
+        return autoRotate;
+    }
+
+    public void setAutoRotate(boolean autoRotate) {
+        this.autoRotate = autoRotate;
         this.save();
     }
 
@@ -553,11 +565,11 @@ public abstract class Game extends YamlConfig {
         }
 
         if (!Settings.AutoMode.ENABLED) {
-            if (mode != GameJoinMode.EDITING && (!player.isOnGround() || player.getFallDistance() > 0)) {
-                Messenger.error(player, "You cannot join game '" + this.getName() + "' while you are flying.");
-
-                return false;
-            }
+//            if (mode != GameJoinMode.EDITING && (!player.isOnGround() || player.getFallDistance() > 0)) {
+//                Messenger.error(player, "You cannot join game '" + this.getName() + "' while you are flying.");
+//
+//                return false;
+//            }
 
             if (mode != GameJoinMode.EDITING && player.getFireTicks() > 0) {
                 Messenger.error(player, "You cannot join game '" + this.getName() + "' while you are burning.");

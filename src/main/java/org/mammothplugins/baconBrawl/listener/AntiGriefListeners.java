@@ -1040,7 +1040,7 @@ public final class AntiGriefListeners implements Listener {
             return;
         PlayerCache cache = PlayerCache.from(player);
 
-        if (cache.hasGame())
+        if (cache.hasGame() && cache.getCurrentGame().isPlayed())
             try {
                 if (player.getNearbyEntities(1, 1, 1).size() >= 1) {
                     for (Entity entity : player.getNearbyEntities(1, 1, 1))

@@ -13,12 +13,12 @@ org\mammothplugins\baconBrawl\model\GameWorldManager$1.class
 org\mammothplugins\baconBrawl\command\GameSubCommand.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$ExplodeAndEntitySpawnListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners.class
-org\mammothplugins\baconBrawl\tool\MapCreatorTool.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$EntityBreedListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerBucketEntityListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerTakeLecternBookListener.class
 org\mammothplugins\baconBrawl\task\EscapeTask.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerPickupItemListener.class
+org\mammothplugins\baconBrawl\command\GameAutoRotateCommand.class
 org\mammothplugins\baconBrawl\tool\SpectatePlayersTool.class
 org\mammothplugins\baconBrawl\bungee\GameBungeeListener$SyncTask.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\ElMuchachoPig.class
@@ -64,7 +64,6 @@ org\mammothplugins\baconBrawl\command\GameLeaveCommand.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\ElMuchachoPig$BodySlamPower$1.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\Pig$CloakPower$1.class
 org\mammothplugins\baconBrawl\settings\Settings$AutoMode.class
-org\mammothplugins\baconBrawl\conversations\MapCreatorConversation$1.class
 org\mammothplugins\baconBrawl\menu\SpectatePlayersMenu.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\powers\Power$2.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$EntityPickupItemListener.class
@@ -75,6 +74,7 @@ org\mammothplugins\baconBrawl\model\GameSpawnPointScoreboard.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$RaidTriggerListener.class
 org\mammothplugins\baconBrawl\model\GameScoreboard.class
 org\mammothplugins\baconBrawl\tool\LobbyTool.class
+org\mammothplugins\baconBrawl\command\GameMapCreatorCommand.class
 org\mammothplugins\baconBrawl\model\GameState.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\Pig.class
 org\mammothplugins\baconBrawl\tool\ReturnBackTool.class

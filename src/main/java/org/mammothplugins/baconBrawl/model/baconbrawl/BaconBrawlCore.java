@@ -30,6 +30,7 @@ import org.mineacademy.fo.model.BoxedMessage;
 import org.mineacademy.fo.remain.CompMetadata;
 import org.mineacademy.fo.remain.Remain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
@@ -220,10 +221,25 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                 winners[0] = playerCache.toPlayer(); //1st Place Winner
                 playerCache.addGamesWon();
             }
+
+        ArrayList<Player> players = new ArrayList<>();
         Common.runLater(2, () -> {
-            onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
-            stop(GameStopReason.LAST_PLAYER_LEFT);
+            if (isAutoRotate() == false) {
+                onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
+                stop(GameStopReason.LAST_PLAYER_LEFT);
+
+            } else {
+                for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING))
+                    players.add(cache.toPlayer());
+                onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
+                stop(GameStopReason.LAST_PLAYER_LEFT);
+            }
             Arrays.fill(winners, null); //resets winners Array
+        });
+        Common.runLater(20 * 5, () -> {
+            if (isAutoRotate() == true)
+                for (Player pl : players)
+                    pl.performCommand("game join " + this.getName());
         });
     }
 
@@ -315,7 +331,10 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         if (cache.getCurrentKit().getPowers(event.getPlayer()).get(0).getName().equals("Body Slam")) {
             ElMuchachoPig.BodySlamPower bodySlamPower = (ElMuchachoPig.BodySlamPower) cache.getCurrentKit().getPowers(event.getPlayer()).get(0);
 
-            bodySlamPower.postActivatedMelee(victim);
+            for (PlayerCache ch : cache.getCurrentGame().getPlayers(GameJoinMode.PLAYING)) {
+                if (ch.toPlayer().getUniqueId().equals(victim.getUniqueId()))
+                    bodySlamPower.postActivatedMelee(victim);
+            }
         }
     }
 
