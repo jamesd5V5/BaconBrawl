@@ -5,7 +5,7 @@ Started November 1, 2023
 ======================================================
 
 Essential:
--Slam or throw does not show kills
+-Admin edit scoreboard
 
 Potential
 -Game start grace period

@@ -3,6 +3,8 @@ package org.mammothplugins.baconBrawl;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.ElMuchachoPig;
@@ -183,6 +185,69 @@ public final class PlayerCache extends YamlConfig {
     @Override
     public String toString() {
         return "PlayerCache{" + this.playerName + ", " + this.uniqueId + "}";
+    }
+
+    private boolean canstop;
+    private boolean samePerson = false;
+    BukkitTask countdownTask1;
+    BukkitTask countdownTask2;
+
+    public void startCountdownLastKiller(Player damager) {
+        Player victim = toPlayer();
+
+        canstop = false;
+
+        PlayerCache vCache = PlayerCache.from((Player) victim);
+        Game game = vCache.getCurrentGame();
+
+        if (game.getLastHit().get(victim.getUniqueId()) == null) {
+            samePerson = false;
+            game.getLastHit().put(victim.getUniqueId(), damager.getUniqueId());
+        } else {
+            if (game.getLastHit().get(victim.getUniqueId()).equals(damager.getUniqueId())) {
+                samePerson = true;
+                if (countdownTask1 != null)
+                    countdownTask1.cancel();
+                if (countdownTask2 != null)
+                    countdownTask2.cancel();
+
+            } else {
+                samePerson = false;
+                game.getLastHit().put(victim.getUniqueId(), damager.getUniqueId());
+            }
+        }
+
+        countdownTask1 = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (damager.isDead() || PlayerCache.from(damager).getCurrentGame() == null ||
+                        victim.isDead() || PlayerCache.from((Player) victim).getCurrentGame() == null) {
+                    canstop = true;
+                    cancel();
+                    return;
+                }
+                if (game.getLastHit().get(victim.getUniqueId()) == null || !(game.getLastHit().get(victim.getUniqueId()).equals(damager.getUniqueId()))) { // || !(game.getLastHit().get(victim.getUniqueId()).equals(damager.getUniqueId()))
+                    canstop = true;
+                    //Common.broadcast("Something interrupted the last hit of power.");
+                    cancel();
+                    return;
+                }
+
+            }
+        }.runTaskTimer(BaconBrawl.getInstance(), 0L, 0L);
+        countdownTask2 = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (canstop == true) {
+                    canstop = false;
+                    return;
+                } else {
+                    //Common.broadcast("Just Cleared Killer");
+                    vCache.getCurrentGame().getLastHit().put(victim.getUniqueId(), null);
+                }
+            }
+        }.runTaskLater(BaconBrawl.getInstance(), 5 * 20L);
+        samePerson = false;
     }
 
     /* ------------------------------------------------------------------------------- */

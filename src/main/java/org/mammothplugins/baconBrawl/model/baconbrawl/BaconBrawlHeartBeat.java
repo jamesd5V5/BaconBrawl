@@ -13,6 +13,7 @@ import org.mammothplugins.baconBrawl.model.GameHeartbeat;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
+import org.mineacademy.fo.Common;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
             Player player = cache.toPlayer();
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 100));
             setCompassTarget(player);
+
+            Common.tell(player, "Your last damager: " + cache.getCurrentGame().getLastHit().get(player.getUniqueId()));
 
             //Display Cooldown
             ItemStack itemStack = player.getInventory().getItemInHand();
@@ -88,6 +91,7 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
         }
         return target;
     }
+    
 
     private void startGameLogic() {
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {

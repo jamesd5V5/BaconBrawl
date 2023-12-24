@@ -41,7 +41,6 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     private Player[] winners = new Player[3];
 
     @Getter
-    @Getter
     public HashMap<UUID, UUID> lastHit = new HashMap<>();
 
     protected BaconBrawlCore(String name) {
@@ -200,11 +199,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         //Kills
         PlayerUIDesigns.deathMessage(this, event, lastHit);
-        if (lastHit.get(player.getUniqueId()) != null) { //If the player was physically hit
-            if (cache.getPotentialKiller() == null) //If the player was not hit with powers last
-                PlayerCache.from(Bukkit.getPlayer(lastHit.get(player.getUniqueId()))).addCurrentKills();
-            else //The player was last hit by powers
-                PlayerCache.from(cache.getPotentialKiller()).addCurrentKills();
+        if (lastHit.get(player.getUniqueId()) != null) {
+            PlayerCache.from(Bukkit.getPlayer(lastHit.get(player.getUniqueId()))).addCurrentKills();
         }
 
 
@@ -298,6 +294,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
             //Death
             lastHit.put(victim.getUniqueId(), damager.getUniqueId());
+            victimCache.startCountdownLastKiller(damager);
 
             //Kits
             if (dCache.getCurrentKit().getPowers(damager).get(0).getName().equals("Cloak")) {

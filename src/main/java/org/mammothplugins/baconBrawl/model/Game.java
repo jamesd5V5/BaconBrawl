@@ -1,5 +1,6 @@
 package org.mammothplugins.baconBrawl.model;
 
+import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.GameMode;
 import org.bukkit.GameRule;
@@ -33,10 +34,7 @@ import org.mineacademy.fo.settings.YamlConfig;
 import org.mineacademy.fo.visual.VisualizedRegion;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 /*
@@ -72,6 +70,8 @@ public abstract class Game extends YamlConfig {
     private boolean restoreWorld;
 
     /* ------------------------------------------------------------------------------- */
+    @Getter
+    public HashMap<UUID, UUID> lastHit = new HashMap<>();
 
     private final StrictList<PlayerCache> players = new StrictList<>();
     private final StrictMap<Location, BlockState> placedBlocks = new StrictMap<>();
@@ -424,6 +424,7 @@ public abstract class Game extends YamlConfig {
 
         } finally {
             this.state = GameState.STOPPED;
+            this.getLastHit().clear();
             this.players.clear();
             this.stopping = false;
 

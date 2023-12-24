@@ -32,6 +32,7 @@ org\mammothplugins\baconBrawl\command\GameCommandGroup.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\MamaPiggles$BaconBlast.class
 org\mammothplugins\baconBrawl\command\GameListCommand.class
 org\mammothplugins\baconBrawl\menu\KitSelectorMenu$1.class
+org\mammothplugins\baconBrawl\PlayerCache$2.class
 org\mammothplugins\baconBrawl\settings\Settings.class
 org\mammothplugins\baconBrawl\model\GameJoinMode.class
 org\mammothplugins\baconBrawl\command\GameToolsCommand.class
@@ -54,6 +55,7 @@ org\mammothplugins\baconBrawl\listener\AntiGriefListeners$BlockReceiveGameListen
 org\mammothplugins\baconBrawl\command\GameStopCommand.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\Pig$CloakPower.class
 org\mammothplugins\baconBrawl\model\GameStopReason.class
+org\mammothplugins\baconBrawl\PlayerCache$1.class
 org\mammothplugins\baconBrawl\model\Game.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\Kits.class
 org\mammothplugins\baconBrawl\model\GameCountdownStart.class

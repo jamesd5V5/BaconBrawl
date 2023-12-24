@@ -114,13 +114,7 @@ public class ElMuchachoPig extends Kits {
                     hasPostLaunched = false;
                     canNoLongerDashTouch = false;
                 });
-
-                PlayerCache vCache = PlayerCache.from((Player) victim);
-                vCache.setPotentialKiller(player);
-                BaconBrawl baconBrawl = (BaconBrawl) vCache.getCurrentGame();
-                Common.runLater(20 * 5, () -> {
-                    vCache.setPotentialKiller(null);
-                });
+                PlayerCache.from((Player) victim).startCountdownLastKiller(player);
             }
         }
     }

@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
+import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.Common;
@@ -115,6 +116,8 @@ public class Pig extends Kits {
                     Common.tell(player, "You successfully launched " + victim.getName() + ".");
                     event.getEntity().setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(getKnockBack() * 2.5).add(new Vector(0, 0.7, 0)));
                 }
+
+                PlayerCache.from((Player) victim).startCountdownLastKiller(player);
             }
         }
 
