@@ -14,6 +14,7 @@ final class GameAutoRotateCommand extends GameSubCommand {
         super("autorotate/ar");
 
         this.setDescription("Set whether the game should auto rotate.");
+        this.setPermission("baconbrawl.cmd.admin.autorotate");
     }
 
     @Override

@@ -12,6 +12,7 @@ final class GameStartCommand extends GameSubCommand {
 
         this.setDescription("Force start a game in lobby.");
         this.setUsage("[name]");
+        this.setPermission("baconbrawl.cmd.admin.start");
     }
 
     @Override

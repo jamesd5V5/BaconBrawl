@@ -18,6 +18,7 @@ final class GameEditCommand extends GameSubCommand {
         this.setDescription("Joins a game for editing.");
         this.setUsage("[name]");
         this.setMinArguments(0);
+        this.setPermission("baconbrawl.cmd.admin.edit");
     }
 
     @Override

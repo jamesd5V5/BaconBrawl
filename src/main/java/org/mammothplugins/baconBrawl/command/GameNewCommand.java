@@ -15,6 +15,7 @@ final class GameNewCommand extends GameSubCommand {
         setDescription("Creates a new game.");
         setUsage("<gameType> <name>");
         setMinArguments(2);
+        this.setPermission("baconbrawl.cmd.admin.new");
     }
 
     @Override

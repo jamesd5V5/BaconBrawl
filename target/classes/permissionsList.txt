@@ -1,0 +1,27 @@
+Bacon Brawl
+In honor one of Mineplex's best games
+Started November 1, 2023
+Permissions List
+
+======================================================
+
+baconbrawl.cmd.*
+baconbrawl.cmd.player.*
+baconbrawl.cmd.admin.*
+
+baconbrawl.kits.*
+baconbrawl.kits.random
+baconbrawl.kits.KitName
+
+baconbrawl.command.join
+baconbrawl.command.leave
+baconbrawl.command.spectate
+baconbrawl.command.teleport
+baconbrawl.command.new
+baconbrawl.command.remove
+baconbrawl.command.list
+baconbrawl.command.stop
+baconbrawl.command.edit
+baconbrawl.command.autorotate
+baconbrawl.command.mapcreator
+baconbrawl.command.tools

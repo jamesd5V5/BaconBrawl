@@ -12,6 +12,7 @@ final class GameSpectateCommand extends GameSubCommand {
 
         this.setDescription("Spectates an ongoing game.");
         this.setUsage("[name]");
+        this.setPermission("baconbrawl.cmd.player.spectate");
     }
 
     @Override

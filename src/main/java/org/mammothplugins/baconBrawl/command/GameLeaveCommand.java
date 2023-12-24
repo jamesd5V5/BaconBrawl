@@ -12,6 +12,7 @@ final class GameLeaveCommand extends GameSubCommand {
         super("leave/l");
 
         this.setDescription("Leaves the game you are currently playing.");
+        setPermission("baconbrawl.cmd.player.leave");
     }
 
     @Override

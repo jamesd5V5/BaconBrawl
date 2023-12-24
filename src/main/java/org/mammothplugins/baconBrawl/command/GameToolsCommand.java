@@ -11,6 +11,7 @@ final class GameToolsCommand extends GameSubCommand {
         super("tools/t");
 
         this.setDescription("Open the Game Tools menu.");
+        this.setPermission("baconbrawl.cmd.admin.tools");
     }
 
     @Override

@@ -12,6 +12,7 @@ final class GameStopCommand extends GameSubCommand {
 
         this.setDescription("Force stop a game that is played.");
         this.setUsage("[name]");
+        this.setPermission("baconbrawl.cmd.admin.stop");
     }
 
     @Override

@@ -101,8 +101,15 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
 
 
             if (cache.isRandomKit()) {
-                int num = new Random().nextInt(Kits.getKits().size());
-                cache.setCurrentKit(Kits.getKits().get(num));
+                boolean found = false;
+                while (found == false) {
+                    int num = new Random().nextInt(Kits.getKits().size());
+                    Kits kit = Kits.getKits().get(num);
+                    if (player.hasPermission("baconbrawl.kits." + kit.getName())) {
+                        cache.setCurrentKit(kit);
+                        found = true;
+                    }
+                }
             }
             getGame().applyKit(player, cache);
         }

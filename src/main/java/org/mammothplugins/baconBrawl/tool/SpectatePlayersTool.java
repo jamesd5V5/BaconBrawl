@@ -29,7 +29,7 @@ public final class SpectatePlayersTool extends Tool {
     @Override
     public ItemStack getItem() {
         return ItemCreator.of(CompMaterial.COMPASS,
-                        "Spectate players",
+                        "&f&lSpectate players",
                         "",
                         "Click to select",
                         "what players you",

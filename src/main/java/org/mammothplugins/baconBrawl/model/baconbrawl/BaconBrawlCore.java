@@ -1,5 +1,6 @@
 package org.mammothplugins.baconBrawl.model.baconbrawl;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -38,6 +39,10 @@ import java.util.UUID;
 public final class BaconBrawlCore extends GameSpawnPoint {
 
     private Player[] winners = new Player[3];
+
+    @Getter
+    @Getter
+    public HashMap<UUID, UUID> lastHit = new HashMap<>();
 
     protected BaconBrawlCore(String name) {
         super(name);
@@ -81,7 +86,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                 + "<center>&7Knock other pigs out of the arena!\n"
                 + "<center>&7Last pig in the arena wins!\n"
                 + " \n"
-                + "<center>&6Map - &f" + getName() + " &7created by &fsomeone");
+                + "<center>&6Map - &f" + getName() + " &7created by &f" + getMapCreator());
     }
 
     private void leaveMsg(Player player) {
@@ -96,7 +101,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                 + (winners[1] == null ? "" : "\n" + "<center>&6&l2nd Place &f- " + winner2)
                 + (winners[2] == null ? "" : "\n" + "<center>&e&l3rd Place &f- " + winner3) + "\n"
                 + " \n"
-                + "<center>&6Map - &f" + getName() + " &7created by &fsomeone");
+                + "<center>&6Map - &f" + getName() + " &7created by &f" + getMapCreator());
 
     }
 
@@ -118,7 +123,9 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     protected void onGameJoin(Player player, GameJoinMode mode) {
         super.onGameJoin(player, mode);
 
-        KitSelectorTool.getInstance().give(player, 4);
+        Common.broadcast("Mode: " + mode.toString());
+        if (mode != GameJoinMode.EDITING)
+            KitSelectorTool.getInstance().give(player, 4);
     }
 
     @Override
@@ -131,6 +138,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
+                PlayerCache.from(player).resetCurrentKills();
                 getScoreboard().removePlayer(player);
                 if (this.getPlayers(GameJoinMode.PLAYING).size() == 1) {
                     theLastPlayer(player);
@@ -192,8 +200,12 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         //Kills
         PlayerUIDesigns.deathMessage(this, event, lastHit);
-        if (lastHit.get(player.getUniqueId()) != null)
-            PlayerCache.from(Bukkit.getPlayer(lastHit.get(player.getUniqueId()))).addCurrentKills();
+        if (lastHit.get(player.getUniqueId()) != null) { //If the player was physically hit
+            if (cache.getPotentialKiller() == null) //If the player was not hit with powers last
+                PlayerCache.from(Bukkit.getPlayer(lastHit.get(player.getUniqueId()))).addCurrentKills();
+            else //The player was last hit by powers
+                PlayerCache.from(cache.getPotentialKiller()).addCurrentKills();
+        }
 
 
         cache.getCurrentKit().onDeath(player);
@@ -269,8 +281,6 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 //            }
 //        }
     }
-
-    private final HashMap<UUID, UUID> lastHit = new HashMap<>();
 
     @Override
     public void onPlayerMeleeAttack(EntityDamageByEntityEvent event, Player damager) {

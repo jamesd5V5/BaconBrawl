@@ -125,7 +125,7 @@ public abstract class Game extends YamlConfig {
         this.lobbyDuration = getTime("Lobby_Duration", SimpleTime.from("15 seconds"));
         this.gameDuration = getTime("Game_Duration", SimpleTime.from("20 minutes"));
         this.mapCreator = getString("MapCreator", "Builder");
-        this.destruction = getBoolean("AutoRotate", true);
+        this.autoRotate = getBoolean("AutoRotate", true);
         this.destruction = getBoolean("Destruction", false);
         this.restoreWorld = getBoolean("Restore_World", false);
 

@@ -13,6 +13,7 @@ final class GameMapCreatorCommand extends GameSubCommand {
         super("mapcreator/mc");
 
         this.setDescription("Change the MapCreator's name.");
+        this.setPermission("baconbrawl.cmd.admin.mapcreator");
     }
 
     @Override

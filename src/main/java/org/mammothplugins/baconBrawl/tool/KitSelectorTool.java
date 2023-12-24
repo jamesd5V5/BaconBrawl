@@ -27,8 +27,8 @@ public final class KitSelectorTool extends Tool {
      */
     @Override
     public ItemStack getItem() {
-        return ItemCreator.of(CompMaterial.SLIME_BALL,
-                        "Kits",
+        return ItemCreator.of(CompMaterial.GOLDEN_CARROT,
+                        "&f&lKits",
                         "",
                         "Click to select",
                         "which kit you",

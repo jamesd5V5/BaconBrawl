@@ -28,16 +28,21 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
             public void onClickedInMenu(Player player, Menu menu, ClickType clickType) {
                 if (clickType.isLeftClick()) {
 
-                    if (cache.isRandomKit()) {
-                        cache.setRandomKit(false);
-                        Common.tell(player, "&7You selected &a&l" + cache.getCurrentKit().getName() + " Kit&7!");
-                    } else {
-                        cache.setRandomKit(true);
-                        Common.tell(player, "&7You selected &a&l" + "Random" + " Kit&7!");
-                    }
+                    if (player.hasPermission("baconbrawl.kits.random")) {
+                        if (cache.isRandomKit()) {
+                            cache.setRandomKit(false);
+                            Common.tell(player, "&7You selected &a&l" + cache.getCurrentKit().getName() + " Kit&7!");
+                        } else {
+                            cache.setRandomKit(true);
+                            Common.tell(player, "&7You selected &a&l" + "Random" + " Kit&7!");
+                        }
 
-                    CompSound.NOTE_PIANO.play(player);
-                    (new KitSelectorMenu(player)).displayTo(player);
+                        CompSound.NOTE_PIANO.play(player);
+                        (new KitSelectorMenu(player)).displayTo(player);
+                    } else {
+                        CompSound.VILLAGER_NO.play(player);
+                        animateTitle("&c&lNo permission!");
+                    }
                 }
             }
 
@@ -65,12 +70,17 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
 
     protected void onPageClick(Player player, Kits kit, ClickType clickType) {
         if (clickType.isLeftClick()) {
-            PlayerCache cache = PlayerCache.from(player);
-            cache.setRandomKit(false);
-            cache.setCurrentKit(kit);
-            Common.tell(player, "&7You selected &a&l" + kit.getName() + " Kit&7!");
-            CompSound.NOTE_PIANO.play(player);
-            (new KitSelectorMenu(player)).displayTo(player);
+            if (player.hasPermission("baconbrawl.kits." + kit.getName())) {
+                PlayerCache cache = PlayerCache.from(player);
+                cache.setRandomKit(false);
+                cache.setCurrentKit(kit);
+                Common.tell(player, "&7You selected &a&l" + kit.getName() + " Kit&7!");
+                CompSound.NOTE_PIANO.play(player);
+                (new KitSelectorMenu(player)).displayTo(player);
+            } else {
+                CompSound.VILLAGER_NO.play(player);
+                animateTitle("&c&lNo permission!");
+            }
         }
     }
 

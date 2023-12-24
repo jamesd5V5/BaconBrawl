@@ -15,6 +15,7 @@ final class GameSetRegionPointCommand extends GameSubCommand {
         this.setMinArguments(1);
         this.setUsage("<primary/secondary>");
         this.setDescription("Sets a region point in air while editing a game.");
+        this.setPermission("baconbrawl.cmd.admin.region");
     }
 
     @Override

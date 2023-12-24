@@ -12,6 +12,7 @@ final class GameSelectKitCommand extends GameSubCommand {
         super("menu/m");
 
         this.setDescription("Select a Kit");
+        this.setPermission("baconbrawl.cmd.player.menu");
     }
 
     @Override

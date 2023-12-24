@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
+import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.Common;
@@ -112,6 +113,13 @@ public class ElMuchachoPig extends Kits {
                 Common.runLater(6 * 20 + 20 + 2, () -> { //6 for the cooldown, 20 for the quiet cooldown
                     hasPostLaunched = false;
                     canNoLongerDashTouch = false;
+                });
+
+                PlayerCache vCache = PlayerCache.from((Player) victim);
+                vCache.setPotentialKiller(player);
+                BaconBrawl baconBrawl = (BaconBrawl) vCache.getCurrentGame();
+                Common.runLater(20 * 5, () -> {
+                    vCache.setPotentialKiller(null);
                 });
             }
         }

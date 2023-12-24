@@ -12,6 +12,7 @@ final class GameTeleportCommand extends GameSubCommand {
         setDescription("Teleports to game lobby.");
         setUsage("<name>");
         setMinArguments(1);
+        this.setPermission("baconbrawl.cmd.admin.teleport");
     }
 
     @Override

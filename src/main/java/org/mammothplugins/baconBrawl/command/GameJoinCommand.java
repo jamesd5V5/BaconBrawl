@@ -14,6 +14,7 @@ final class GameJoinCommand extends GameSubCommand {
 
         this.setDescription("Joins a game.");
         this.setUsage("[name]");
+        setPermission("baconbrawl.cmd.player.join");
     }
 
     @Override

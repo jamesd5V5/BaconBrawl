@@ -9,8 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
+import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
+import org.mineacademy.fo.Common;
 import org.mineacademy.fo.RandomUtil;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
@@ -81,7 +83,7 @@ public class MamaPiggles extends Kits {
     @Override
     public void onDeath(Player player) {
         super.onDeath(player);
-        
+
         if (piglet != null && piglet.isDead())
             piglet.remove();
     }
@@ -123,6 +125,13 @@ public class MamaPiggles extends Kits {
             CompSound.ENTITY_ARROW_HIT_PLAYER.play(player, 0.5f, 1f);
             Vector vector = projectile.getVelocity().setY(0);
             victim.setVelocity(vector.multiply(1.1).add(new Vector(0, 1.0, 0)));
+
+            PlayerCache vCache = PlayerCache.from((Player) victim);
+            vCache.setPotentialKiller(player);
+
+            Common.runLater(20 * 5, () -> {
+                vCache.setPotentialKiller(null);
+            });
         }
     }
 }

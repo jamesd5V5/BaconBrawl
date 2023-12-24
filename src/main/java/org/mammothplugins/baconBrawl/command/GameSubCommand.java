@@ -9,6 +9,8 @@ abstract class GameSubCommand extends SimpleSubCommand {
 
     protected GameSubCommand(String sublabel) {
         super(sublabel);
+        setPermission("baconbrawl.cmd");
+        this.setPermissionMessage("&cYou don't have permission to use this command.");
     }
 
     protected final PlayerCache getCache() {

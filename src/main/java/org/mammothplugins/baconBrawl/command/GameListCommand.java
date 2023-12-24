@@ -11,6 +11,7 @@ final class GameListCommand extends GameSubCommand {
         super("list");
 
         setDescription("Lists available games.");
+        this.setPermission("baconbrawl.cmd.admin.list");
     }
 
     @Override

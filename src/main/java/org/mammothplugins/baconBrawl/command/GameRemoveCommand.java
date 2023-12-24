@@ -13,6 +13,7 @@ final class GameRemoveCommand extends GameSubCommand {
         setDescription("Removes a game.");
         setUsage("<name>");
         setMinArguments(1);
+        this.setPermission("baconbrawl.cmd.admin.remove");
     }
 
     @Override

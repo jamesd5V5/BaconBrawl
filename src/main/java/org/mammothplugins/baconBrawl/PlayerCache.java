@@ -37,6 +37,8 @@ public final class PlayerCache extends YamlConfig {
     @Setter
     private boolean randomKit = false;
     @Setter
+    private Player potentialKiller;
+    @Setter
     private boolean isCurrentlyBlocking;
 
     @Setter
@@ -113,6 +115,10 @@ public final class PlayerCache extends YamlConfig {
     public void addCurrentKills() {
         this.currentKills++;
         this.kills++;
+    }
+
+    public void resetCurrentKills() {
+        this.currentKills = 0;
     }
 
     public Game getCurrentGame() {

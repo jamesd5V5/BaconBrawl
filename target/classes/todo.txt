@@ -5,16 +5,15 @@ Started November 1, 2023
 ======================================================
 
 Essential:
--Who built the map: Working on Convo rn
--Permissions
+-Slam or throw does not show kills
 
 Potential
 -Game start grace period
 -Maybe Add DeathMode
--Compass remove teleportation/Set target
 -Econ?
--Game Rotation
 -Stats
+-Better transitions/with sounds, msgs etc
+-Clearer menu
 
 Minor bugs:
 -When Creating new game, caps are off
