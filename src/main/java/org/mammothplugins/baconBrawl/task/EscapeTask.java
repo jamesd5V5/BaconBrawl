@@ -34,7 +34,11 @@ public final class EscapeTask extends BukkitRunnable {
                     //For most games, we need this, but not needed for BB
                     if (!game.getRegion().isWithin(location)) {
                         if (game instanceof BaconBrawlCore) {
-                            cache.toPlayer().setHealth(0);//kills player when they fall in the void
+                            if (game.isLobby()) {
+                                cache.toPlayer().teleport(game.getLobbyLocation());
+                            } else
+                                cache.toPlayer().setHealth(0);//kills player when they fall in the void
+
                         } else {
                             game.leavePlayer(online, GameLeaveReason.ESCAPED);
                             Messenger.warn(online, "You've escaped the game and were kicked from playing!");

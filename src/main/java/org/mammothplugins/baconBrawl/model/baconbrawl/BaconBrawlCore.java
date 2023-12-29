@@ -29,6 +29,7 @@ import org.mineacademy.fo.Common;
 import org.mineacademy.fo.RandomUtil;
 import org.mineacademy.fo.model.BoxedMessage;
 import org.mineacademy.fo.remain.CompMetadata;
+import org.mineacademy.fo.remain.CompSound;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.ArrayList;
@@ -116,13 +117,14 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     @Override
     protected void onGameStartFor(Player player, PlayerCache cache) {
         super.onGameStartFor(player, cache);
+
+        CompSound.LEVEL_UP.play(player);
     }
 
     @Override
     protected void onGameJoin(Player player, GameJoinMode mode) {
         super.onGameJoin(player, mode);
 
-        Common.broadcast("Mode: " + mode.toString());
         if (mode != GameJoinMode.EDITING)
             KitSelectorTool.getInstance().give(player, 4);
     }

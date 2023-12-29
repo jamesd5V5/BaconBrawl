@@ -116,7 +116,7 @@ public abstract class Game extends YamlConfig {
 
     @Override
     protected void onLoad() {
-        this.minPlayers = getInteger("Min_Players", 1);
+        this.minPlayers = getInteger("Min_Players", 2);
         this.maxPlayers = getInteger("Max_Players", 10);
         this.region = get("Region", VisualizedRegion.class, new VisualizedRegion());
         this.lobbyLocation = getLocation("Lobby_Location");
@@ -306,6 +306,10 @@ public abstract class Game extends YamlConfig {
     @Override
     public final String getName() {
         return super.getName();
+    }
+
+    public boolean hasMinPlayers() {
+        return players.size() - 1 >= getMinPlayers();
     }
 
     /* ------------------------------------------------------------------------------- */
@@ -499,11 +503,12 @@ public abstract class Game extends YamlConfig {
                 } else {
                     Valid.checkBoolean(!this.startCountdown.isRunning(), "Game start countdown already running for " + this.getName());
 
+                    //JOINNN
                     this.state = GameState.LOBBY;
                     this.scoreboard.onLobbyStart();
 
-                    if (!Settings.AutoMode.ENABLED)
-                        this.startCountdown.launch();
+//                    if (!Settings.AutoMode.ENABLED)
+//                        this.startCountdown.launch();
 
                     this.onGameLobbyStart();
 
@@ -521,7 +526,7 @@ public abstract class Game extends YamlConfig {
             if (this.isLobby()) {
                 this.broadcast("&6" + player.getName() + " &7has joined the game! (" + this.players.size() + "/" + this.maxPlayers + ")");
 
-                if (this.getPlayers(GameJoinMode.PLAYING).size() >= this.getMinPlayers() && Settings.AutoMode.ENABLED) {
+                if (this.getPlayers(GameJoinMode.PLAYING).size() >= this.getMinPlayers()) {
                     this.startCountdown.launch();
 
                     this.forEachPlayerInAllModes(otherPlayer -> Remain.sendTitle(otherPlayer,
@@ -694,6 +699,14 @@ public abstract class Game extends YamlConfig {
                 if (cache.getCurrentGameMode() != GameJoinMode.SPECTATING)
                     this.broadcast("&6" + player.getName() + " &7has left the game! (" + this.getPlayers(GameJoinMode.PLAYING).size() + "/" + this.maxPlayers + ")");
 
+                //todo CHANGED
+                if (hasMinPlayers() == false) {
+                    if (this.startCountdown.isRunning())
+                        this.startCountdown.cancel();
+
+                    if (this.heartbeat.isRunning())
+                        this.heartbeat.cancel();
+                }
             } finally {
                 cache.setLeaving(false);
                 cache.setCurrentGameMode(null);

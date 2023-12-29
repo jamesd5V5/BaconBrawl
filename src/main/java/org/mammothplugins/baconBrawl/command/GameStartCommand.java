@@ -1,6 +1,7 @@
 package org.mammothplugins.baconBrawl.command;
 
 import org.mammothplugins.baconBrawl.model.Game;
+import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mineacademy.fo.ItemUtil;
 
 import java.util.List;
@@ -23,7 +24,8 @@ final class GameStartCommand extends GameSubCommand {
 
         this.checkBoolean(game.isLobby(), "Can only start games in lobby! "
                 + game.getName() + " is " + ItemUtil.bountifyCapitalized(game.getState()).toLowerCase() + ".");
-
+        this.checkBoolean(game.getPlayers(GameJoinMode.PLAYING).size() >= game.getMinPlayers(), "Not enough players! "
+                + game.getName() + " needs " + game.getMinPlayers() + " players.");
         game.start();
     }
 

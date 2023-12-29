@@ -42,7 +42,7 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
             Player player = cache.toPlayer();
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 100));
             setCompassTarget(player);
-            
+
             //Display Cooldown
             ItemStack itemStack = player.getInventory().getItemInHand();
             for (Power power : cache.getCurrentKit().getPowers(player)) {
@@ -95,7 +95,7 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
             Player player = cache.toPlayer();
             player.getInventory().clear();
             player.setHealth(player.getMaxHealth());
-
+            
             player.setSaturation(20);
             getGame().joinMsg(player);
             cache.addGamesPlayed();

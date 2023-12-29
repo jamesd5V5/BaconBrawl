@@ -14,7 +14,8 @@ public enum GameStopReason {
     TIMEOUT("{game} ran out of time and was ended!"),
     COMMAND("{game} was stopped by an administrator!"),
     RELOAD("Server reloaded, stopping game for safety."),
-    GAMERS_DISCONNECTED("{game} game to an end. Your opponent has disconnected.");
+    GAMERS_DISCONNECTED("{game} game to an end. Your opponent has disconnected."),
+    SILENT_STOP;
 
     @Getter
     private String message;
