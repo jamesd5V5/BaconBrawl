@@ -19,6 +19,7 @@ public class Kits {
     private static List<Kits> kits = new ArrayList<>();
 
     private String name;
+    private String lore;
     private ChatColor chatColor;
     private CompMaterial compMaterial;
     private double knockBack;
@@ -46,7 +47,7 @@ public class Kits {
     }
 
     public void applyAttributes(Player player) {
-        player.getInventory().setItem(8, ItemCreator.of(CompMaterial.COMPASS, "&f&lTracker").make());
+        player.getInventory().setItem(8, ItemCreator.of(CompMaterial.COMPASS, "&f&lPlayer Tracker").make());
     }
 
     public void onDeath(Player player) {

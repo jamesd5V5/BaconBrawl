@@ -20,7 +20,7 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
 
     public KitSelectorMenu(Player player) {
         super(Kits.getKits());
-        this.setTitle("&3&lSelect a Kit");
+        this.setTitle("Bacon Brawl Kits");
         this.player = player;
         this.setSize(9 * 2);
         PlayerCache cache = PlayerCache.from(player);
@@ -32,22 +32,24 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
                         if (cache.isRandomKit()) {
                             cache.setRandomKit(false);
                             Common.tell(player, "&7You selected &a&l" + cache.getCurrentKit().getName() + " Kit&7!");
+                            animateTitle("&a&lRandom kit Enabled");
                         } else {
                             cache.setRandomKit(true);
                             Common.tell(player, "&7You selected &a&l" + "Random" + " Kit&7!");
+                            animateTitle("&c&lRandom kit Disabled");
                         }
 
                         CompSound.NOTE_PIANO.play(player);
                         (new KitSelectorMenu(player)).displayTo(player);
                     } else {
                         CompSound.VILLAGER_NO.play(player);
-                        animateTitle("&c&lNo permission!");
+                        animateTitle("&c&lNo Permission!");
                     }
                 }
             }
 
             public ItemStack getItem() {
-                return ItemCreator.of(cache.isRandomKit() ? CompMaterial.LIME_DYE : CompMaterial.RED_DYE, "&3&lRandom Kit", new String[]{" ", cache.isRandomKit() ? "&7Click to Disable" : "Click to Enable"}).glow(cache.isRandomKit()).make();
+                return ItemCreator.of(cache.isRandomKit() ? CompMaterial.LIME_DYE : CompMaterial.RED_DYE, "&f&lRandom Kit", new String[]{"&7Randomly assigns a kit", "at the start of every game.", " ", cache.isRandomKit() ? "&f(Click to &c&lDisable&r&f)" : "&f(Click to &a&lEnable&r&f)"}).glow(cache.isRandomKit()).make();
             }
         };
     }
@@ -65,7 +67,7 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
     protected ItemStack convertToItemStack(Kits kit) {
         PlayerCache cache = PlayerCache.from(player);
         Kits currentKit = cache.getCurrentKit();
-        return ItemCreator.of(kit.getCompMaterial(), "&f&l" + kit.getName() + " Kit").glow(!cache.isRandomKit() && currentKit.getName().equals(kit.getName())).make();
+        return ItemCreator.of(kit.getCompMaterial(), "&f&l" + kit.getName() + " Kit", "&7" + kit.getLore(), "", "&f(Click to Select)").glow(!cache.isRandomKit() && currentKit.getName().equals(kit.getName())).make();
     }
 
     protected void onPageClick(Player player, Kits kit, ClickType clickType) {
@@ -74,9 +76,15 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
                 PlayerCache cache = PlayerCache.from(player);
                 cache.setRandomKit(false);
                 cache.setCurrentKit(kit);
-                Common.tell(player, "&7You selected &a&l" + kit.getName() + " Kit&7!");
                 CompSound.NOTE_PIANO.play(player);
-                (new KitSelectorMenu(player)).displayTo(player);
+                Common.tell(player, "&7You selected &a&l" + kit.getName() + " Kit&7!");
+
+                Menu menu = (new KitSelectorMenu(player));
+                menu.displayTo(player);
+
+                menu.animateTitle("Selected " + kit.getName());
+                animateTitle("Selected " + kit.getName());
+
             } else {
                 CompSound.VILLAGER_NO.play(player);
                 animateTitle("&c&lNo permission!");

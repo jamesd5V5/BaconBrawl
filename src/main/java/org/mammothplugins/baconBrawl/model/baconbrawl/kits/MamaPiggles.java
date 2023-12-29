@@ -32,6 +32,7 @@ public class MamaPiggles extends Kits {
 
     public MamaPiggles() {
         setName("MamaPiggles");
+        setLore("Mama & Baby Piggles fight together");
         setChatColor(ChatColor.RED);
         setCompMaterial(CompMaterial.PORKCHOP);
         setKnockBack(1);

@@ -28,8 +28,6 @@ final class GameJoinCommand extends GameSubCommand {
             for (Player online : Remain.getOnlinePlayers())
                 firstGame.joinPlayer(online, GameJoinMode.PLAYING);
 
-            firstGame.start();
-
             return;
         }
 

@@ -33,6 +33,7 @@ public class Pig extends Kits {
 
     public Pig() {
         setName("Pig");
+        setLore("\"...Oink?\"");
         setChatColor(ChatColor.LIGHT_PURPLE);
         setCompMaterial(CompMaterial.PINK_WOOL);
         setKnockBack(1);

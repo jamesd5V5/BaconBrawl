@@ -20,7 +20,7 @@ final class GameNewCommand extends GameSubCommand {
 
     @Override
     protected void onCommand() {
-        final GameType type = this.findEnum(GameType.class, args[0], "No such game type '{0}'. Available: {available}");
+        final GameType type = this.findEnum(GameType.class, args[0], "No such game type '{0}'. Available: BaconBrawl");
         final String name = this.joinArgs(1);
         this.checkBoolean(!Game.isGameLoaded(name), "Game: '" + name + "' already exists!");
 
@@ -37,6 +37,6 @@ final class GameNewCommand extends GameSubCommand {
 
     @Override
     protected List<String> tabComplete() {
-        return this.args.length == 1 ? this.completeLastWord(GameType.values()) : NO_COMPLETE;
+        return this.args.length == 1 ? this.completeLastWord("BaconBrawl") : NO_COMPLETE;
     }
 }

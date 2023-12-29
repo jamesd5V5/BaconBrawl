@@ -8,6 +8,7 @@ import org.mineacademy.fo.ItemUtil;
 import org.mineacademy.fo.TimeUtil;
 import org.mineacademy.fo.model.Replacer;
 import org.mineacademy.fo.model.SimpleScoreboard;
+import org.mineacademy.fo.settings.FileConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,12 @@ public class GameScoreboard extends SimpleScoreboard {
 
     @Override
     protected String replaceVariables(final Player player, String message) {
+        GameSpawnPoint spawnpointGame = (GameSpawnPoint) getGame();
+        FileConfig.LocationList points = spawnpointGame.getPlayerSpawnpoints();
+        int maxLimit = game.getMaxPlayers();
+        boolean fulfilled = points.size() == maxLimit;
+        String spawn = (fulfilled ? "&a" : "&c") + points.size() + "/" + maxLimit;
+
         message = Replacer.replaceArray(message,
                 "remaining_start", !this.game.getStartCountdown().isRunning() ? "Waiting"
                         : this.game.getStartCountdown().getTimeLeft() + "s",
@@ -37,7 +44,10 @@ public class GameScoreboard extends SimpleScoreboard {
                 "players", this.game.getPlayers(this.game.getState() == GameState.EDITED ? GameJoinMode.EDITING : GameJoinMode.PLAYING /* ignore spectators */).size(),
                 "state", ItemUtil.bountifyCapitalized(this.game.getState()), // PLAYED -> Played
                 "lobby_set", this.game.getLobbyLocation() != null,
-                "region_set", this.game.getRegion().isWhole());
+                "region_set", this.game.getRegion().isWhole(),
+                "current_set", spawn,
+                "death_set", this.game.getDeathSpawnLocation() != null,
+                "return_set", this.game.getReturnBackLocation() != null);
 
         return message.replace("true", "&ayes").replace("false", "&4no");
     }
@@ -66,7 +76,10 @@ public class GameScoreboard extends SimpleScoreboard {
                 "Editing players: {players}",
                 "",
                 "Lobby: {lobby_set}",
-                "Region: {region_set}");
+                "Region: {region_set}",
+                "Spawnpoint: {current_set}",
+                "Death Loc: {death_set}",
+                "Return Loc: {return_set}");
 
         this.addRows(this.onEditLines());
         this.addRows("",
