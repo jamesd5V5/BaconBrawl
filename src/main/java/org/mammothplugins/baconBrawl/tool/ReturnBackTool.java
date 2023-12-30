@@ -34,7 +34,7 @@ public final class ReturnBackTool extends GameTool {
 
     @Override
     protected CompMaterial getBlockMask(Block block, Player player) {
-        return CompMaterial.RED_STAINED_GLASS;
+        return CompMaterial.BLACK_STAINED_GLASS;
     }
 
     @Override

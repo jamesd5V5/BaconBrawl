@@ -36,7 +36,7 @@ public final class EscapeTask extends BukkitRunnable {
                         if (game instanceof BaconBrawlCore) {
                             if (game.isLobby()) {
                                 cache.toPlayer().teleport(game.getLobbyLocation());
-                            } else
+                            } else if (!game.isStopped())
                                 cache.toPlayer().setHealth(0);//kills player when they fall in the void
 
                         } else {

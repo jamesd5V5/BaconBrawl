@@ -5,18 +5,16 @@ Started November 1, 2023
 ======================================================
 
 Essential:
--Admin edit scoreboard
+-Test if players can join in PostGame
+-Game start grace period
 
 Potential
--Game start grace period
 -Maybe Add DeathMode
 -Econ?
 -Stats
 -Better transitions/with sounds, msgs etc
--Clearer menu
 
 Minor bugs:
--When Creating new game, caps are off
 -Durability still on, comes back when break block, and attack after
 
 

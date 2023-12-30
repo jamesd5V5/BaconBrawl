@@ -5,6 +5,7 @@ org\mammothplugins\baconBrawl\tool\RegionTool.class
 org\mammothplugins\baconBrawl\command\GameSelectKitCommand.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerBucketFishListener.class
 org\mammothplugins\baconBrawl\tool\GameTool.class
+org\mammothplugins\baconBrawl\tool\PostGameTool.class
 org\mammothplugins\baconBrawl\model\GameHeartbeat.class
 org\mammothplugins\baconBrawl\menu\KitSelectorMenu.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\powers\Power$3.class
@@ -13,6 +14,7 @@ org\mammothplugins\baconBrawl\model\GameWorldManager$1.class
 org\mammothplugins\baconBrawl\command\GameSubCommand.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$ExplodeAndEntitySpawnListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners.class
+org\mammothplugins\baconBrawl\tool\DeathSpawnTool.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$EntityBreedListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerBucketEntityListener.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$PlayerTakeLecternBookListener.class
@@ -71,7 +73,6 @@ org\mammothplugins\baconBrawl\model\baconbrawl\kits\powers\Power$2.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$EntityPickupItemListener.class
 org\mammothplugins\baconBrawl\PlayerCache.class
 org\mammothplugins\baconBrawl\model\baconbrawl\BaconBrawlScoreboard.class
-org\mammothplugins\baconBrawl\tool\DeathSpawn.class
 org\mammothplugins\baconBrawl\model\GameSpawnPointScoreboard.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$RaidTriggerListener.class
 org\mammothplugins\baconBrawl\model\GameScoreboard.class

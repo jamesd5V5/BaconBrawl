@@ -136,6 +136,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         if (this.isPlayed()) {
             player.removePotionEffect(PotionEffectType.REGENERATION);
 
+            //RESETCURRENT
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
@@ -176,7 +177,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     }
 
     public void onGameStopMessage(GameStopReason stopReason) {
-        if (stopReason == GameStopReason.LAST_PLAYER_LEFT)
+        if (stopReason == GameStopReason.LAST_PLAYER_LEFT || stopReason == GameStopReason.SILENT_STOP)
             this.forEachPlayerInAllModes(player -> {
                 leaveMsg(player);
             });
@@ -239,17 +240,16 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                 stop(GameStopReason.LAST_PLAYER_LEFT);
 
             } else {
-                for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING))
+                for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
                     players.add(cache.toPlayer());
-                onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
-                stop(GameStopReason.LAST_PLAYER_LEFT);
+
+                }
+                onGameStopMessage(GameStopReason.SILENT_STOP);
+                for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING))
+                    cache.resetCurrentKills();
+                stop(GameStopReason.SILENT_STOP);
             }
             Arrays.fill(winners, null); //resets winners Array
-        });
-        Common.runLater(20 * 5, () -> {
-            if (isAutoRotate() == true)
-                for (Player pl : players)
-                    pl.performCommand("game join " + this.getName());
         });
     }
 

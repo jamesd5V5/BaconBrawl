@@ -47,13 +47,15 @@ public class GameScoreboard extends SimpleScoreboard {
                 "region_set", this.game.getRegion().isWhole(),
                 "current_set", spawn,
                 "death_set", this.game.getDeathSpawnLocation() != null,
-                "return_set", this.game.getReturnBackLocation() != null);
+                "return_set", this.game.getReturnBackLocation() != null,
+                "post_set", this.game.getPostGameLocation() != null);
 
         return message.replace("true", "&ayes").replace("false", "&4no");
     }
 
     public void onPlayerJoin(final Player player) {
-        this.show(player);
+        if (!this.isViewing(player))
+            this.show(player);
     }
 
     public void onPlayerLeave(final Player player) {
@@ -79,7 +81,8 @@ public class GameScoreboard extends SimpleScoreboard {
                 "Region: {region_set}",
                 "Spawnpoint: {current_set}",
                 "Death Loc: {death_set}",
-                "Return Loc: {return_set}");
+                "Return Loc: {return_set}",
+                "PostGame Loc: {post_set}");
 
         this.addRows(this.onEditLines());
         this.addRows("",

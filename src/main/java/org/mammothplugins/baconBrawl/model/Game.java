@@ -29,6 +29,7 @@ import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.remain.CompMetadata;
 import org.mineacademy.fo.remain.Remain;
 import org.mineacademy.fo.settings.ConfigItems;
+import org.mineacademy.fo.settings.FileConfig;
 import org.mineacademy.fo.settings.SimpleSettings;
 import org.mineacademy.fo.settings.YamlConfig;
 import org.mineacademy.fo.visual.VisualizedRegion;
@@ -62,6 +63,7 @@ public abstract class Game extends YamlConfig {
     private Location lobbyLocation;
     private Location deathSpawnLocation;
     private Location returnBackLocation;
+    private Location postGameLocation;
     private SimpleTime lobbyDuration;
     private SimpleTime gameDuration;
     private String mapCreator;
@@ -122,6 +124,7 @@ public abstract class Game extends YamlConfig {
         this.lobbyLocation = getLocation("Lobby_Location");
         this.deathSpawnLocation = getLocation("Death_Spawnpoint_Location");
         this.returnBackLocation = getLocation("Return_Back_Location");
+        this.postGameLocation = getLocation("PostGame_Location");
         this.lobbyDuration = getTime("Lobby_Duration", SimpleTime.from("15 seconds"));
         this.gameDuration = getTime("Game_Duration", SimpleTime.from("20 minutes"));
         this.mapCreator = getString("MapCreator", "Builder");
@@ -145,6 +148,7 @@ public abstract class Game extends YamlConfig {
         this.set("Lobby_Location", this.lobbyLocation);
         this.set("Death_Spawnpoint_Location", this.deathSpawnLocation);
         this.set("Return_Back_Location", this.returnBackLocation);
+        this.set("PostGame_Location", this.postGameLocation);
         this.set("Lobby_Duration", this.lobbyDuration);
         this.set("Game_Duration", this.gameDuration);
         this.set("MapCreator", this.mapCreator);
@@ -219,6 +223,15 @@ public abstract class Game extends YamlConfig {
         this.save();
     }
 
+    public Location getPostGameLocation() {
+        return postGameLocation;
+    }
+
+    public void setPostGameLocation(Location postGameLocation) {
+        this.postGameLocation = postGameLocation;
+        this.save();
+    }
+
     public String getMapCreator() {
         return mapCreator;
     }
@@ -246,7 +259,12 @@ public abstract class Game extends YamlConfig {
     }
 
     public boolean isSetup() {
-        return this.region.isWhole() && this.lobbyLocation != null && this.deathSpawnLocation != null;
+        GameSpawnPoint spawnpointGame = (GameSpawnPoint) this;
+        FileConfig.LocationList points = spawnpointGame.getPlayerSpawnpoints();
+        boolean fulfilled = points.size() == getMaxPlayers();
+
+        return this.region.isWhole() && this.lobbyLocation != null && fulfilled
+                && this.deathSpawnLocation != null && this.returnBackLocation != null && this.postGameLocation != null;
     }
 
     public final Countdown getStartCountdown() {
@@ -373,8 +391,21 @@ public abstract class Game extends YamlConfig {
         }
     }
 
+    public void whenSilentStop() {
+        forEachPlayerInAllModes(player -> {
+            PlayerUtil.normalize(player, true);
+            player.teleport(getPostGameLocation());
+        });
+        for (PlayerCache cache : this.players) {
+            Common.runLater(20 * 5, () -> {
+                Player player = cache.toPlayer();
+                joinPlayer(player, GameJoinMode.PLAYING, true);
+            });
+        }
+    }
+
     public final void stop(GameStopReason stopReason) {
-        Valid.checkBoolean(this.state != GameState.STOPPED, "Cannot stop stopped game " + this.getName());
+        // Valid.checkBoolean(this.state != GameState.STOPPED, "Cannot stop stopped game " + this.getName());
 
         try {
             this.stopping = true;
@@ -392,23 +423,24 @@ public abstract class Game extends YamlConfig {
             } catch (final Throwable t) {
                 Common.error(t, "Failed to properly stop game " + this.getName());
             }
-            this.forEachPlayerInAllModes(player -> {
+            if (stopReason != GameStopReason.SILENT_STOP)
+                this.forEachPlayerInAllModes(player -> {
 
-                String stopMessage = stopReason.getMessage();
+                    String stopMessage = stopReason.getMessage();
 
-                if (stopMessage != null) {
-                    BoxedMessage.tell(player, "<center>&c&lGAME OVER\n\n<center>&7"
-                            + Replacer.replaceArray(stopMessage,
-                            "game", this.getName(),
-                            "players", playingPlayersCount,
-                            "min_players", this.getMinPlayers()).replace("\n", "\n<center>&7"));
-                } else if (PlayerCache.from(player).getCurrentGameMode() == GameJoinMode.SPECTATING)
-                    BoxedMessage.tell(player, "<center>&c&lGAME OVER\n\n" +
-                            "<center>&7This game has been ended.\n" +
-                            "<center>&7Thank you for spectating.");
-                this.leavePlayer(player, GameLeaveReason.GAME_STOP, false);
+                    if (stopMessage != null) {
+                        BoxedMessage.tell(player, "<center>&c&lGAME OVER\n\n<center>&7"
+                                + Replacer.replaceArray(stopMessage,
+                                "game", this.getName(),
+                                "players", playingPlayersCount,
+                                "min_players", this.getMinPlayers()).replace("\n", "\n<center>&7"));
+                    } else if (PlayerCache.from(player).getCurrentGameMode() == GameJoinMode.SPECTATING)
+                        BoxedMessage.tell(player, "<center>&c&lGAME OVER\n\n" +
+                                "<center>&7This game has been ended.\n" +
+                                "<center>&7Thank you for spectating.");
+                    this.leavePlayer(player, GameLeaveReason.GAME_STOP, false);
 
-            });
+                });
 
             this.scoreboard.onGameStop();
             this.cleanEntities();
@@ -429,7 +461,11 @@ public abstract class Game extends YamlConfig {
         } finally {
             this.state = GameState.STOPPED;
             this.getLastHit().clear();
-            this.players.clear();
+            if (stopReason != GameStopReason.SILENT_STOP)
+                this.players.clear();
+            else
+                whenSilentStop();
+
             this.stopping = false;
 
             Common.log("Stopped game " + this.getName());
@@ -450,23 +486,28 @@ public abstract class Game extends YamlConfig {
 
     // ------–------–------–------–------–------–------–------–------–------–------–------–
     public final boolean joinPlayer(final Player player, final GameJoinMode mode) {
+        return joinPlayer(player, mode, false);
+    }
+
+    public final boolean joinPlayer(final Player player, final GameJoinMode mode, boolean isSilent) {
         final PlayerCache cache = PlayerCache.from(player);
 
-        if (!this.canJoin(player, mode))
+        if (!this.canJoin(player, mode, isSilent))
             return false;
 
         cache.setJoining(true);
 
         try {
 
-            cache.clearTags();
+            if (isSilent == false)
+                cache.clearTags();
 
             if (mode != GameJoinMode.EDITING) {
 
-                cache.setPlayerTag("PreviousLocation", player.getLocation());
-
-                PlayerUtil.storeState(player);
-
+                if (isSilent == false) {
+                    cache.setPlayerTag("PreviousLocation", player.getLocation());
+                    PlayerUtil.storeState(player);
+                }
                 this.teleport(player, this.lobbyLocation);
 
                 cache.setPlayerTag("AllowGamemodeChange", true);
@@ -486,7 +527,8 @@ public abstract class Game extends YamlConfig {
             cache.setCurrentGameMode(mode);
             cache.setCurrentGameName(this.getName());
 
-            this.players.add(cache);
+            if (isSilent == false)
+                this.players.add(cache);
 
             // Start countdown and change game mode
             if (this.state == GameState.STOPPED)
@@ -521,13 +563,17 @@ public abstract class Game extends YamlConfig {
                     }
                 }
 
-            Messenger.success(player, "You are now " + mode.toString().toLowerCase() + " game '" + this.getName() + "'!");
-
+            if (isSilent == false)
+                Messenger.success(player, "You are now " + mode.toString().toLowerCase() + " game '" + this.getName() + "'!");
+            else
+                Common.tell(player, "&7You have been sent back to the lobby.");
             if (this.isLobby()) {
-                this.broadcast("&6" + player.getName() + " &7has joined the game! (" + this.players.size() + "/" + this.maxPlayers + ")");
+                if (isSilent == false)
+                    this.broadcast("&6" + player.getName() + " &7has joined the game! (" + this.players.size() + "/" + this.maxPlayers + ")");
 
                 if (this.getPlayers(GameJoinMode.PLAYING).size() >= this.getMinPlayers()) {
-                    this.startCountdown.launch();
+                    if (!this.startCountdown.isRunning())
+                        this.startCountdown.launch();
 
                     this.forEachPlayerInAllModes(otherPlayer -> Remain.sendTitle(otherPlayer,
                             "",
@@ -550,9 +596,13 @@ public abstract class Game extends YamlConfig {
     }
 
     public final boolean canJoin(Player player, GameJoinMode mode) {
+        return canJoin(player, mode, false);
+    }
+
+    public final boolean canJoin(Player player, GameJoinMode mode, boolean isSilent) {
         final PlayerCache cache = PlayerCache.from(player);
 
-        if (cache.getCurrentGame() != null) {
+        if (cache.getCurrentGame() != null && isSilent == false) {
             Messenger.error(player, "You are already joined in game '" + cache.getCurrentGameName() + "'.");
 
             return false;
@@ -636,7 +686,10 @@ public abstract class Game extends YamlConfig {
     private void leavePlayer(Player player, GameLeaveReason leaveReason, boolean stopIfLast) {
         final PlayerCache cache = PlayerCache.from(player);
 
-        Valid.checkBoolean(!this.isStopped(), "Cannot leave player " + player.getName() + " from stopped game!");
+        if (this.isStopped()) {
+            Common.tell(player, "&cYou cannot leave until the game is finished.");
+            return;
+        }
         Valid.checkBoolean(cache.hasGame() && cache.getCurrentGame().equals(this), "Player " + player.getName() + " is not joined in game " + this.getName());
 
         cache.setLeaving(true);
