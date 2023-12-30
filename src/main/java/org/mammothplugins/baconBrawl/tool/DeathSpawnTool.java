@@ -42,9 +42,14 @@ public final class DeathSpawnTool extends GameTool {
 
     @Override
     protected void onSuccessfulClick(Player player, Game game, Block block, ClickType click) {
-        game.setDeathSpawnLocation(block.getLocation());
-
-        Messenger.success(player, "Game death spawnpoint set.");
+        if (game.getRegion().isWhole() == false)
+            Messenger.error(player, "Please set the game's region first.");
+        else if (game.getRegion().isWithin(block.getLocation())) {
+            game.setDeathSpawnLocation(block.getLocation());
+            Messenger.success(player, "Game death spawnpoint set.");
+        } else {
+            Messenger.error(player, "Must be set within the game's region.");
+        }
     }
 
     @Override

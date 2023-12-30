@@ -186,7 +186,7 @@ public final class AntiGriefListeners implements Listener {
         Player player = (Player) event.getDamager();
         PlayerCache cache = PlayerCache.from(player);
 
-        if (cache.hasGame())
+        if (cache.hasGame() && cache.getCurrentGame().isPlayed() && !cache.getCurrentGame().isStopped())
             try {
                 cache.getCurrentGame().onPlayerMeleeAttack(event, player);
 

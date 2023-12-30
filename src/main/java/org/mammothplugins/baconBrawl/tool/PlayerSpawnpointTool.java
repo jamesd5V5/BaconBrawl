@@ -46,26 +46,30 @@ public final class PlayerSpawnpointTool extends GameTool {
 
     @Override
     protected void onSuccessfulClick(Player player, Game game, Block block, ClickType click) {
-
         if (!(game instanceof GameSpawnPoint)) {
             Messenger.error(player, "You can only use this tool for games with player spawnpoints.");
 
             return;
         }
+        if (game.getRegion().isWhole() == false)
+            Messenger.error(player, "Please set the game's region first.");
+        else if (game.getRegion().isWithin(block.getLocation())) {
+            final GameSpawnPoint spawnpointGame = (GameSpawnPoint) game;
+            final LocationList points = spawnpointGame.getPlayerSpawnpoints();
+            final int maxLimit = game.getMaxPlayers();
 
-        final GameSpawnPoint spawnpointGame = (GameSpawnPoint) game;
-        final LocationList points = spawnpointGame.getPlayerSpawnpoints();
-        final int maxLimit = game.getMaxPlayers();
+            if (points.size() >= maxLimit && !points.hasLocation(block.getLocation())) {
+                Messenger.error(player, "Cannot place more points than game max players (" + maxLimit + ").");
 
-        if (points.size() >= maxLimit && !points.hasLocation(block.getLocation())) {
-            Messenger.error(player, "Cannot place more points than game max players (" + maxLimit + ").");
+                return;
+            }
 
-            return;
+            final boolean added = points.toggle(block.getLocation());
+            Messenger.success(player, "Player spawnpoint was " + (added ? "added" : "removed") + " (" + points.size()
+                    + "/" + maxLimit + ").");
+        } else {
+            Messenger.error(player, "Must be set within the game's region.");
         }
-
-        final boolean added = points.toggle(block.getLocation());
-        Messenger.success(player, "Player spawnpoint was " + (added ? "added" : "removed") + " (" + points.size()
-                + "/" + maxLimit + ").");
     }
 
     @Override

@@ -128,7 +128,7 @@ public abstract class Game extends YamlConfig {
         this.lobbyDuration = getTime("Lobby_Duration", SimpleTime.from("15 seconds"));
         this.gameDuration = getTime("Game_Duration", SimpleTime.from("20 minutes"));
         this.mapCreator = getString("MapCreator", "Builder");
-        this.autoRotate = getBoolean("AutoRotate", true);
+        this.autoRotate = true;
         this.destruction = getBoolean("Destruction", false);
         this.restoreWorld = getBoolean("Restore_World", false);
 
@@ -152,7 +152,7 @@ public abstract class Game extends YamlConfig {
         this.set("Lobby_Duration", this.lobbyDuration);
         this.set("Game_Duration", this.gameDuration);
         this.set("MapCreator", this.mapCreator);
-        this.set("AutoRotate", this.autoRotate);
+        this.set("AutoRotate", true);
         this.set("Destruction", this.destruction);
         this.set("Restore_World", this.restoreWorld);
     }
@@ -392,10 +392,6 @@ public abstract class Game extends YamlConfig {
     }
 
     public void whenSilentStop() {
-        forEachPlayerInAllModes(player -> {
-            PlayerUtil.normalize(player, true);
-            player.teleport(getPostGameLocation());
-        });
         for (PlayerCache cache : this.players) {
             Common.runLater(20 * 5, () -> {
                 Player player = cache.toPlayer();
@@ -406,7 +402,6 @@ public abstract class Game extends YamlConfig {
 
     public final void stop(GameStopReason stopReason) {
         // Valid.checkBoolean(this.state != GameState.STOPPED, "Cannot stop stopped game " + this.getName());
-
         try {
             this.stopping = true;
 
@@ -418,12 +413,13 @@ public abstract class Game extends YamlConfig {
 
             final int playingPlayersCount = this.getPlayers(GameJoinMode.PLAYING).size();
 
-            try {
-                this.onGameStop();
-            } catch (final Throwable t) {
-                Common.error(t, "Failed to properly stop game " + this.getName());
-            }
-            if (stopReason != GameStopReason.SILENT_STOP)
+            if (stopReason != GameStopReason.NONAUTO_PRE_STROP)
+                try {
+                    this.onGameStop();
+                } catch (final Throwable t) {
+                    Common.error(t, "Failed to properly stop game " + this.getName());
+                }
+            if (stopReason != GameStopReason.SILENT_STOP && stopReason != GameStopReason.NONAUTO_PRE_STROP)
                 this.forEachPlayerInAllModes(player -> {
 
                     String stopMessage = stopReason.getMessage();
@@ -442,28 +438,29 @@ public abstract class Game extends YamlConfig {
 
                 });
 
-            this.scoreboard.onGameStop();
-            this.cleanEntities();
+            if (stopReason != GameStopReason.NONAUTO_PRE_STROP) {
+                this.scoreboard.onGameStop();
+                this.cleanEntities();
 
-            for (BlockState oldBlockStates : this.placedBlocks.values())
-                oldBlockStates.update(true);
+                for (BlockState oldBlockStates : this.placedBlocks.values())
+                    oldBlockStates.update(true);
 
-            this.placedBlocks.clear();
+                this.placedBlocks.clear();
 
-            if (this.destruction) {
-                if (this.restoreWorld)
-                    GameWorldManager.restoreWorld(this);
+                if (this.destruction) {
+                    if (this.restoreWorld)
+                        GameWorldManager.restoreWorld(this);
 
-                else if (this.canRestoreRegion())
-                    GameRegionManager.restoreRegion(this);
+                    else if (this.canRestoreRegion())
+                        GameRegionManager.restoreRegion(this);
+                }
             }
-
         } finally {
             this.state = GameState.STOPPED;
             this.getLastHit().clear();
-            if (stopReason != GameStopReason.SILENT_STOP)
+            if (stopReason != GameStopReason.SILENT_STOP && stopReason != GameStopReason.NONAUTO_PRE_STROP)
                 this.players.clear();
-            else
+            else if (stopReason == GameStopReason.SILENT_STOP)
                 whenSilentStop();
 
             this.stopping = false;
@@ -1180,9 +1177,11 @@ public abstract class Game extends YamlConfig {
 
     private void checkIntegrity() {
 
-        if (this.state == GameState.STOPPED)
-            Valid.checkBoolean(this.players.isEmpty(), "Found players in stopped " + this.getName() + " game: " + this.players);
-
+        if (this.state == GameState.STOPPED) {
+            if (this.players.isEmpty() == false)
+                return;
+            // Valid.checkBoolean(this.players.isEmpty(), "Found players in stopped " + this.getName() + " game: " + this.players);
+        }
         int playing = 0, editing = 0, spectating = 0;
 
         for (final PlayerCache cache : this.players) {

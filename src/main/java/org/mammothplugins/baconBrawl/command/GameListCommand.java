@@ -1,6 +1,5 @@
 package org.mammothplugins.baconBrawl.command;
 
-import org.bukkit.Bukkit;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mineacademy.fo.Common;
 
@@ -17,7 +16,6 @@ final class GameListCommand extends GameSubCommand {
 
     @Override
     protected void onCommand() {
-        getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         tellInfo("Loaded games: " + Common.join(Game.getGames(), game -> game.getName() + " (" + game.getType().getName() + ")"));
     }
 

@@ -44,9 +44,15 @@ public final class PostGameTool extends GameTool {
 
     @Override
     protected void onSuccessfulClick(Player player, Game game, Block block, ClickType click) {
-        game.setPostGameLocation(block.getLocation());
+        if (game.getRegion().isWhole() == false)
+            Messenger.error(player, "Please set the game's region first.");
+        else if (game.getRegion().isWithin(block.getLocation())) {
+            game.setPostGameLocation(block.getLocation());
 
-        Messenger.success(player, "PostGame point set.");
+            Messenger.success(player, "PostGame point set.");
+        } else {
+            Messenger.error(player, "Must be set within the game's region.");
+        }
     }
 
     @Override

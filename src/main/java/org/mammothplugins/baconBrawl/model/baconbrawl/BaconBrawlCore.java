@@ -26,6 +26,7 @@ import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mammothplugins.baconBrawl.tool.KitSelectorTool;
 import org.mineacademy.fo.Common;
+import org.mineacademy.fo.PlayerUtil;
 import org.mineacademy.fo.RandomUtil;
 import org.mineacademy.fo.model.BoxedMessage;
 import org.mineacademy.fo.remain.CompMetadata;
@@ -235,15 +236,18 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
         ArrayList<Player> players = new ArrayList<>();
         Common.runLater(2, () -> {
+            forEachPlayerInAllModes(player -> {
+                PlayerUtil.normalize(player, true);
+                teleport(player, getPostGameLocation());
+            });
             if (isAutoRotate() == false) {
                 onGameStopMessage(GameStopReason.LAST_PLAYER_LEFT);
-                stop(GameStopReason.LAST_PLAYER_LEFT);
+                stop(GameStopReason.NONAUTO_PRE_STROP);
+                Common.runLater(20 * 5, () -> {
+                    stop(GameStopReason.LAST_PLAYER_LEFT);
+                });
 
             } else {
-                for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
-                    players.add(cache.toPlayer());
-
-                }
                 onGameStopMessage(GameStopReason.SILENT_STOP);
                 for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING))
                     cache.resetCurrentKills();
