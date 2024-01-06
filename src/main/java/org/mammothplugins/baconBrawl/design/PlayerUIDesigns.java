@@ -43,6 +43,10 @@ public class PlayerUIDesigns {
         }
     }
 
+    public static void clearChat(Player player) {
+        Common.tellNoPrefix(player, " ", " ", " ", " ", " ");
+    }
+
     private static boolean checkUUID(Player player, Player player2) {
         if (player.getUniqueId().equals(player2.getUniqueId()))
             return true;

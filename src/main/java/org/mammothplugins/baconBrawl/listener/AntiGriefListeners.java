@@ -21,6 +21,7 @@ import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.GameLeaveReason;
+import org.mammothplugins.baconBrawl.model.GameState;
 import org.mammothplugins.baconBrawl.settings.Settings;
 import org.mineacademy.fo.*;
 import org.mineacademy.fo.annotation.AutoRegister;
@@ -138,6 +139,8 @@ public final class AntiGriefListeners implements Listener {
         final Player player = event.getPlayer();
         final PlayerCache cache = PlayerCache.from(player);
 
+        if (cache.hasGame() && cache.getCurrentGame().getState() == GameState.PREPLAYED)
+            event.setCancelled(true);
         if (cache.hasGame())
             try {
                 cache.getCurrentGame().onPlayerChat(cache, event);
@@ -186,6 +189,9 @@ public final class AntiGriefListeners implements Listener {
         Player player = (Player) event.getDamager();
         PlayerCache cache = PlayerCache.from(player);
 
+        if (cache.hasGame() && cache.getCurrentGame().getState() == GameState.PREPLAYED)
+            event.setCancelled(true);
+
         if (cache.hasGame() && cache.getCurrentGame().isPlayed() && !cache.getCurrentGame().isStopped())
             try {
                 cache.getCurrentGame().onPlayerMeleeAttack(event, player);
@@ -198,6 +204,9 @@ public final class AntiGriefListeners implements Listener {
     public void onCooldown(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         PlayerCache cache = PlayerCache.from(player);
+
+        if (cache.hasGame() && cache.getCurrentGame().getState() == GameState.PREPLAYED)
+            event.setCancelled(true);
 
         if (cache.hasGame())
             try {
@@ -213,6 +222,11 @@ public final class AntiGriefListeners implements Listener {
         PlayerCache cache = PlayerCache.from(player);
         GameJoinMode mode = cache.getCurrentGameMode();
 
+        if (cache.hasGame() && cache.getCurrentGame().getState() == GameState.PREPLAYED)
+            if (event.getFrom().getX() != event.getTo().getX() || event.getFrom().getY() != event.getTo().getY() || event.getFrom().getZ() != event.getTo().getZ()) {
+                Location loc = event.getFrom();
+                event.getPlayer().teleport(loc.setDirection(event.getTo().getDirection()));
+            }
         if (cache.hasGame() && cache.getCurrentGameMode() == GameJoinMode.PLAYING) {
             cache.getCurrentGame().onPlayerMoveEvent(event);
             cache.getCurrentGame().onPlayerLand(player, event);
@@ -223,6 +237,8 @@ public final class AntiGriefListeners implements Listener {
     public void onPlayerInteractWith(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         PlayerCache cache = PlayerCache.from(player);
+        if (cache.hasGame() && cache.getCurrentGame().getState() == GameState.PREPLAYED)
+            event.setCancelled(true);
         if (cache.hasGame() && cache.getCurrentGameMode() == GameJoinMode.PLAYING) {
             if (event.hasItem())
                 cache.getCurrentGame().onPlayerInteractItem(event.getItem(), event);
@@ -261,6 +277,8 @@ public final class AntiGriefListeners implements Listener {
                 player.updateInventory();
             } else {
                 try {
+                    if (PlayerCache.from(player).hasGame() && PlayerCache.from(player).getCurrentGame().getState() == GameState.PREPLAYED)
+                        event.setCancelled(true);
                     gamePlayer.getCurrentGame().onPlayerInteract(gamePlayer, event);
 
                 } catch (EventHandledException ex) {
@@ -286,6 +304,8 @@ public final class AntiGriefListeners implements Listener {
             }
 
             try {
+                if (cache.hasGame() && cache.getCurrentGame().getState() == GameState.PREPLAYED)
+                    event.setCancelled(true);
                 arena.onEntityClick(player, entity, event);
 
             } catch (final EventHandledException ex) {
@@ -336,7 +356,7 @@ public final class AntiGriefListeners implements Listener {
         if (arena != null) {
             final PlayerCache cache = arena.findPlayer(event.getPlayer());
 
-            if (cache == null || cache.getCurrentGameMode() == GameJoinMode.SPECTATING)
+            if (cache == null || cache.getCurrentGameMode() == GameJoinMode.SPECTATING || cache.getCurrentGame().getState() == GameState.PREPLAYED)
                 event.setCancelled(true);
 
             else if (cache.hasGame())

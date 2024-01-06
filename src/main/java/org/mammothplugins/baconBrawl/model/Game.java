@@ -16,7 +16,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.PlayerCache;
+import org.mammothplugins.baconBrawl.design.PlayerUIDesigns;
 import org.mammothplugins.baconBrawl.settings.Settings;
 import org.mammothplugins.baconBrawl.tool.SpectatePlayersTool;
 import org.mineacademy.fo.*;
@@ -27,6 +30,7 @@ import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.model.*;
 import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.remain.CompMetadata;
+import org.mineacademy.fo.remain.CompSound;
 import org.mineacademy.fo.remain.Remain;
 import org.mineacademy.fo.settings.ConfigItems;
 import org.mineacademy.fo.settings.FileConfig;
@@ -36,6 +40,7 @@ import org.mineacademy.fo.visual.VisualizedRegion;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 /*
@@ -335,7 +340,7 @@ public abstract class Game extends YamlConfig {
     public final void start() {
         Valid.checkBoolean(this.state == GameState.LOBBY, "Cannot start game " + this.getName() + " while in the " + this.state + " mode");
 
-        this.state = GameState.PLAYED;
+        this.state = GameState.PREPLAYED; //PrePlayeed
         this.starting = true;
 
         try {
@@ -365,6 +370,7 @@ public abstract class Game extends YamlConfig {
 
             this.forEachInAllModes(cache -> {
                 Player player = cache.toPlayer();
+                PlayerUIDesigns.clearChat(player);
 
                 // Close all players inventories
                 player.closeInventory();
@@ -381,9 +387,49 @@ public abstract class Game extends YamlConfig {
                 this.stop(GameStopReason.ERROR);
             }
 
-            Common.runLater(2, () -> {
+            //PrePlayed Game
+            AtomicBoolean pastPreGame = new AtomicBoolean(false);
+            Common.runLater(20 * 12, () -> {
+                pastPreGame.set(true);
+            });
+
+            final int[] countdown = {12};
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (pastPreGame.get() == true) {
+                        cancel();
+                        return;
+                    }
+                    if (countdown[0] == 12)
+                        for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
+                            Player player = cache.toPlayer();
+                            CompSound.LEVEL_UP.play(player);
+                        }
+                    if (countdown[0] <= 5 || countdown[0] == 10)
+                        for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
+                            Player player = cache.toPlayer();
+                            CompSound.NOTE_PIANO.play(player);
+                            Remain.sendTitle(player,
+                                    "&e" + countdown[0],
+                                    "");
+                            Common.tell(player, "&7Game Starts in " + Common.plural(countdown[0], "second"));
+                        }
+                    countdown[0]--;
+
+                }
+            }.runTaskTimer(BaconBrawl.getInstance(), 0, 20L);
+
+
+            Common.runLater(12 * 20, () -> {
+                this.state = GameState.PLAYED;
+                for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
+                    Player player = cache.toPlayer();
+                    Remain.sendTitle(player,
+                            "&e&lFight!!!", "&eThe Game has began!");
+                    CompSound.EXPLODE.play(player);
+                }
                 this.broadcastInfo("Game " + this.getName() + " starts now! Players: " + this.players.size());
-                Common.log("Started game " + this.getName());
             });
 
         } finally {
@@ -563,7 +609,7 @@ public abstract class Game extends YamlConfig {
             if (isSilent == false)
                 Messenger.success(player, "You are now " + mode.toString().toLowerCase() + " game '" + this.getName() + "'!");
             else
-                Common.tell(player, "&7You have been sent back to the lobby.");
+                Common.tell(player, "&7You have been sent back to the game lobby.");
             if (this.isLobby()) {
                 if (isSilent == false)
                     this.broadcast("&6" + player.getName() + " &7has joined the game! (" + this.players.size() + "/" + this.maxPlayers + ")");

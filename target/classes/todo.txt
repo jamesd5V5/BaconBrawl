@@ -5,10 +5,13 @@ Started November 1, 2023
 ======================================================
 
 Essential:
--Test if players can join in PostGame, if players are out fo region, they can do anything, should obby and postgame be forced inside?
+-Scoreboard Issue
+-Pig in PostGame
 -Game start grace period
 
 Potential
+
+-AutoRotate between maps
 -non AutoRotate does not have PostGame
 -Maybe Add DeathMode
 -Econ?

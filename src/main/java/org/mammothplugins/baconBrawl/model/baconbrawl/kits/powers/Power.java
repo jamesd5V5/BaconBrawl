@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
+import org.mammothplugins.baconBrawl.model.GameState;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
@@ -111,7 +112,7 @@ public class Power {
                 if (cooldowntimer[0] <= 0) {
                     cooldowntimer[0] = 0;
                     setCanStartCooldown(false);
-                    if (cache.hasGame() && cache.getCurrentGameMode() == GameJoinMode.PLAYING) {
+                    if (cache.hasGame() && cache.getCurrentGameMode() == GameJoinMode.PLAYING && cache.getCurrentGame().getState() == GameState.PLAYED) {
                         Common.tell(player, "&7You can use &a" + getName() + "&7.");
                         Remain.sendActionBar(player, "&a&l" + getName() + " Recharged");
                         CompSound.NOTE_SNARE_DRUM.play(player, 0.5f, 1f);

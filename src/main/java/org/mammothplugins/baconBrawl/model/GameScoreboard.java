@@ -3,7 +3,6 @@ package org.mammothplugins.baconBrawl.model;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mineacademy.fo.ItemUtil;
 import org.mineacademy.fo.TimeUtil;
 import org.mineacademy.fo.model.Replacer;
@@ -42,6 +41,7 @@ public class GameScoreboard extends SimpleScoreboard {
 
                 "remaining_end", TimeUtil.formatTimeShort(this.game.getHeartbeat().getTimeLeft()), // -> 1m5s 1m4s
                 "players", this.game.getPlayers(this.game.getState() == GameState.EDITED ? GameJoinMode.EDITING : GameJoinMode.PLAYING /* ignore spectators */).size(),
+                "players_max", this.game.getMaxPlayers(),
                 "state", ItemUtil.bountifyCapitalized(this.game.getState()), // PLAYED -> Played
                 "lobby_set", this.game.getLobbyLocation() != null,
                 "region_set", this.game.getRegion().isWhole(),
@@ -66,7 +66,7 @@ public class GameScoreboard extends SimpleScoreboard {
     public void onLobbyStart() {
         this.addRows("",
                 "Map: {gameName}",
-                "Players: {players}/4",
+                "Players: {players}/{players_max}",
                 "",
                 "Starting in: {remaining_start}",
                 "State: {state}",
@@ -107,7 +107,7 @@ public class GameScoreboard extends SimpleScoreboard {
     public void onSpectateStart() {
     }
 
+
     public void removePlayer(Player player) {
-        this.removeRow("{PlayerName:" + PlayerCache.from(player).getUniqueId() + "}");
     }
 }

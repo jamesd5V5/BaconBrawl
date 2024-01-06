@@ -60,4 +60,8 @@ public class BaconBrawlScoreboard extends GameScoreboard { //gamePoint scoreboar
     public BaconBrawlCore getGame() {
         return (BaconBrawlCore) super.getGame();
     }
+
+    public void removePlayer(Player player) {
+        this.removeRow("{PlayerName:" + PlayerCache.from(player).getUniqueId() + "}");
+    }
 }

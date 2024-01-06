@@ -4,6 +4,7 @@ public enum GameState {
 
     STOPPED,
     LOBBY,
+    PREPLAYED,
     PLAYED,
     EDITED;
 

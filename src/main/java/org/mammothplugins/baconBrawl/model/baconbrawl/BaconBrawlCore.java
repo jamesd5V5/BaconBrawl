@@ -2,10 +2,8 @@ package org.mammothplugins.baconBrawl.model.baconbrawl;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
+import org.bukkit.FireworkEffect;
+import org.bukkit.entity.*;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.*;
@@ -13,8 +11,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
+import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.design.PlayerUIDesigns;
 import org.mammothplugins.baconBrawl.model.*;
@@ -29,14 +30,12 @@ import org.mineacademy.fo.Common;
 import org.mineacademy.fo.PlayerUtil;
 import org.mineacademy.fo.RandomUtil;
 import org.mineacademy.fo.model.BoxedMessage;
-import org.mineacademy.fo.remain.CompMetadata;
-import org.mineacademy.fo.remain.CompSound;
-import org.mineacademy.fo.remain.Remain;
+import org.mineacademy.fo.remain.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class BaconBrawlCore extends GameSpawnPoint {
 
@@ -118,8 +117,6 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     @Override
     protected void onGameStartFor(Player player, PlayerCache cache) {
         super.onGameStartFor(player, cache);
-
-        CompSound.LEVEL_UP.play(player);
     }
 
     @Override
@@ -139,10 +136,9 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
             //RESETCURRENT
             Common.runLater(2, () -> {
-                NmsDisguise.removeDisguise(player);
-                PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
-                PlayerCache.from(player).resetCurrentKills();
-                getScoreboard().removePlayer(player);
+                silentGameResetRequirements(player);
+                BaconBrawlScoreboard scoreboard = (BaconBrawlScoreboard) getScoreboard();
+                scoreboard.removePlayer(player);
                 if (this.getPlayers(GameJoinMode.PLAYING).size() == 1) {
                     theLastPlayer(player);
 
@@ -234,8 +230,31 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                 playerCache.addGamesWon();
             }
 
-        ArrayList<Player> players = new ArrayList<>();
         Common.runLater(2, () -> {
+
+            //FIREWORKS, prob bc cant spawn entities
+            AtomicBoolean stopFireworks = new AtomicBoolean(false);
+            Common.runLater(20 * 5 - 10, () -> {
+                stopFireworks.set(true);
+            });
+
+            Player winner = winners[0];
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (stopFireworks.get() == true) {
+                        cancel();
+                        return;
+                    }
+                    CompSound.FIREWORK_LAUNCH.play(winner);
+                    for (int i = 0; i < 50; i++) {
+                        CompParticle.FIREWORKS_SPARK.spawn(RandomUtil.nextLocation(winner.getLocation(), 1, true));
+                    }
+                }
+            }.runTaskTimer(BaconBrawl.getInstance(), 0, 20L);
+
+
+            //GAME MECHANICS
             forEachPlayerInAllModes(player -> {
                 PlayerUtil.normalize(player, true);
                 teleport(player, getPostGameLocation());
@@ -250,11 +269,33 @@ public final class BaconBrawlCore extends GameSpawnPoint {
             } else {
                 onGameStopMessage(GameStopReason.SILENT_STOP);
                 for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING))
-                    cache.resetCurrentKills();
+                    silentGameResetRequirements(cache.toPlayer());
                 stop(GameStopReason.SILENT_STOP);
             }
             Arrays.fill(winners, null); //resets winners Array
         });
+    }
+
+    public static void spawnFireworks(Player p) {
+        Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+        FireworkMeta fwm = fw.getFireworkMeta();
+
+        fwm.setPower(2);
+        fwm.addEffect(FireworkEffect.builder().withColor(CompColor.PINK.getColor()).flicker(true).build());
+
+        fw.setFireworkMeta(fwm);
+        fw.detonate();
+
+        for (int i = 0; i < 1; i++) {
+            Firework fw2 = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+            fw2.setFireworkMeta(fwm);
+        }
+    }
+
+    private void silentGameResetRequirements(Player player) {
+        NmsDisguise.removeDisguise(player);
+        PlayerCache.from(player).getCurrentKit().getPowers(player).clear();
+        PlayerCache.from(player).resetCurrentKills();
     }
 
     @Override
@@ -358,6 +399,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         PlayerCache cache = PlayerCache.from(player);
         Action action = event.getAction();
         if (cache.hasGame() && cache.getCurrentGameMode() == GameJoinMode.PLAYING) {
+            if (cache.hasGame() && cache.getCurrentGame().getState() == GameState.PREPLAYED)
+                return;
             if (action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)) {
                 for (Power power : cache.getCurrentKit().getPowers(player)) {
                     if (player.getItemInHand().getType() == power.getItemStack().getType()) {
