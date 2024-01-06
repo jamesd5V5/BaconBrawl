@@ -1,9 +1,11 @@
 package org.mammothplugins.baconBrawl.model.baconbrawl;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.GameScoreboard;
+import org.mammothplugins.baconBrawl.model.GameState;
 import org.mineacademy.fo.model.Replacer;
 
 import java.util.List;
@@ -15,9 +17,14 @@ public class BaconBrawlScoreboard extends GameScoreboard { //gamePoint scoreboar
 
     @Override
     protected String replaceVariables(final Player player, String message) {
-        for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
-            message = Replacer.replaceArray(message,
-                    "PlayerName:" + cache.getUniqueId(), cache.toPlayer().getName());
+        for (Player player1 : Bukkit.getOnlinePlayers()) {
+            PlayerCache playerCache = PlayerCache.from(player1);
+            if (playerCache.hasGame()) {
+                if (playerCache.getCurrentGame().getState() == GameState.PREPLAYED || playerCache.getCurrentGame().getState() == GameState.PLAYED)
+                    message = Replacer.replaceArray(message,
+                            "PlayerName:" + playerCache.getUniqueId(), playerCache.toPlayer().getName());
+            } else
+                this.removeRow("PlayerName:" + playerCache.getUniqueId());
         }
         return super.replaceVariables(player, message);
     }

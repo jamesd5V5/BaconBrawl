@@ -722,7 +722,7 @@ public abstract class Game extends YamlConfig {
         return true;
     }
 
-    public final void leavePlayer(Player player, GameLeaveReason leaveReason) {
+    public void leavePlayer(Player player, GameLeaveReason leaveReason) {
         this.leavePlayer(player, leaveReason, true);
     }
 

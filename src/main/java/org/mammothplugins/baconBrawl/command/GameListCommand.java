@@ -16,6 +16,7 @@ final class GameListCommand extends GameSubCommand {
 
     @Override
     protected void onCommand() {
+        Common.tell(getPlayer(), "Ticks: " + getPlayer().getNoDamageTicks());
         tellInfo("Loaded games: " + Common.join(Game.getGames(), game -> game.getName() + " (" + game.getType().getName() + ")"));
     }
 

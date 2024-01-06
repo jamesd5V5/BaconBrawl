@@ -117,6 +117,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     @Override
     protected void onGameStartFor(Player player, PlayerCache cache) {
         super.onGameStartFor(player, cache);
+        player.setNoDamageTicks(0);
     }
 
     @Override
@@ -128,10 +129,18 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     }
 
     @Override
+    public void leavePlayer(Player player, GameLeaveReason leaveReason) {
+        super.leavePlayer(player, leaveReason);
+        BaconBrawlScoreboard scoreboard = (BaconBrawlScoreboard) getScoreboard();
+        scoreboard.removePlayer(player);
+    }
+
+    @Override
     protected void onGameLeave(Player player) {
         super.onGameLeave(player);
 
         if (this.isPlayed()) {
+            player.setNoDamageTicks(10);
             player.removePotionEffect(PotionEffectType.REGENERATION);
 
             //RESETCURRENT
@@ -166,6 +175,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
             cache.onSave();
             cache.getCurrentKit().wipeAllPowers();
             cache.getCurrentKit().onDeath(player);
+            player.setNoDamageTicks(10);
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 player.removePotionEffect(PotionEffectType.REGENERATION);
@@ -196,6 +206,9 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     public void onPlayerDeath(PlayerCache cache, PlayerDeathEvent event) {
         super.onPlayerDeath(cache, event);
         Player player = event.getEntity();
+
+        BaconBrawlScoreboard scoreboard = (BaconBrawlScoreboard) getScoreboard();
+        scoreboard.removePlayer(player);
 
         //Kills
         PlayerUIDesigns.deathMessage(this, event, lastHit);
@@ -246,7 +259,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
                         cancel();
                         return;
                     }
-                    CompSound.FIREWORK_LAUNCH.play(winner);
+                    CompSound.FIREWORK_LAUNCH.play(winner.getLocation());
                     for (int i = 0; i < 50; i++) {
                         CompParticle.FIREWORKS_SPARK.spawn(RandomUtil.nextLocation(winner.getLocation(), 1, true));
                     }
@@ -268,7 +281,7 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
             } else {
                 onGameStopMessage(GameStopReason.SILENT_STOP);
-                for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING))
+                for (PlayerCache cache : getPlayersInAllModes())
                     silentGameResetRequirements(cache.toPlayer());
                 stop(GameStopReason.SILENT_STOP);
             }
