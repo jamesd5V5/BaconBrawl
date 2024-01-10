@@ -6,6 +6,7 @@ public enum GameState {
     LOBBY,
     PREPLAYED,
     PLAYED,
+    POSTPLAYED,
     EDITED;
 
     @Override

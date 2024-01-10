@@ -37,6 +37,12 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/*
+Bacon Brawl
+In honor one of Mineplex's best games
+Recreated by MammothPlugins (jamesd5)
+Started November 1, 2023
+ */
 public final class BaconBrawlCore extends GameSpawnPoint {
 
     private Player[] winners = new Player[3];
@@ -235,7 +241,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         cache.setCurrentGameMode(GameJoinMode.SPECTATING);
     }
 
-    private void theLastPlayer(Player secondPlacePlayer) {
+    void theLastPlayer(Player secondPlacePlayer) {
+        this.state = GameState.POSTPLAYED;
         winners[1] = secondPlacePlayer; //2nd Place Winner
         for (PlayerCache playerCache : getPlayers(GameJoinMode.PLAYING))
             if (!(playerCache.getUniqueId().equals(secondPlacePlayer.getUniqueId()))) {

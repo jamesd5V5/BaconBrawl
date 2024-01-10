@@ -124,6 +124,7 @@ public final class AntiGriefListeners implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        Game game = Game.findByLocation(player.getLocation());
         PlayerCache cache = PlayerCache.from(player);
 
         if (cache.hasGame())

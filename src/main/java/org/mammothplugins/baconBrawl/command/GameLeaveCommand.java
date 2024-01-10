@@ -3,6 +3,7 @@ package org.mammothplugins.baconBrawl.command;
 import org.mammothplugins.baconBrawl.PlayerCache;
 import org.mammothplugins.baconBrawl.model.Game;
 import org.mammothplugins.baconBrawl.model.GameLeaveReason;
+import org.mammothplugins.baconBrawl.model.GameState;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ final class GameLeaveCommand extends GameSubCommand {
         this.checkConsole();
 
         final PlayerCache cache = PlayerCache.from(this.getPlayer());
+        if (cache.hasGame())
+            this.checkBoolean(cache.getCurrentGame().getState() != GameState.PREPLAYED, "Cannot leave the game until it starts!");
         this.checkBoolean(cache.hasGame(), "You are not playing any game right now.");
 
         cache.getCurrentGame().leavePlayer(getPlayer(), GameLeaveReason.COMMAND);

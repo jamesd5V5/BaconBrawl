@@ -1,16 +1,14 @@
 Bacon Brawl
 In honor one of Mineplex's best games
+Recreated by MammothPlugins (jamesd5)
 Started November 1, 2023
 
 ======================================================
 
 Essential:
--Scoreboard Issue
--Pig in PostGame
--Game start grace period
+-When Player Quits during PostGame, crashes, Prob have to make new GameState
 
 Potential
-
 -AutoRotate between maps
 -non AutoRotate does not have PostGame
 -Maybe Add DeathMode

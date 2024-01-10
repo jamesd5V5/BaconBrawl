@@ -17,6 +17,7 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
 
     private Player player;
     private final Button randomButton;
+    private final Button creditButton;
 
     public KitSelectorMenu(Player player) {
         super(Kits.getKits());
@@ -51,6 +52,20 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
             public ItemStack getItem() {
                 return ItemCreator.of(cache.isRandomKit() ? CompMaterial.LIME_DYE : CompMaterial.RED_DYE, "&f&lRandom Kit", new String[]{"&7Randomly assigns a kit", "at the start of every game.", " ", cache.isRandomKit() ? "&f(Click to &c&lDisable&r&f)" : "&f(Click to &a&lEnable&r&f)"}).glow(cache.isRandomKit()).make();
             }
+
+        };
+
+        this.creditButton = new Button() {
+            public void onClickedInMenu(Player player, Menu menu, ClickType clickType) {
+                if (clickType.isLeftClick()) {
+                }
+            }
+
+            public ItemStack getItem() {
+                return ItemCreator.of(CompMaterial.PLAYER_HEAD, "&f&lMammoth Plugins", new String[]{
+                        "&7In honor one of Mineplex's best games\n" + "Recreated by jamesd5."}).skullOwner("jamesd5").make();
+            }
+
         };
     }
 
@@ -58,6 +73,8 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
     public ItemStack getItemAt(int slot) {
         if (slot == this.getSize() - 5)
             return this.randomButton.getItem();
+        if (slot == this.getSize() - 1)
+            return this.creditButton.getItem();
         else if (slot >= this.getSize() - 9)
             return ItemCreator.of(CompMaterial.GRAY_STAINED_GLASS_PANE, " ", new String[0]).make();
 

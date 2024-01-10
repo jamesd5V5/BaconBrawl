@@ -43,9 +43,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
-/*
-Default Game Template
- */
+import static io.lumine.mythic.bukkit.utils.events.filter.EventHandlers.cancel;
+
 public abstract class Game extends YamlConfig {
 
     private static final String FOLDER = "games";
@@ -86,7 +85,7 @@ public abstract class Game extends YamlConfig {
     private Countdown startCountdown;
     private Countdown heartbeat;
     private GameScoreboard scoreboard;
-    private GameState state = GameState.STOPPED;
+    protected GameState state = GameState.STOPPED;
     private boolean stopping;
     private boolean starting;
 
@@ -332,7 +331,15 @@ public abstract class Game extends YamlConfig {
     }
 
     public boolean hasMinPlayers() {
-        return players.size() - 1 >= getMinPlayers();
+        if ((players.size() >= getMinPlayers()) == false) {
+            if (this.startCountdown.isRunning())
+                this.startCountdown.cancel();
+
+            if (this.heartbeat.isRunning())
+                this.heartbeat.cancel();
+            return false;
+        }
+        return true;
     }
 
     /* ------------------------------------------------------------------------------- */
@@ -397,6 +404,11 @@ public abstract class Game extends YamlConfig {
             new BukkitRunnable() {
                 @Override
                 public void run() {
+                    if (hasMinPlayers() == false) {
+                        stop(GameStopReason.LAST_PLAYER_LEFT);
+                        cancel();
+                        return;
+                    }
                     if (pastPreGame.get() == true) {
                         cancel();
                         return;
@@ -422,6 +434,10 @@ public abstract class Game extends YamlConfig {
 
 
             Common.runLater(12 * 20, () -> {
+                if (hasMinPlayers() == false) {
+                    cancel();
+                    return;
+                }
                 this.state = GameState.PLAYED;
                 for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
                     Player player = cache.toPlayer();
@@ -438,12 +454,28 @@ public abstract class Game extends YamlConfig {
     }
 
     public void whenSilentStop() {
-        for (PlayerCache cache : this.players) {
-            Common.runLater(20 * 5, () -> {
-                Player player = cache.toPlayer();
+        for (int i = 0; i < players.size(); i++)
+            if (this.players.get(i) == null || this.players.get(i).toPlayer() == null) {
+                leavePlayer(this.players.get(i).toPlayer(), GameLeaveReason.QUIT_SERVER);
+                Common.broadcast("New size: " + this.players.size());
+                //this.players.remove(i);
+                i--;
+            }
+        Common.runLater(20 * 5, () -> {
+            this.state = GameState.STOPPED;
+            for (int i = 0; i < players.size(); i++)
+                if (this.players.get(i) == null || this.players.get(i).toPlayer() == null) {
+                    //this.players.remove(i);
+                    leavePlayer(this.players.get(i).toPlayer(), GameLeaveReason.QUIT_SERVER);
+                    Common.broadcast("New size: " + this.players.size());
+                    i--;
+                }
+            for (int i = 0; i < players.size(); i++) {
+                Player player = players.get(i).toPlayer();
                 joinPlayer(player, GameJoinMode.PLAYING, true);
-            });
-        }
+            }
+        });
+
     }
 
     public final void stop(GameStopReason stopReason) {
@@ -502,13 +534,15 @@ public abstract class Game extends YamlConfig {
                 }
             }
         } finally {
-            this.state = GameState.STOPPED;
-            this.getLastHit().clear();
-            if (stopReason != GameStopReason.SILENT_STOP && stopReason != GameStopReason.NONAUTO_PRE_STROP)
+            if (stopReason != GameStopReason.SILENT_STOP && stopReason != GameStopReason.NONAUTO_PRE_STROP) {
+                this.state = GameState.STOPPED;
                 this.players.clear();
-            else if (stopReason == GameStopReason.SILENT_STOP)
-                whenSilentStop();
+            } else {
+                if (stopReason == GameStopReason.SILENT_STOP)
+                    whenSilentStop();
+            }
 
+            this.getLastHit().clear();
             this.stopping = false;
 
             Common.log("Stopped game " + this.getName());
@@ -796,13 +830,7 @@ public abstract class Game extends YamlConfig {
                     this.broadcast("&6" + player.getName() + " &7has left the game! (" + this.getPlayers(GameJoinMode.PLAYING).size() + "/" + this.maxPlayers + ")");
 
                 //todo CHANGED
-                if (hasMinPlayers() == false) {
-                    if (this.startCountdown.isRunning())
-                        this.startCountdown.cancel();
-
-                    if (this.heartbeat.isRunning())
-                        this.heartbeat.cancel();
-                }
+                hasMinPlayers();
             } finally {
                 cache.setLeaving(false);
                 cache.setCurrentGameMode(null);
