@@ -13,11 +13,14 @@ import org.mineacademy.fo.menu.model.ItemCreator;
 import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.remain.CompSound;
 
+import java.util.Arrays;
+
 public class KitSelectorMenu extends MenuPagged<Kits> {
 
     private Player player;
     private final Button randomButton;
     private final Button creditButton;
+    private final Button statsButton;
 
     public KitSelectorMenu(Player player) {
         super(Kits.getKits());
@@ -67,6 +70,34 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
             }
 
         };
+
+        this.statsButton = new Button() {
+            public void onClickedInMenu(Player player, Menu menu, ClickType clickType) {
+                if (clickType.isLeftClick()) {
+                }
+            }
+
+            public ItemStack getItem() {
+                double num = (double) cache.getGamesWon() / cache.getGamesPlayed();
+                String numb = String.format("%.2f", num);
+                String ratio = "" + numb;
+
+                double other = (double) cache.getKills() / cache.getGamesPlayed();
+                String numbb = String.format("%.2f", other);
+                String killRatio = "" + numbb;
+
+                return ItemCreator.of(CompMaterial.PLAYER_HEAD, "&f&l" + player.getName() + "'s Stats", new String[]{
+                        " \n",
+                        "&7Games Played: &f" + cache.getGamesPlayed() + "\n",
+                        "&7Games Won: &f" + cache.getGamesWon() + "\n",
+                        "&7W/L Ratio: &f" + ratio + "\n",
+                        " \n",
+                        "&7Kills: &f" + cache.getKills() + "\n",
+                        "&7Kills/Game Ratio: &f" + killRatio + "\n",
+                }).skullOwner(player.getName()).make();
+            }
+
+        };
     }
 
     @Override
@@ -75,6 +106,8 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
             return this.randomButton.getItem();
         if (slot == this.getSize() - 1)
             return this.creditButton.getItem();
+        if (slot == this.getSize() - 2)
+            return this.statsButton.getItem();
         else if (slot >= this.getSize() - 9)
             return ItemCreator.of(CompMaterial.GRAY_STAINED_GLASS_PANE, " ", new String[0]).make();
 
@@ -84,7 +117,7 @@ public class KitSelectorMenu extends MenuPagged<Kits> {
     protected ItemStack convertToItemStack(Kits kit) {
         PlayerCache cache = PlayerCache.from(player);
         Kits currentKit = cache.getCurrentKit();
-        return ItemCreator.of(kit.getCompMaterial(), "&f&l" + kit.getName() + " Kit", "&7" + kit.getLore(), "", "&f(Click to Select)").glow(!cache.isRandomKit() && currentKit.getName().equals(kit.getName())).make();
+        return ItemCreator.of(kit.getCompMaterial(), "&f&l" + kit.getName() + " Kit", "&7" + String.join("\n", Arrays.asList(kit.getLore())), "", "&f(Click to Select)").glow(!cache.isRandomKit() && currentKit.getName().equals(kit.getName())).make();
     }
 
     protected void onPageClick(Player player, Kits kit, ClickType clickType) {

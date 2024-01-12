@@ -19,7 +19,7 @@ public class Kits {
     private static List<Kits> kits = new ArrayList<>();
 
     private String name;
-    private String lore;
+    private String[] lore;
     private ChatColor chatColor;
     private CompMaterial compMaterial;
     private double knockBack;

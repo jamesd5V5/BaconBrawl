@@ -32,9 +32,12 @@ public class MamaPiggles extends Kits {
 
     public MamaPiggles() {
         setName("MamaPiggles");
-        setLore("Mama & Baby Piggles fight together");
+        setLore(new String[]{"Mama & Baby Piggles fight together\n" + "Throw a Bacon Blast,"});
+
         setChatColor(ChatColor.RED);
+
         setCompMaterial(CompMaterial.PORKCHOP);
+
         setKnockBack(1);
     }
 
@@ -55,6 +58,7 @@ public class MamaPiggles extends Kits {
 
         Disguise disguise = NmsDisguise.setDisguise(player, DisguiseType.PIG);
         this.pigWatcher = (PigWatcher) disguise.getWatcher();
+        this.pigWatcher.setBaby();
 
 
 //        this.piglet = (Wolf) player.getWorld().spawnEntity(player.getLocation(), EntityType.WOLF);

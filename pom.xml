@@ -59,6 +59,12 @@
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
         <!-- ProtocolLib -->
+
+
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
 
     <!-- Do NOT edit. -->
@@ -85,6 +91,13 @@
             <artifactId>EffectLib</artifactId>
             <version>9.0</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.1</version>
+            <scope>provided</scope>
         </dependency>
         <!--        <dependency> &lt;!&ndash; Spigot (this includes Spigot API, Bukkit API, Craftbukkit and NMS) &ndash;&gt;-->
         <!--            <groupId>org.spigotmc</groupId>-->

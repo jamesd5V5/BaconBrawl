@@ -31,7 +31,7 @@ public class ElMuchachoPig extends Kits {
 
     public ElMuchachoPig() {
         setName("ElMuchachoPig"); //basic
-        setLore("Such a fat pig. Oink");
+        setLore(new String[]{"Such a fat pig. Oink\n" + "Slam yourself forward."});
         setChatColor(ChatColor.LIGHT_PURPLE);
         setCompMaterial(CompMaterial.IRON_AXE);
         setKnockBack(1);

@@ -33,7 +33,7 @@ public class Pig extends Kits {
 
     public Pig() {
         setName("Pig");
-        setLore("\"...Oink?\"");
+        setLore(new String[]{"\"...Oink?\"", "Briefly become invisible,", "deal %250 more knockback", "when behind your enemy."});
         setChatColor(ChatColor.LIGHT_PURPLE);
         setCompMaterial(CompMaterial.PINK_WOOL);
         setKnockBack(1);

@@ -16,7 +16,8 @@ final class GameListCommand extends GameSubCommand {
 
     @Override
     protected void onCommand() {
-        Common.tell(getPlayer(), "Ticks: " + getPlayer().getNoDamageTicks());
+//        String s = PlaceholderAPI.setPlaceholders(getPlayer(), "Okat: Games Won: %baconbrawl_gamesWon% Games Played: %baconbrawl_gamesPlayed% +  Ratio: %baconbrawl_gameRatio% ");
+//        Common.tell(getPlayer(), s);
         tellInfo("Loaded games: " + Common.join(Game.getGames(), game -> game.getName() + " (" + game.getType().getName() + ")"));
     }
 
