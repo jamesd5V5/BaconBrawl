@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.PlayerCache;
+import org.mammothplugins.baconBrawl.model.baconbrawl.BaconBrawlCore;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.Common;
@@ -81,9 +82,14 @@ public class ElMuchachoPig extends Kits {
 
         @Override
         public void activatePower() {
-            player.setVelocity(player.getEyeLocation().getDirection().multiply(1.3));
+            BaconBrawlCore bbc = (BaconBrawlCore) PlayerCache.from(player).getCurrentGame();
+            double value = 0;
+            if (bbc.isPorkalypseMode())
+                value = 0.75;
+            player.setVelocity(player.getEyeLocation().getDirection().multiply(1.3 + value));
             canNoLongerDashTouch = false;
-            CompSound.HORSE_DEATH.play(player, 0.5f, 1.7f);
+            float pitch = (float) (1.7 - value);
+            CompSound.HORSE_DEATH.play(player, 0.5f, pitch);
             AtomicBoolean showParticles = new AtomicBoolean(true);
             Common.runLater(1 * 20, () -> {
                 canNoLongerDashTouch = true;
@@ -105,9 +111,13 @@ public class ElMuchachoPig extends Kits {
         @Override
         public void postActivatedMelee(LivingEntity victim) {
             if (this.isCoolingDown() && canNoLongerDashTouch == false && hasPostLaunched == false) {
+                BaconBrawlCore bbc = (BaconBrawlCore) PlayerCache.from(player).getCurrentGame();
+                double value = 0;
+                if (bbc.isPorkalypseMode())
+                    value = 0.75;
                 victim.damage(1);
                 Vector vector = player.getVelocity().setY(0);
-                victim.setVelocity(vector.multiply(2.5).add(new Vector(0, 0.5, 0)));
+                victim.setVelocity(vector.multiply(2.5 + value).add(new Vector(0, 0.5, 0)));
                 player.setVelocity(vector.multiply(-0.2).add(new Vector(0, 0.5, 0)));
                 hasPostLaunched = true;
 

@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.PlayerCache;
+import org.mammothplugins.baconBrawl.model.baconbrawl.BaconBrawlCore;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.Common;
@@ -99,7 +100,7 @@ public class MamaPiggles extends Kits {
 
         public BaconBlast(Player player) {
             super("Bacon Blast",
-                    ItemCreator.of(CompMaterial.IRON_AXE, "&f&lBacon Blast").make(), player, 4);
+                    ItemCreator.of(CompMaterial.IRON_AXE, "&f&lBacon Blast").make(), player, 3);
         }
 
         @Override
@@ -125,11 +126,17 @@ public class MamaPiggles extends Kits {
 
         @Override
         public void postActivatedProjectile(LivingEntity victim, Projectile projectile) {
+            BaconBrawlCore bbc = (BaconBrawlCore) PlayerCache.from(player).getCurrentGame();
+            double value = 0;
+            if (bbc.isPorkalypseMode())
+                value = 0.75;
             victim.damage(1);
-            CompSound.EXPLODE.play(projectile.getLocation(), 0.5f, 0.8f);
-            CompSound.ENTITY_ARROW_HIT_PLAYER.play(player, 0.5f, 1f);
+            float pitch = (float) (0.8 - value);
+            float pitch2 = (float) (1 - value);
+            CompSound.EXPLODE.play(projectile.getLocation(), 0.5f, pitch);
+            CompSound.ENTITY_ARROW_HIT_PLAYER.play(player, 0.5f, pitch2);
             Vector vector = projectile.getVelocity().setY(0);
-            victim.setVelocity(vector.multiply(1.1).add(new Vector(0, 1.0, 0)));
+            victim.setVelocity(vector.multiply(1.2 + value).add(new Vector(0, 1.0, 0)));
 
             PlayerCache vCache = PlayerCache.from((Player) victim);
             vCache.setPotentialKiller(player);

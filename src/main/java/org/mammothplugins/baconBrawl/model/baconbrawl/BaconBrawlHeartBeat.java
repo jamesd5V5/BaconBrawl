@@ -13,6 +13,8 @@ import org.mammothplugins.baconBrawl.model.GameHeartbeat;
 import org.mammothplugins.baconBrawl.model.GameJoinMode;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
+import org.mineacademy.fo.RandomUtil;
+import org.mineacademy.fo.remain.CompParticle;
 import org.mineacademy.fo.remain.Remain;
 
 import java.util.ArrayList;
@@ -40,8 +42,14 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
         //ontick stuff
         for (PlayerCache cache : getGame().getPlayers(GameJoinMode.PLAYING)) {
             Player player = cache.toPlayer();
-            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 100));
             setCompassTarget(player);
+
+            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 1, 100));
+
+            BaconBrawlCore bbc = (BaconBrawlCore) PlayerCache.from(player).getCurrentGame();
+            if (bbc.isPorkalypseMode())
+                for (int i = 0; i < 15; i++)
+                    CompParticle.SMALL_FLAME.spawn(RandomUtil.nextLocation(player.getLocation(), 0.5, true));
 
             //Display Cooldown
             ItemStack itemStack = player.getInventory().getItemInHand();
@@ -91,7 +99,15 @@ public class BaconBrawlHeartBeat extends GameHeartbeat {
             player.setHealth(player.getMaxHealth());
 
             player.setSaturation(20);
-            getGame().joinMsg(player);
+
+            if (this.getGame().isCanHavePorkalypseMode()) {
+                int random = new Random().nextInt(5) + 1;
+                if (random == 1) {
+                    this.getGame().setPorkalypseMode(true);
+                    this.getGame().getRegion().getWorld().setTime(13500);
+                }
+            }
+            getGame().joinMsg(player, this.getGame().isPorkalypseMode());
             cache.addGamesPlayed();
 
 

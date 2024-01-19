@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.mammothplugins.baconBrawl.BaconBrawl;
 import org.mammothplugins.baconBrawl.PlayerCache;
+import org.mammothplugins.baconBrawl.model.baconbrawl.BaconBrawlCore;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.nms.NmsDisguise;
 import org.mammothplugins.baconBrawl.model.baconbrawl.kits.powers.Power;
 import org.mineacademy.fo.Common;
@@ -83,8 +84,15 @@ public class Pig extends Kits {
 
         @Override
         public void activatePower() {
+            BaconBrawlCore bbc = (BaconBrawlCore) PlayerCache.from(player).getCurrentGame();
+            double value = 0;
+            if (bbc.isPorkalypseMode())
+                value = 0.75;
+            float pitch = (float) (0.8 - value);
+            float pitch2 = (float) (1.7 - value);
+
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 4 * 20, 50));
-            CompSound.SHEEP_SHEAR.play(player.getLocation(), 0.5f, 0.8f);
+            CompSound.SHEEP_SHEAR.play(player.getLocation(), 0.5f, pitch);
             hasBeenRevealed = false;
 
             new BukkitRunnable() {
@@ -92,7 +100,7 @@ public class Pig extends Kits {
                 public void run() {
                     if (hasBeenRevealed == false) {
                         Common.tell(player, "You are no longer invisible.");
-                        CompSound.ENTITY_SHEEP_DEATH.play(player.getLocation(), 0.5f, 1.7f);
+                        CompSound.ENTITY_SHEEP_DEATH.play(player.getLocation(), 0.5f, pitch2);
                     }
                     hasBeenRevealed = true;
                 }
@@ -106,16 +114,23 @@ public class Pig extends Kits {
         @Override
         public void postActivatedMelee(LivingEntity victim, EntityDamageByEntityEvent event) {
             if (canPostActiavteMelee()) {
+                BaconBrawlCore bbc = (BaconBrawlCore) PlayerCache.from(player).getCurrentGame();
+                double value = 0;
+                if (bbc.isPorkalypseMode())
+                    value = 0.75;
+                float pitch = (float) (0.8 - value);
+                float pitch2 = (float) (1.7 - value);
+
                 hasBeenRevealed = true;
                 player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                CompSound.ENTITY_SHEEP_DEATH.play(player.getLocation(), 0.5f, 1.7f);
+                CompSound.ENTITY_SHEEP_DEATH.play(player.getLocation(), 0.5f, pitch2);
                 victim.damage(1);
                 Vector betweenVector = victim.getEyeLocation().toVector().subtract(player.getEyeLocation().toVector());
                 Vector direction = victim.getEyeLocation().getDirection();
                 double delta = betweenVector.dot(direction);
                 if (delta > 0) { //if the player is Behind the victim's field of vision
                     Common.tell(player, "You successfully launched " + victim.getName() + ".");
-                    event.getEntity().setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(getKnockBack() * 2.5).add(new Vector(0, 0.7, 0)));
+                    event.getEntity().setVelocity(player.getLocation().getDirection().setY(0).normalize().multiply(getKnockBack() * 2.5 + value).add(new Vector(0, 0.7, 0)));
                 }
 
                 PlayerCache.from((Player) victim).startCountdownLastKiller(player);

@@ -1,6 +1,7 @@
 package org.mammothplugins.baconBrawl.model.baconbrawl;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.*;
@@ -12,6 +13,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
@@ -47,8 +49,14 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
     private Player[] winners = new Player[3];
 
-    @Getter
+
     public HashMap<UUID, UUID> lastHit = new HashMap<>();
+    @Getter
+    private boolean canHavePorkalypseMode;
+
+    @Getter
+    @Setter
+    private boolean porkalypseMode;
 
     protected BaconBrawlCore(String name) {
         super(name);
@@ -71,28 +79,42 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     @Override
     protected void onLoad() {
         super.onLoad();
+        this.canHavePorkalypseMode = getBoolean("PorkalyspeMode", true);
     }
 
     @Override
     protected void onSave() {
         super.onSave();
+        this.set("PorkalyspeMode", this.canHavePorkalypseMode);
     }
 
     public void applyKit(Player player, PlayerCache cache) {
         Kits kit = cache.getCurrentKit();
         kit.applyAttributes(player);
+        if (this.porkalypseMode)
+            kit.setKnockBack(2.5);
+        else
+            kit.setKnockBack(1);
 
         Common.runLater(2, () -> {
-            Common.tell(player, Common.colorize("&7You equipped " + kit.getChatColor() + kit.getName() + " Kit"));
+            String multiplier = this.porkalypseMode ? "&4X 2.5 &5KnockBack&7!" : "";
+            Common.tell(player, Common.colorize("&7You equipped " + kit.getChatColor() + kit.getName() + " Kit " + multiplier));
         });
     }
 
-    public void joinMsg(Player player) {
-        BoxedMessage.tell(player, "<center>&6&lBacon Brawl\n\n"
-                + "<center>&7Knock other pigs out of the arena!\n"
-                + "<center>&7Last pig in the arena wins!\n"
-                + " \n"
-                + "<center>&6Map - &f" + getName() + " &7created by &f" + getMapCreator());
+    public void joinMsg(Player player, boolean isInPorkalyspeMode) {
+        if (isInPorkalyspeMode)
+            BoxedMessage.tell(player, "<center>&4&lPorkalypseMode\n\n"
+                    + "<center>&5Knock other pigs out of the arena!\n"
+                    + "<center>&5But be careful, the pigs are Angry!\n"
+                    + " \n"
+                    + "<center>&4Map - &7" + getName() + " &5created by &7" + getMapCreator());
+        else
+            BoxedMessage.tell(player, "<center>&6&lBacon Brawl\n\n"
+                    + "<center>&7Knock other pigs out of the arena!\n"
+                    + "<center>&7Last pig in the arena wins!\n"
+                    + " \n"
+                    + "<center>&6Map - &f" + getName() + " &7created by &f" + getMapCreator());
     }
 
     private void leaveMsg(Player player) {
@@ -120,10 +142,19 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     // ------–------–------–------–------–------–------–------–------–------–------–------–
     // Events
     // ------–------–------–------–------–------–------–------–------–------–------–------–
+
     @Override
     protected void onGameStartFor(Player player, PlayerCache cache) {
         super.onGameStartFor(player, cache);
         player.setNoDamageTicks(0);
+
+        if (porkalypseMode) {
+            CompSound.ENTITY_LIGHTNING_BOLT_THUNDER.play(player);
+            player.getWorld().strikeLightning(player.getLocation());
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, -1, 2));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, -1, 1));
+        }
+
     }
 
     @Override
@@ -139,6 +170,9 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         super.leavePlayer(player, leaveReason);
         BaconBrawlScoreboard scoreboard = (BaconBrawlScoreboard) getScoreboard();
         scoreboard.removePlayer(player);
+
+        player.removePotionEffect(PotionEffectType.SPEED);
+        player.removePotionEffect(PotionEffectType.WITHER);
     }
 
     @Override
@@ -148,6 +182,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         if (this.isPlayed()) {
             player.setNoDamageTicks(10);
             player.removePotionEffect(PotionEffectType.REGENERATION);
+            player.removePotionEffect(PotionEffectType.SPEED);
+            player.removePotionEffect(PotionEffectType.WITHER);
 
             //RESETCURRENT
             Common.runLater(2, () -> {
@@ -176,6 +212,9 @@ public final class BaconBrawlCore extends GameSpawnPoint {
     protected void onGameStop() {
         super.onGameStop();
 
+        this.setPorkalypseMode(false);
+        this.getRegion().getWorld().setTime(0);
+
         for (PlayerCache cache : getPlayers(GameJoinMode.PLAYING)) {
             Player player = cache.toPlayer();
             cache.onSave();
@@ -185,6 +224,8 @@ public final class BaconBrawlCore extends GameSpawnPoint {
             Common.runLater(2, () -> {
                 NmsDisguise.removeDisguise(player);
                 player.removePotionEffect(PotionEffectType.REGENERATION);
+                player.removePotionEffect(PotionEffectType.SPEED);
+                player.removePotionEffect(PotionEffectType.WITHER);
             });
         }
     }
@@ -238,6 +279,11 @@ public final class BaconBrawlCore extends GameSpawnPoint {
             theLastPlayer(player);
             return;
         }
+
+        if (porkalypseMode) {
+            player.getWorld().strikeLightning(player.getLocation());
+        }
+
         cache.setCurrentGameMode(GameJoinMode.SPECTATING);
     }
 
@@ -358,6 +404,12 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         if (dCache.hasGame() && dCache.getCurrentGameMode() == GameJoinMode.PLAYING) {
             event.setDamage(0);
             cancelItemDurability(damager);
+
+            if (porkalypseMode) {
+                for (int i = 0; i < 10; i++)
+                    CompParticle.REDSTONE.spawn(RandomUtil.nextLocation(victim.getLocation(), 1, true));
+            }
+
 
             //Death
             lastHit.put(victim.getUniqueId(), damager.getUniqueId());

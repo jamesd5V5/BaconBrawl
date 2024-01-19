@@ -12,7 +12,6 @@ Potential
 -non AutoRotate does not have PostGame
 -Maybe Add DeathMode
 -Econ?
--Better transitions/with sounds, msgs etc
 
 Minor bugs:
 -Durability still on, comes back when break block, and attack after

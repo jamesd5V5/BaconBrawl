@@ -615,7 +615,8 @@ public final class AntiGriefListeners implements Listener {
                 final Player player = (Player) victim;
 
                 final PlayerCache cache = PlayerCache.from(player);
-
+                if (event.getCause() == EntityDamageEvent.DamageCause.WITHER)
+                    event.setCancelled(true);
                 if (cache.getCurrentGameMode() == GameJoinMode.SPECTATING) {
                     event.setCancelled(true);
 
