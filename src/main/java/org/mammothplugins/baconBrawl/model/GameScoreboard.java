@@ -3,6 +3,7 @@ package org.mammothplugins.baconBrawl.model;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.mammothplugins.baconBrawl.model.baconbrawl.BaconBrawlCore;
 import org.mineacademy.fo.ItemUtil;
 import org.mineacademy.fo.TimeUtil;
 import org.mineacademy.fo.model.Replacer;
@@ -48,7 +49,9 @@ public class GameScoreboard extends SimpleScoreboard {
                 "current_set", spawn,
                 "death_set", this.game.getDeathSpawnLocation() != null,
                 "return_set", this.game.getReturnBackLocation() != null,
-                "post_set", this.game.getPostGameLocation() != null);
+                "post_set", this.game.getPostGameLocation() != null,
+                "mapCreator", this.game.getMapCreator(),
+                "hasPorkalypseMode", ((BaconBrawlCore) this.game).isCanHavePorkalypseMode());
 
         return message.replace("true", "&ayes").replace("false", "&4no");
     }
@@ -76,13 +79,16 @@ public class GameScoreboard extends SimpleScoreboard {
     public final void onEditStart() {
         this.addRows("",
                 "Editing players: {players}",
+                "Map Creator: {mapCreator}",
+                "PorkalypseMode: {hasPorkalypseMode}",
                 "",
                 "Lobby: {lobby_set}",
                 "Region: {region_set}",
                 "Spawnpoint: {current_set}",
                 "Death Loc: {death_set}",
                 "Return Loc: {return_set}",
-                "PostGame Loc: {post_set}");
+                "PostGame Loc: {post_set}"
+        );
 
         this.addRows(this.onEditLines());
         this.addRows("",

@@ -10,22 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8f682070-44d0-4e42-a903-4b2ef986e467" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GamePorkalypseModeCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/ssm_jar/ssm.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ssm_jar/ssm.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/listener/AntiGriefListeners.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameScoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/GameScoreboard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/BaconBrawlCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/BaconBrawlCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/BaconBrawlHeartBeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/BaconBrawlHeartBeat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/ElMuchachoPig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/ElMuchachoPig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/MamaPiggles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/MamaPiggles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/Pig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/model/baconbrawl/kits/Pig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/todo.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BaconBrawl-1.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.0-remapped-obf.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.0-remapped.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/BaconBrawl-1.0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BaconBrawl-1.0.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.1-remapped-obf.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/baconBrawl-1.0.1-remapped-obf.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.1-remapped.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/baconBrawl-1.0.1-remapped.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.1.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,14 +66,14 @@
       <recent name="C:\Users\james\IdeaProjects\BaconBrawl\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.mammothplugins.baconBrawl.command" />
       <recent name="org.mammothplugins.baconBrawl.menu" />
       <recent name="org.mammothplugins.baconBrawl.tool" />
-      <recent name="org.mammothplugins.baconBrawl.command" />
       <recent name="org.mammothplugins.baconBrawl.model.baconbrawl.kits" />
       <recent name="org.mammothplugins.baconBrawl.model.ssm.kits.powers" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.ssm [clean,install]">
+  <component name="RunManager" selected="JAR Application.Server 1.20">
     <configuration name="Server 1.20" type="JarApplication">
       <option name="JAR_PATH" value="$USER_HOME$/Desktop/Files/Servers/Server 1.20 (BB)/paper.jar" />
       <option name="WORKING_DIRECTORY" value="C:\Users\james\Desktop\Files\Servers\Server 1.20 (BB)" />

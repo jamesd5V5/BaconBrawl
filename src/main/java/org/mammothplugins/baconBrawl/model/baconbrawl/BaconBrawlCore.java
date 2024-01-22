@@ -48,12 +48,10 @@ Started November 1, 2023
 public final class BaconBrawlCore extends GameSpawnPoint {
 
     private Player[] winners = new Player[3];
-
-
     public HashMap<UUID, UUID> lastHit = new HashMap<>();
+
     @Getter
     private boolean canHavePorkalypseMode;
-
     @Getter
     @Setter
     private boolean porkalypseMode;
@@ -78,14 +76,15 @@ public final class BaconBrawlCore extends GameSpawnPoint {
 
     @Override
     protected void onLoad() {
-        super.onLoad();
         this.canHavePorkalypseMode = getBoolean("PorkalyspeMode", true);
+        super.onLoad();
     }
 
     @Override
     protected void onSave() {
-        super.onSave();
         this.set("PorkalyspeMode", this.canHavePorkalypseMode);
+        super.onSave();
+        this.save();
     }
 
     public void applyKit(Player player, PlayerCache cache) {
@@ -138,6 +137,10 @@ public final class BaconBrawlCore extends GameSpawnPoint {
         return this.getPlayers(GameJoinMode.PLAYING).size() > 0;
     }
 
+    public void setcanHavePorkalypseMode(boolean canHavePorkalypseMode) {
+        this.canHavePorkalypseMode = canHavePorkalypseMode;
+        this.save();
+    }
 
     // ------–------–------–------–------–------–------–------–------–------–------–------–
     // Events

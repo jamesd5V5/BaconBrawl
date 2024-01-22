@@ -82,6 +82,7 @@ org\mammothplugins\baconBrawl\model\baconbrawl\kits\ElMuchachoPig$BodySlamPower$
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\Pig$CloakPower$1.class
 org\mammothplugins\baconBrawl\settings\Settings$AutoMode.class
 org\mammothplugins\baconBrawl\menu\SpectatePlayersMenu.class
+org\mammothplugins\baconBrawl\command\GamePorkalypseModeCommand.class
 org\mammothplugins\baconBrawl\model\baconbrawl\BaconBrawlScoreboard.class
 org\mammothplugins\baconBrawl\model\GameScoreboard.class
 org\mammothplugins\baconBrawl\command\GameMapCreatorCommand.class
