@@ -6,7 +6,7 @@
 # See https://www.spigotmc.org/wiki/plugin-yml/ for more information.
 # 
 name: BaconBrawl
-version: 1.0.1
+version: 1.0.2
 main: org.mammothplugins.baconBrawl.BaconBrawl
 author: jamesd5
 

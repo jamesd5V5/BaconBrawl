@@ -64,6 +64,7 @@ org\mammothplugins\baconBrawl\model\GameSpawnPoint.class
 org\mammothplugins\baconBrawl\model\baconbrawl\kits\MamaPiggles$BaconBlast.class
 org\mammothplugins\baconBrawl\apis\PlaceHolderApi.class
 org\mammothplugins\baconBrawl\model\GameJoinMode.class
+org\mammothplugins\baconBrawl\command\GameSelectKitMenuCommand.class
 org\mammothplugins\baconBrawl\listener\AntiGriefListeners$ConsumeItemListener.class
 org\mammothplugins\baconBrawl\command\GameRemoveCommand.class
 org\mammothplugins\baconBrawl\command\GameEditCommand.class

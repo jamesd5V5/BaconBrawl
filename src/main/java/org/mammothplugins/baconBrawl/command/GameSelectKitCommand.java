@@ -1,32 +1,74 @@
 package org.mammothplugins.baconBrawl.command;
 
-import org.mammothplugins.baconBrawl.menu.KitSelectorMenu;
-import org.mammothplugins.baconBrawl.model.Game;
-import org.mineacademy.fo.ItemUtil;
+import org.bukkit.entity.Player;
+import org.mammothplugins.baconBrawl.PlayerCache;
+import org.mammothplugins.baconBrawl.model.baconbrawl.kits.Kits;
+import org.mineacademy.fo.Common;
+import org.mineacademy.fo.remain.CompSound;
+import org.mineacademy.fo.remain.Remain;
 
 import java.util.List;
 
 final class GameSelectKitCommand extends GameSubCommand {
 
     GameSelectKitCommand() {
-        super("menu/m");
+        super("kit/k");
 
         this.setDescription("Select a Kit");
-        this.setPermission("baconbrawl.cmd.player.menu");
+        this.setPermission("baconbrawl.cmd.player.kit");
     }
 
     @Override
     protected void onCommand() {
-        this.checkConsole();
-        Game game = this.findGameFromLocationOrFirstArg();
+        PlayerCache cache = null;
+        Player player = null;
+        if (getSender() instanceof Player && args.length == 0) {
+            cache = PlayerCache.from(getPlayer());
+            player = getPlayer();
+        } else {
+            for (Player pl : Remain.getOnlinePlayers())
+                if (pl.getName().equals(this.args[1]) && getSender().hasPermission("baconbrawl.cmd.admin.forcekit")) {
+                    cache = PlayerCache.from(pl);
+                    player = pl;
+                }
+        }
+        this.checkBoolean(player != null, "Player " + args[1] + " does not exist.");
+        this.checkBoolean(cache.hasGame(), "Can only change kits when the player is in the game Lobby!");
+        this.checkBoolean(cache.getCurrentGame().isLobby(), "Can only change kits when the player is in the game Lobby!");
 
-        this.checkBoolean(game.isLobby(), "Can only change kits in Lobby! "
-                + game.getName() + " is " + ItemUtil.bountifyCapitalized(game.getState()).toLowerCase() + ".");
-        (new KitSelectorMenu(getPlayer())).displayTo(this.getPlayer());
+        if ("random".equals(this.args[0]))
+            if (player.hasPermission("baconbrawl.kits.random")) {
+                cache.setRandomKit(true);
+                Common.tell(getSender(), "You forced " + player.getName() + " to have a random kit.");
+                Common.tell(player, "Your kit has changed to a random kit");
+                CompSound.CAT_MEOW.play(player, 5.0F, 0.3F);
+                if (getSender() instanceof Player)
+                    CompSound.CAT_MEOW.play(getPlayer(), 5.0F, 0.3F);
+            } else {
+                Common.tell(getSender(), "The player " + player.getName() + " does not have permission to use Random Kits.");
+                if (getSender() instanceof Player)
+                    CompSound.VILLAGER_NO.play(getPlayer());
+            }
+        for (Kits kit : Kits.getKits())
+            if (kit.getName().equals(this.args[0])) {
+                if (player.hasPermission("baconbrawl.kits." + kit.getName())) {
+                    cache.setCurrentKit(kit);
+                    Common.tell(getSender(), "You forced " + player.getName() + " to have the kit " + kit.getName() + ".");
+                    Common.tell(player, "Your kit has changed to the kit " + kit.getName() + ".");
+                    CompSound.CAT_MEOW.play(player, 5.0F, 0.3F);
+                    if (getSender() instanceof Player)
+                        CompSound.CAT_MEOW.play(getPlayer(), 5.0F, 0.3F);
+                } else {
+                    Common.tell(getSender(), "The player " + player.getName() + " does not have permission to use the kit " + kit.getName() + ".");
+                    if (getSender() instanceof Player)
+                        CompSound.VILLAGER_NO.play(getPlayer());
+                }
+            }
     }
 
     @Override
     protected List<String> tabComplete() {
-        return this.args.length == 1 ? this.completeLastWord(Game.getGameNames()) : NO_COMPLETE;
+        return (this.args.length == 1 ? this.completeLastWord(Kits.getKitsNames(), "random") :
+                (this.args.length == 2 ? this.completeLastWord(Remain.getOnlinePlayers()) : NO_COMPLETE));
     }
 }

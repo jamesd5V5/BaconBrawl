@@ -5,6 +5,10 @@ Started November 1, 2023
 
 ======================================================
 
+/game kit {kitname} (player) baconbrawl.cmd.admin.forcekit
+/game join (gameName) (Player) baconbrawl.cmd.admin.forcejoin
+/game leave (Player) baconbrawl.cmd.admin.forceleave
+
 Essential:
 
 Potential

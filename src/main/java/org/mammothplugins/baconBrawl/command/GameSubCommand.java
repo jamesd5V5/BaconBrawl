@@ -21,7 +21,7 @@ abstract class GameSubCommand extends SimpleSubCommand {
         Game game;
 
         if (this.args.length > 0)
-            game = this.findGame(this.joinArgs(0));
+            game = this.findGame(args[0]); //this.joinArgs(0)
 
         else {
             game = Game.findByLocation(getPlayer().getLocation());
