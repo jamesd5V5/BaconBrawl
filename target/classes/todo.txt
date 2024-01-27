@@ -9,6 +9,8 @@ Started November 1, 2023
 /game join (gameName) (Player) baconbrawl.cmd.admin.forcejoin
 /game leave (Player) baconbrawl.cmd.admin.forceleave
 
+Working on spectate, shoud do start and stop
+
 Essential:
 
 Potential

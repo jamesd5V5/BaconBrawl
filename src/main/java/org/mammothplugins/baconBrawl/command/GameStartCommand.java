@@ -18,9 +18,7 @@ final class GameStartCommand extends GameSubCommand {
 
     @Override
     protected void onCommand() {
-        this.checkConsole();
         Game game = this.findGameFromLocationOrFirstArg();
-
 
         this.checkBoolean(game.isLobby(), "Can only start games in lobby! "
                 + game.getName() + " is " + ItemUtil.bountifyCapitalized(game.getState()).toLowerCase() + ".");

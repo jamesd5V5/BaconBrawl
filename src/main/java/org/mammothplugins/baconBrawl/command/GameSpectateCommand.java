@@ -20,24 +20,50 @@ final class GameSpectateCommand extends GameSubCommand {
 
     @Override
     protected void onCommand() {
+//        Game game = this.findGameFromLocationOrFirstArg();
+//        PlayerCache cache = null;
+//        Player player = null;
+//        if (getSender() instanceof Player && args.length == 0) {
+//            cache = PlayerCache.from(getPlayer());
+//            player = getPlayer();
+//        } else {
+//            if (args.length > 1)
+//                for (Player pl : Remain.getOnlinePlayers())
+//                    if (pl.getName().equals(this.args[1]) && getSender().hasPermission("baconbrawl.cmd.admin.forcespectate")) {
+//                        cache = PlayerCache.from(pl);
+//                        player = pl;
+//                    }
+//        }
+//        this.checkBoolean(player != null, "Player " + args[1] + " does not exist.");
+//        this.checkBoolean(game.isPlayed(), "Can only spectate when the game is in play!");
+//        //this.checkBoolean(cache.getCurrentGame().isPlayed(), "You can only spectate games that are played.");
+//        this.checkBoolean(cache.getCurrentGame().findPlayer(getPlayer()) == null, "You cannot spectate a game you are playing. Type '/" + getLabel() + " leave' to exit.");
+//        game.joinPlayer(this.getPlayer(), GameJoinMode.SPECTATING);
+        Game game = this.findGameFromLocationOrFirstArg();
         PlayerCache cache = null;
-        Player player = null;
-        if (getSender() instanceof Player && args.length == 0) {
+        Player targetPlayer = null;
+        if (getSender() instanceof Player) {
             cache = PlayerCache.from(getPlayer());
-            player = getPlayer();
-        } else {
-            for (Player pl : Remain.getOnlinePlayers())
-                if (pl.getName().equals(this.args[1]) && getSender().hasPermission("baconbrawl.cmd.admin.forcespectate")) {
-                    cache = PlayerCache.from(pl);
-                    player = pl;
-                }
+            targetPlayer = getPlayer();
         }
-        this.checkBoolean(player != null, "Player " + args[1] + " does not exist.");
-        this.checkBoolean(cache.hasGame(), "Can only spectate when the game is in play!");
-        this.checkBoolean(cache.getCurrentGame().isPlayed(), "You can only spectate games that are played.");
-        this.checkBoolean(cache.getCurrentGame().findPlayer(getPlayer()) == null, "You cannot spectate a game you are playing. Type '/" + getLabel() + " leave' to exit.");
-        Game game = cache.getCurrentGame();
-        game.joinPlayer(this.getPlayer(), GameJoinMode.SPECTATING);
+        if (args.length > 1 && getSender().hasPermission("baconbrawl.cmd.admin.forcespectate")) {
+
+            for (Player pl : Remain.getOnlinePlayers())
+                if (pl.getName().equals(this.args[1]) && getSender().hasPermission("baconbrawl.cmd.admin.forcespectate"))
+                    targetPlayer = pl;
+
+            this.checkBoolean(targetPlayer != null, "Player " + args[1] + " does not exist.");
+
+            cache = PlayerCache.from(targetPlayer);
+            sender = targetPlayer;
+        }
+
+        this.checkBoolean(game != null, "Game not found.");
+        this.checkBoolean(game.isPlayed(), "Cannot spectate when the game is not in play.");
+        this.checkBoolean(cache != null, "Player does not exist.");
+        this.checkBoolean(cache.getCurrentGame() != game, "You cannot spectate a game you are playing. Type '/" + getLabel() + " leave' to exit.");
+
+        game.joinPlayer(targetPlayer, GameJoinMode.SPECTATING);
     }
 
     @Override

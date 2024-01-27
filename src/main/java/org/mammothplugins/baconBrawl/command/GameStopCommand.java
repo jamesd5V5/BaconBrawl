@@ -18,7 +18,6 @@ final class GameStopCommand extends GameSubCommand {
 
     @Override
     protected void onCommand() {
-        this.checkConsole();
         Game game = this.findGameFromLocationOrFirstArg();
 
         this.checkBoolean(game.getState() != GameState.PREPLAYED, "Cannot stop the game until it starts!");
