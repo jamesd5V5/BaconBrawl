@@ -11,14 +11,14 @@
   <component name="ChangeListManager">
     <list default="true" id="8f682070-44d0-4e42-a903-4b2ef986e467" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameSpectateCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameSpectateCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameStartCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameStartCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameStopCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mammothplugins/baconBrawl/command/GameStopCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/todo.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/BaconBrawl-1.0.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/BaconBrawl-1.0.2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.2-remapped-obf.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/baconBrawl-1.0.2-remapped-obf.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.2-remapped.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/baconBrawl-1.0.2-remapped.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/BaconBrawl-1.0.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.2-remapped-obf.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/baconBrawl-1.0.2-remapped.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/todo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-BaconBrawl-1.0.2.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

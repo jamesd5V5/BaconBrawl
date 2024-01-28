@@ -8,15 +8,15 @@ Started November 1, 2023
 /game kit {kitname} (player) baconbrawl.cmd.admin.forcekit
 /game join (gameName) (Player) baconbrawl.cmd.admin.forcejoin
 /game leave (Player) baconbrawl.cmd.admin.forceleave
-
-Working on spectate, shoud do start and stop
+/game spectate (gameName) (Player) baconbrawl.cmd.admin.forcespectate
+/game start (gameName)
+/game stop (gameName)
 
 Essential:
 
 Potential
 -AutoRotate between maps
 -non AutoRotate does not have PostGame
--Maybe Add DeathMode
 -Econ?
 
 Minor bugs:
