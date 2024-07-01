@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ssm" />
         <module name="BaconBrawl" />
+        <module name="SSM Summer2024" />
       </profile>
     </annotationProcessing>
   </component>

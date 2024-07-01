@@ -1,25 +1,20 @@
-Bacon Brawl
+SSM
 In honor one of Mineplex's best games
-Recreated by MammothPlugins (jamesd5)
-Started November 1, 2023
+Started Late Summer 2023
 
 ======================================================
-
-/game kit {kitname} (player) baconbrawl.cmd.admin.forcekit
-/game join (gameName) (Player) baconbrawl.cmd.admin.forcejoin
-/game leave (Player) baconbrawl.cmd.admin.forceleave
-/game spectate (gameName) (Player) baconbrawl.cmd.admin.forcespectate
-/game start (gameName)
-/game stop (gameName)
-
-Essential:
-
-Potential
--AutoRotate between maps
--non AutoRotate does not have PostGame
--Econ?
-
-Minor bugs:
--Durability still on, comes back when break block, and attack after
+End of game Powers still activate
+Kciked into the void everytime, death messgages
 
 
+Kits Use power after: Make boolean, maybe how many lives when used power and check if any diff when power activates detects if player dies apply it to all powers
+Double jump Fix up
+Hit box Fix up: MagmaBlast/Wither Skull
+Creepers Electro Box aint duos, Power Cooldown display aint working, Maybe best to connect players to power
+Wither Skeleton Guided Skull doesnt guide no more
+Kill Count/Kill Msgs
+Death Spectator vulnerability
+Knockback/Regen/Saturation
+Smashes?
+Scoreboard Fix
+Clean up Code Format

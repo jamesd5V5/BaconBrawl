@@ -1,62 +1,65 @@
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\menu\SpectatePlayersMenu.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameWorldManager.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\PlayerSpawnpointTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameHeartbeat.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\SpectatePlayersTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\PostGameTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\DeathSpawnTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\listener\AntiGriefListeners.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\menu\KitSelectorMenu.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameRegionManager.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\task\EscapeTask.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\ReturnBackTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameStartCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameScoreboard.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameSelectKitMenuCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameState.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameSelectKitCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameJoinCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameListCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\bungee\GameBungeeListener.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameToolsCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\kits\Kits.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameLeaveReason.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameType.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\settings\Settings.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\Game.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameStopReason.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\KitSelectorTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GamePorkalypseModeCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\apis\PlaceHolderApi.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameAutoRotateCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameMapCreatorCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameLeaveCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\design\PlayerUIDesigns.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\kits\ElMuchachoPig.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameSpawnPointScoreboard.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameEditCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\kits\MamaPiggles.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\PlayerCache.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\BaconBrawlHeartBeat.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameCountdownStart.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameCommandGroup.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\kits\Pig.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\BaconBrawl.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameStopCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameTeleportCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\RegionTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\kits\powers\Power.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\BaconBrawlCore.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameSubCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameNewCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameSpectateCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\LobbyTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\bungee\LynxMessage.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameRemoveCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\kits\nms\NmsDisguise.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\command\GameSetRegionPointCommand.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\tool\GameTool.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\baconbrawl\BaconBrawlScoreboard.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\conversations\MapCreatorConversation.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameJoinMode.java
-C:\Users\james\IdeaProjects\BaconBrawl\src\main\java\org\mammothplugins\baconBrawl\model\GameSpawnPoint.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameStopCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\LobbyTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameSpawnPoint.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\nms\NmsDisguise.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\RegionTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameListCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameToolsCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\bungee\GameBungeeListener.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\PostGameTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\apis\PlaceHolderApi.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\bungee\LynxMessage.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\ElMuchachoPig.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\SSMScoreBoard.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameSelectKitCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameSubCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\Game.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameEditCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameMapCreatorCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameLeaveCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\settings\Settings.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameLeaveReason.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\MamaPiggles.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\GameTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\task\EscapeTask.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameRemoveCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameAutoRotateCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\powers\Power.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\WitherSkeleton.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameSetRegionPointCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\ReturnBackTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameStopReason.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\KitSelectorTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\Enderman.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameStartCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\SSMHeartBeat.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameState.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameNewCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameJoinMode.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\Kits.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\SSMCore.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\menu\KitSelectorMenu.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameRegionManager.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\PlayerCache.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameSelectKitMenuCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\MagmaCube.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameSpectateCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameType.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\SSM.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameScoreboard.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameWorldManager.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\menu\SpectatePlayersMenu.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameHeartbeat.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\design\PlayerUIDesigns.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\PlayerSpawnpointTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\conversations\MapCreatorConversation.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\Blaze.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\DeathSpawnTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameTeleportCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameCommandGroup.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\ssm\kits\Creeper.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\tool\SpectatePlayersTool.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameCountdownStart.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\command\GameJoinCommand.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\listener\AntiGriefListeners.java
+C:\Users\james\IdeaProjects\SSM Summer2024\src\main\java\org\mammothplugins\ssm\model\GameSpawnPointScoreboard.java

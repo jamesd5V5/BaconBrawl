@@ -5,23 +5,23 @@ Permissions List
 
 ======================================================
 
-baconbrawl.cmd.*
-baconbrawl.cmd.player.*
-baconbrawl.cmd.admin.*
+ssm.cmd.*
+ssm.cmd.player.*
+ssm.cmd.admin.*
 
-baconbrawl.kits.*
-baconbrawl.kits.random
-baconbrawl.kits.KitName
+ssm.kits.*
+ssm.kits.random
+ssm.kits.KitName
 
-baconbrawl.command.join
-baconbrawl.command.leave
-baconbrawl.command.spectate
-baconbrawl.command.teleport
-baconbrawl.command.new
-baconbrawl.command.remove
-baconbrawl.command.list
-baconbrawl.command.stop
-baconbrawl.command.edit
-baconbrawl.command.autorotate
-baconbrawl.command.mapcreator
-baconbrawl.command.tools
+ssm.command.join
+ssm.command.leave
+ssm.command.spectate
+ssm.command.teleport
+ssm.command.new
+ssm.command.remove
+ssm.command.list
+ssm.command.stop
+ssm.command.edit
+ssm.command.autorotate
+ssm.command.mapcreator
+ssm.command.tools

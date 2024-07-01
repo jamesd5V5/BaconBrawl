@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE xml>
-<project name="BaconBrawl" default="Build">
+<project name="SSM" default="Build">
 
     <!-- We use this file to compile your plugin to your plugins/ directory
          automatically and use the hot swap (also known as live debug) feature.
@@ -20,7 +20,7 @@
          to compile your plugin to multiple servers. -->
 
     <target name="Build">
-        <jar jarfile="C:\Users\james\Desktop\Files\Servers\Server 1.20 (BB)/plugins/${ant.project.name}.jar"
+        <jar jarfile="C:\Users\james\Desktop\Files\Servers\Server 1.20 (SSM)/plugins/${ant.project.name}.jar"
              basedir="./target/classes/" includes="**/*">
 
             <!-- IF you have Foundation on your disk, remove the <zipgroupfileset> line and uncomment the <fileset> one. Repeat for the other <jar> goal below.

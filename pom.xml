@@ -7,13 +7,13 @@
     <groupId>org.mammothplugins</groupId>
 
     <!-- Change to your plugin name, must be lower cased and match your end package name. No spaces. -->
-    <artifactId>baconBrawl</artifactId>
+    <artifactId>ssm</artifactId>
 
     <!-- Change to your plugin's name. Can contain capital letters, but do NOT use spaces. -->
-    <name>BaconBrawl</name>
+    <name>SSM</name>
 
     <!-- Change to the appropriate plugin's version, starting at 1.0.0. -->
-    <version>1.0.3</version>
+    <version>1.1.0</version>
 
     <!-- DO NOT EDIT. -->
     <packaging>jar</packaging>
@@ -24,7 +24,7 @@
         <author>jamesd5</author>
 
         <!-- Change to the full path where your main plugin class is located. -->
-        <main.class>org.mammothplugins.baconBrawl.BaconBrawl</main.class>
+        <main.class>org.mammothplugins.ssm.SSM</main.class>
 
         <!-- Change the Java version this plugin is built on.
 
