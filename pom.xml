@@ -13,7 +13,11 @@
     <name>SSM</name>
 
     <!-- Change to the appropriate plugin's version, starting at 1.0.0. -->
+<<<<<<< HEAD
     <version>1.1.0</version>
+=======
+    <version>1.0.2</version>
+>>>>>>> parent of b891476 (Version)
 
     <!-- DO NOT EDIT. -->
     <packaging>jar</packaging>

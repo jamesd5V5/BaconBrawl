@@ -3,8 +3,28 @@ In honor one of Mineplex's best games
 Started Late Summer 2023
 
 ======================================================
+<<<<<<< HEAD
 End of game Powers still activate
 Kciked into the void everytime, death messgages
+=======
+
+/game kit {kitname} (player) baconbrawl.cmd.admin.forcekit
+/game join (gameName) (Player) baconbrawl.cmd.admin.forcejoin
+/game leave (Player) baconbrawl.cmd.admin.forceleave
+
+Working on spectate, shoud do start and stop
+
+Essential:
+
+Potential
+-AutoRotate between maps
+-non AutoRotate does not have PostGame
+-Maybe Add DeathMode
+-Econ?
+
+Minor bugs:
+-Durability still on, comes back when break block, and attack after
+>>>>>>> parent of b891476 (Version)
 
 
 Kits Use power after: Make boolean, maybe how many lives when used power and check if any diff when power activates detects if player dies apply it to all powers

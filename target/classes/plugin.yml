@@ -5,9 +5,15 @@
 #
 # See https://www.spigotmc.org/wiki/plugin-yml/ for more information.
 # 
+<<<<<<< HEAD
 name: SSM
 version: 1.1.0
 main: org.mammothplugins.ssm.SSM
+=======
+name: BaconBrawl
+version: 1.0.2
+main: org.mammothplugins.baconBrawl.BaconBrawl
+>>>>>>> parent of b891476 (Version)
 author: jamesd5
 
 # DO NOT EDIT. This api-version is used for maximum backward compatibility.
