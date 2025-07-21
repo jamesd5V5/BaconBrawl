@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/1MZlDlj.png">
+  <img src="https://imgur.com/gzeuy93.png">
 </p>
 
 Although quite simple, BaconBrawl was a treasured game my friends and I played on Mineplex. With their recent closing, I felt it would be fun to recreate for others to enjoy. Although other servers may be better, Mineplex will forever be in my friend's and my hearts.
@@ -7,10 +7,12 @@ Although quite simple, BaconBrawl was a treasured game my friends and I played o
 *I*Bacon Brawl*I* takes the form of a free-for-all, where players have to fight to the death as different pigs. You spawn as a pig (or a sheep, depending on your kit) on a map either floating above a void or surrounded by lava or water. You have to knock your opponents off the edge to kill them; simply hitting them will not work, as their health (and yours) constantly regenerates.
 
 <p align="center">
-  <img src="https://i.imgur.com/FFEeVje.gif">     <img src="https://i.imgur.com/fdJtB7X.gif">
+  <img src="https://i.imgur.com/f7RI9Yr.gif" width="45%"> &nbsp;
+  <img src="https://i.imgur.com/KXGDyzp.gif" width="45%">
 </p>
 
-<img src="https://i.imgur.com/Otg0bpm.png">
+Features
+=====================================================
 
 This is a simple full in-game setup tutorial to make a game.
 
@@ -117,9 +119,8 @@ If you wanna feel the true Mineplex experience, check out [Nixuge's Minecraft Ma
 
 Some Original Gameplay [Watch Original Gameplay](https://www.youtube.com/watch?v=FnpKJ-ynkoU)
 
-<p align="center">
-  <img src="https://i.imgur.com/kKRAkU8.png">
-</p>
+**Dependencies**
+=====================================================
 
 Drag and Drop the falling into your plugins Folder
 (I do not own any of the following plugins)
